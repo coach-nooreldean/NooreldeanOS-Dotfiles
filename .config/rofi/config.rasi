@@ -1,0 +1,93 @@
+/* Glassmorphic Rofi Theme using Pywal */
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+configuration {
+    modi: "drun,filebrowser,window";
+    font: "JetBrainsMono Nerd Font 14";
+    show-icons: true;
+    icon-theme: "Papirus";
+    terminal: "kitty";
+    
+    filebrowser {
+        directories-first: true;
+        sorting-method: "name";
+    }
+}
+
+* {
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+window {
+    transparency: "real";
+    width: 800px;
+    background-color: #0D0C0EE6; /* 90% opacity */
+    border: 2px;
+    border-color: @selected-normal-background;
+    border-radius: 20px;
+    padding: 30px;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 25px;
+}
+
+inputbar {
+    children: [ prompt, entry ];
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: 15px;
+    spacing: 15px;
+}
+
+prompt {
+    font: "JetBrainsMono Nerd Font Bold 18";
+    text-color: #BF8C76;
+    vertical-align: 0.5;
+}
+
+entry {
+    font: "JetBrainsMono Nerd Font 16";
+    text-color: @foreground;
+    placeholder: "Search applications...";
+    placeholder-color: rgba(255, 255, 255, 0.3);
+    vertical-align: 0.5;
+}
+
+listview {
+    columns: 2;
+    lines: 7;
+    spacing: 15px;
+    fixed-height: true;
+    scrollbar: false;
+}
+
+element {
+    padding: 15px 20px;
+    border-radius: 15px;
+    spacing: 15px;
+    background-color: transparent;
+}
+
+element normal.normal, element alternate.normal {
+    background-color: transparent;
+}
+
+element selected.normal {
+    background-color: @selected-normal-background;
+    text-color: @foreground;
+}
+
+element-text {
+    font: "JetBrainsMono Nerd Font 15";
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+
+element-icon {
+    size: 32px;
+}
