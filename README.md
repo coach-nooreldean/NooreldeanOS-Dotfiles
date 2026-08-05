@@ -27,11 +27,10 @@
 
 كل اللي عليك تعمله إنك تفتح التيرمينال وتكتب الأمرين دول:
 ```bash
-git clone https://github.com/YOUR_USERNAME/NooreldeanOS-Dotfiles.git
+git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git
 cd NooreldeanOS-Dotfiles
 ./install.sh
 ```
-*(متنساش تغير `YOUR_USERNAME` لو هترفعهم على جيت هاب).*
 
 ---
 **💡 ملاحظة أخيرة:**
