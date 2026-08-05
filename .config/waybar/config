@@ -1,0 +1,147 @@
+{
+    "layer": "top",
+    "position": "top",
+    "fixed-center": true,
+    "spacing": 8,
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces",
+        "custom/gpu",
+        "network#speed",
+        "cpu",
+        "memory",
+        "disk"
+    ],
+    "modules-center": [
+        "mpris",
+        "clock",
+        "custom/weather"
+    ],
+    "modules-right": [
+        "tray",
+        "custom/updates",
+        "custom/prayer",
+        "pulseaudio",
+        "network",
+        "custom/power"
+    ],
+    "custom/launcher": {
+        "format": "󰣇",
+        "on-click": "rofi -show drun",
+        "tooltip": false
+    },
+    "hyprland/workspaces": {
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "active": "",
+            "default": ""
+        }
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+    "clock": {
+        "format": " {:%I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "on-click": "pavucontrol",
+        "on-click-right": "swayosd-client --output-volume mute-toggle",
+        "on-scroll-up": "swayosd-client --output-volume raise",
+        "on-scroll-down": "swayosd-client --output-volume lower",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "cpu": {
+        "interval": 10,
+        "format": " {usage}%"
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%"
+    },
+    "disk": {
+        "interval": 30,
+        "format": " {free}",
+        "path": "/"
+    },
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": "󰈀 wired",
+        "format-disconnected": "⚠",
+        "tooltip-format": "{ifname} {ipaddr}"
+    },
+    "network#speed": {
+        "interval": 1,
+        "format": " {bandwidthDownBytes}  {bandwidthUpBytes}",
+        "tooltip-format": "{ifname} via {gwaddr}"
+    },
+    "custom/gpu": {
+        "exec": "~/.config/waybar/scripts/gpu.sh",
+        "interval": 2,
+        "return-type": "json",
+        "format": "{}"
+    },
+    "custom/prayer": {
+        "exec": "python3 ~/.config/waybar/scripts/prayer.py",
+        "return-type": "json",
+        "interval": 60,
+        "format": " {}",
+        "tooltip": false,
+        "on-click": "python3 ~/.config/waybar/scripts/prayer_menu.py"
+    },
+    "custom/power": {
+        "format": "⏻",
+        "on-click": "wlogout",
+        "tooltip": false
+    },
+    "custom/weather": {
+        "exec": "curl -s 'wttr.in/?format=1'",
+        "interval": 1800,
+        "format": "{}",
+        "on-click": "python3 ~/.config/waybar/scripts/weather_menu.py"
+    },
+    "custom/updates": {
+        "exec": "yay -Qu 2>/dev/null | wc -l",
+        "interval": 3600,
+        "format": " {}",
+        "on-click": "kitty --title 'System Update' -e bash -c '~/.config/waybar/scripts/update_system.sh'",
+        "tooltip": false
+    },
+    "mpris": {
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "player-icons": {
+            "default": "",
+            "spotify": "",
+            "chromium": "",
+            "firefox": "",
+            "vlc": "󰕼",
+            "mpv": ""
+        },
+        "status-icons": {
+            "paused": "⏸"
+        },
+        "max-length": 40,
+        "on-click": "~/.config/waybar/scripts/media-menu.sh"
+    }
+}

@@ -1,0 +1,127 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+}
+
+window#waybar {
+    background: transparent;
+    border: none;
+}
+
+tooltip {
+    background: alpha(@background, 0.85);
+    border: 1px solid alpha(@color4, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+tooltip label {
+    color: @foreground;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: alpha(@background, 0.75);
+    padding: 2px 14px;
+    margin: 12px 14px 0 14px;
+    border-radius: 20px;
+    border: 1px solid alpha(@color4, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#custom-launcher,
+#workspaces,
+#clock,
+#tray,
+#custom-weather,
+#custom-updates,
+#mpris,
+#custom-prayer,
+#custom-gpu,
+#cpu,
+#memory,
+#disk,
+#pulseaudio,
+#network,
+#custom-power {
+    background: transparent;
+    color: @foreground;
+    margin: 0px 4px;
+    padding: 2px 6px;
+    border-radius: 0px;
+    border: none;
+    box-shadow: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#custom-launcher {
+    color: @foreground;
+    font-size: 18px;
+    padding: 2px 8px;
+}
+
+#custom-launcher:hover {
+    background: alpha(@color4, 0.2);
+}
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    color: alpha(@foreground, 0.6);
+    padding: 6px 12px;
+    margin: 0px;
+    background: transparent;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+#workspaces button.active {
+    background: alpha(@color4, 0.4);
+    color: @foreground;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button:hover {
+    background: alpha(@color4, 0.2);
+    color: @foreground;
+}
+
+#clock:hover,
+#custom-weather:hover,
+#custom-updates:hover,
+#mpris:hover,
+#custom-prayer:hover,
+#custom-gpu:hover,
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover,
+#network:hover,
+#custom-power:hover {
+    background: alpha(@color4, 0.3);
+}
+
+#clock { color: @foreground; font-size: 14px; }
+#custom-weather { color: @color3; }
+#custom-updates { color: @color1; }
+#mpris { color: @color2; }
+#custom-prayer { color: @color3; }
+#custom-gpu { color: @color5; }
+#cpu { color: @color1; }
+#memory {
+    color: @color3;
+}
+
+#disk {
+    color: @color5;
+}
+
+#pulseaudio { color: @color7; }
+#network { color: @color6; }
+#custom-power { color: @color1; font-size: 18px; padding-right: 12px; }
