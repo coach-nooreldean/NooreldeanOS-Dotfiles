@@ -9,7 +9,17 @@ if [ -z "$DISK" ]; then
 fi
 
 echo "🌍 Setting Timezone and Locale..."
-ln -sf /usr/share/zoneinfo/Africa/Cairo /etc/localtime
+echo "Available timezones examples: Africa/Cairo, America/New_York, Europe/London, Asia/Dubai, Asia/Riyadh"
+echo "    (Full list: run 'timedatectl list-timezones' in another terminal)"
+read -p "👉 Enter your timezone [Africa/Cairo]: " USER_TIMEZONE
+USER_TIMEZONE=${USER_TIMEZONE:-Africa/Cairo}
+
+if [ ! -f "/usr/share/zoneinfo/$USER_TIMEZONE" ]; then
+    echo "⚠️ Invalid timezone '$USER_TIMEZONE'. Falling back to Africa/Cairo."
+    USER_TIMEZONE="Africa/Cairo"
+fi
+
+ln -sf /usr/share/zoneinfo/$USER_TIMEZONE /etc/localtime
 hwclock --systohc
 
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
