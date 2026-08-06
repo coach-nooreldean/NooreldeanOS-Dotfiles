@@ -62,7 +62,7 @@ while true; do
 done
 
 useradd -m -G wheel -s /bin/bash "$USERNAME"
-echo "$USERNAME:$USER_PASSWORD" | chpasswd
+chpasswd <<< "$USERNAME:$USER_PASSWORD"
 
 echo "🔑 Setting root password (leave empty to use same as user)..."
 read -sp "Enter root password [same as user]: " ROOT_PASSWORD
@@ -70,7 +70,7 @@ echo
 if [ -z "$ROOT_PASSWORD" ]; then
     ROOT_PASSWORD="$USER_PASSWORD"
 fi
-echo "root:$ROOT_PASSWORD" | chpasswd
+chpasswd <<< "root:$ROOT_PASSWORD"
 
 # Clear password variables from memory
 unset USER_PASSWORD USER_PASSWORD_CONFIRM ROOT_PASSWORD

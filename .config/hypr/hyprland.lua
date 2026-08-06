@@ -360,9 +360,9 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
 -- تصوير منطقة معينة (Super + S)
-hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("hyprctl keyword decoration:inactive_opacity 1.0; hyprshot -m region; hyprctl keyword decoration:inactive_opacity 0.85"))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
 -- تصوير الشاشة كاملة (Print Screen)
-hl.bind("Print", hl.dsp.exec_cmd("hyprctl keyword decoration:inactive_opacity 1.0; hyprshot -m output; hyprctl keyword decoration:inactive_opacity 0.85"))
+hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
 
 -- New Useful Shortcuts added by Antigravity
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
