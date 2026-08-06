@@ -5,7 +5,7 @@ echo -e "\n\033[1;33m>>> 1. Checking for unused dependencies (Orphans)...\033[0m
 ORPHANS=$(pacman -Qtdq)
 if [ -n "$ORPHANS" ]; then
     echo "Found unused packages. You will be prompted to remove them:"
-    sudo pacman -Rns $ORPHANS
+    sudo pacman -Rns "$ORPHANS"
 else
     echo "No unused dependencies found."
 fi

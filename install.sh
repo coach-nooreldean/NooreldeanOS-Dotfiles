@@ -27,7 +27,13 @@ if [ -f flatpak-packages.txt ]; then
     flatpak install -y $(cat flatpak-packages.txt) || true
 fi
 
-echo "[2] Restoring Configurations..."
+echo "[2] Backing up existing configurations..."
+BACKUP_DIR=~/.config-backup-$(date +%Y%m%d-%H%M%S)
+mkdir -p "$BACKUP_DIR"
+cp -r ~/.config/* "$BACKUP_DIR/" 2>/dev/null || true
+echo "    Backup saved to: $BACKUP_DIR"
+
+echo "[3] Restoring Configurations..."
 mkdir -p ~/.config ~/.local/share/icons ~/.local/share/applications
 cp -r .config/* ~/.config/ || true
 cp -r home/icons/* ~/.local/share/icons/ 2>/dev/null || true
@@ -37,10 +43,10 @@ cp -r wallpapers ~/ || true
 chmod +x ~/*.sh || true
 cp -r applications/* ~/.local/share/applications/ || true
 
-echo "[3] Restoring System Configs (Needs Sudo)..."
+echo "[4] Restoring System Configs (Needs Sudo)..."
 sudo cp -r system-configs/sddm/* /etc/
 
-echo "[4] Enabling Services and System Optimizations (Needs Sudo)..."
+echo "[5] Enabling Services and System Optimizations (Needs Sudo)..."
 # ZRAM Setup (Virtual Swap)
 sudo mkdir -p /etc/systemd/
 echo -e "[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd" | sudo tee /etc/systemd/zram-generator.conf > /dev/null

@@ -5,4 +5,4 @@
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 export PATH="$HOME/.local/bin:$PATH"
 
-export PATH=$PATH:/home/nooreldean/.spicetify
+export PATH="$PATH:$HOME/.spicetify"

@@ -18,4 +18,4 @@ export PATH=~/.npm-global/bin:$PATH
 
 eval "$(starship init bash)"
 
-export PATH=$PATH:/home/nooreldean/.spicetify
+export PATH="$PATH:$HOME/.spicetify"

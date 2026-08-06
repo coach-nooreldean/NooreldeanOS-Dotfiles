@@ -50,24 +50,19 @@ local menu = "rofi -show drun"
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
-hl.on("hyprland.start", function () 
---   hl.exec_cmd(terminal)
---   hl.exec_cmd("nm-applet")
---   hl.exec_cmd("waybar & hyprpaper & firefox")
-     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
-     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE")
-     hl.exec_cmd("awww-daemon &")
-     hl.exec_cmd("copyq --start-server &")
-     hl.exec_cmd("waybar &")
-     hl.exec_cmd("~/.config/hypr/scripts/startup_wallpaper.sh &")
-     hl.exec_cmd("udiskie &")
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE")
+    hl.exec_cmd("awww-daemon &")
+    hl.exec_cmd("copyq --start-server &")
+    hl.exec_cmd("waybar &")
+    hl.exec_cmd("~/.config/hypr/scripts/startup_wallpaper.sh &")
+    hl.exec_cmd("udiskie &")
     hl.exec_cmd("swaync &")
     hl.exec_cmd("swayosd-server &")
-hl.exec_cmd("xsettingsd &")
-hl.exec_cmd("nm-applet &")
-hl.exec_cmd("blueman-applet &")
-hl.exec_cmd("xsettingsd &")
-hl.exec_cmd("wal -R")
+    hl.exec_cmd("xsettingsd &")
+    hl.exec_cmd("nm-applet &")
+    hl.exec_cmd("blueman-applet &")
 end)
 
 
@@ -387,7 +382,6 @@ hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("sg obs-qos -c vlc"))
 
 -- Example window rules that are useful
 
-hl.window_rule({ name = "pavucontrol-float", match = { class = "pavucontrol" }, float = true, center = true })
 hl.window_rule({ name = "blueman-float", match = { class = "blueman-manager" }, float = true, center = true })
 hl.window_rule({ name = "nm-float", match = { class = "nm-connection-editor" }, float = true, center = true })
 
@@ -433,14 +427,7 @@ hl.layer_rule({ name = "rofi-blur", match = { namespace = "rofi" }, blur = true,
 hl.layer_rule({ name = "rofi-dim", match = { namespace = "rofi" }, dim_around = true })
 hl.layer_rule({ name = "swaync-dim", match = { namespace = "swaync-control-center" }, dim_around = true })
 
--- Hyprland-run windowrule
-hl.window_rule({
-    name  = "move-hyprland-run",
-    match = { class = "hyprland-run" },
 
-    move  = "20 monitor_h-120",
-    float = true,
-})
 
 hl.window_rule({
     name  = "pavucontrol-float",
