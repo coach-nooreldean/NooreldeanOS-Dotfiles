@@ -2,6 +2,10 @@
 # NooreldeanOS Arch Linux Automatic Installer
 set -e
 
+# Error handler: show which step failed before exiting
+CURRENT_STEP="Initialization"
+trap 'echo "\n❌ ERROR: Installation failed at step: $CURRENT_STEP (line $LINENO)"; echo "   Check the output above for details."' ERR
+
 echo "🚀 Welcome to the NooreldeanOS Automatic Installer!"
 echo "⚠️ WARNING: This will ERASE EVERYTHING on the selected disk."
 
@@ -51,7 +55,7 @@ if [ "$PART_CHOICE" == "1" ]; then
     partprobe "$DISK"
     sleep 2
 
-    if [[ $DISK == *"nvme"* ]] || [[ $DISK == *"loop"* ]]; then
+    if [[ $DISK == *"nvme"* ]] || [[ $DISK == *"loop"* ]] || [[ $DISK == *"mmcblk"* ]]; then
         PART_EFI="${DISK}p1"
         PART_ROOT="${DISK}p2"
     else
@@ -112,12 +116,21 @@ echo "⚙️ Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Prepare Post-Install inside chroot
-echo "📥 Copying post-install script..."
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "📥 Fetching post-install script..."
+CURRENT_STEP="Fetching post-install script"
+# If run via 'curl | bash', $0 is 'bash' and there's no local directory.
+# In that case, clone the repo to get post-install.sh.
+SCRIPT_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
+if [ -z "$SCRIPT_DIR" ] || [ ! -f "$SCRIPT_DIR/post-install.sh" ]; then
+    echo "    Downloading NooreldeanOS installer files..."
+    git clone --depth 1 https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git /tmp/NooreldeanOS-Dotfiles
+    SCRIPT_DIR="/tmp/NooreldeanOS-Dotfiles"
+fi
 cp "$SCRIPT_DIR/post-install.sh" /mnt/post-install.sh
 chmod +x /mnt/post-install.sh
 
 # Chroot and execute post-install
+CURRENT_STEP="Chroot and post-install"
 echo "🚀 Chrooting into the new system to complete installation..."
 arch-chroot /mnt /post-install.sh "$DISK"
 

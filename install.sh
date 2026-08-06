@@ -25,11 +25,14 @@ fi
 
 yay -S --needed - < pacman-packages.txt
 if [ -f flatpak-packages.txt ] && [ -s flatpak-packages.txt ]; then
-    if ! command -v flatpak &> /dev/null; then
-        echo "📦 'flatpak' is not installed. Installing flatpak..."
-        sudo pacman -S --needed --noconfirm flatpak
+    FLATPAK_PKGS=$(grep -v '^\s*#' flatpak-packages.txt | grep -v '^\s*$' || true)
+    if [ -n "$FLATPAK_PKGS" ]; then
+        if ! command -v flatpak &> /dev/null; then
+            echo "📦 'flatpak' is not installed. Installing flatpak..."
+            sudo pacman -S --needed --noconfirm flatpak
+        fi
+        echo "$FLATPAK_PKGS" | xargs flatpak install -y || true
     fi
-    flatpak install -y $(cat flatpak-packages.txt) || true
 fi
 
 CURRENT_STEP="Backing up configurations"

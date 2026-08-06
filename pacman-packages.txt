@@ -70,6 +70,7 @@ obs-studio
 obs-studio-plugin-browser
 papirus-icon-theme
 pavucontrol
+playerctl
 pipewire
 pipewire-alsa
 pipewire-jack
