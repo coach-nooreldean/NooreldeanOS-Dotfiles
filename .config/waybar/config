@@ -91,7 +91,7 @@
         "tooltip-format": "{ifname} {ipaddr}"
     },
     "network#speed": {
-        "interval": 1,
+        "interval": 3,
         "format": " {bandwidthDownBytes}  {bandwidthUpBytes}",
         "tooltip-format": "{ifname} via {gwaddr}"
     },

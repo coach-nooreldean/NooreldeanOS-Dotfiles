@@ -2,6 +2,10 @@
 # Post-Install Script for NooreldeanOS (Runs inside arch-chroot)
 set -e
 
+# Safety net: always clean up the temporary passwordless sudo override on exit,
+# even if the script crashes or is interrupted mid-way.
+trap 'rm -f /etc/sudoers.d/99-temp-nopasswd' EXIT
+
 DISK=$1
 if [ -z "$DISK" ]; then
     echo "❌ Error: Disk argument missing for post-install."

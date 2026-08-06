@@ -5,6 +5,19 @@ set -e
 echo "🚀 Welcome to the NooreldeanOS Automatic Installer!"
 echo "⚠️ WARNING: This will ERASE EVERYTHING on the selected disk."
 
+# Pre-flight checks
+if [ ! -d /sys/firmware/efi ]; then
+    echo "❌ Error: System is NOT booted in UEFI mode!"
+    echo "   NooreldeanOS requires UEFI. Please reboot in UEFI mode."
+    exit 1
+fi
+
+if ! ping -c 1 -W 3 archlinux.org &> /dev/null; then
+    echo "❌ Error: No internet connection detected!"
+    echo "   Please connect to the internet first (use 'iwctl' for WiFi)."
+    exit 1
+fi
+
 # List available disks
 echo "Available disks:"
 lsblk -d -p -n -l -o NAME,SIZE,MODEL | grep -E '/dev/sd|/dev/nvme|/dev/vd'
