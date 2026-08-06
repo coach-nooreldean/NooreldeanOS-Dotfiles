@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=System Cleaner
 Comment=Clean package cache and unused flatpaks
-Exec=bash /home/nooreldean/scripts/system-cleanup.sh
+Exec=bash -c '"$HOME/scripts/system-cleanup.sh"'
 Icon=user-trash
 Terminal=true
 Type=Application

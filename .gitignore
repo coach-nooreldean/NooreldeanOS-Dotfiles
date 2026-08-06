@@ -1,0 +1,18 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor backup/swap files
+*.save
+*.swp
+*.swo
+*~
+.*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Pywal generated (auto-regenerated at runtime)
+.config/hypr/colors.lua

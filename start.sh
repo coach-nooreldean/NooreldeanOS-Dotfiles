@@ -99,8 +99,9 @@ echo "⚙️ Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Prepare Post-Install inside chroot
-echo "📥 Downloading post-install script..."
-curl -sL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/post-install.sh -o /mnt/post-install.sh
+echo "📥 Copying post-install script..."
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cp "$SCRIPT_DIR/post-install.sh" /mnt/post-install.sh
 chmod +x /mnt/post-install.sh
 
 # Chroot and execute post-install

@@ -54,6 +54,13 @@ cp -r applications/* ~/.local/share/applications/ || true
 echo "    Adjusting hardcoded paths for the current user ($USER)..."
 find ~/.config ~/scripts ~/.local/share/applications ~/wallpapers -type f -exec sed -i "s|/home/nooreldean|$HOME|g" {} + 2>/dev/null || true
 
+# Pre-generate Pywal colors from the default wallpaper so Hyprland has valid colors on first boot
+echo "    Generating color scheme from default wallpaper..."
+if command -v wal &> /dev/null && [ -f ~/wallpapers/Pastel-Window.png ]; then
+    wal -i ~/wallpapers/Pastel-Window.png -n -e -q 2>/dev/null || true
+    python3 ~/.config/hypr/scripts/pywal_hyprland_sync.py 2>/dev/null || true
+fi
+
 CURRENT_STEP="Restoring system configs"
 echo "[4] Restoring System Configs (Needs Sudo)..."
 if [ -d system-configs/sddm ]; then

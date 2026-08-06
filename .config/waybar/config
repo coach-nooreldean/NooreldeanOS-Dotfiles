@@ -124,7 +124,7 @@
         "exec": "yay -Qu 2>/dev/null | wc -l",
         "interval": 3600,
         "format": " {}",
-        "on-click": "kitty --title 'System Update' -e bash -c '~/.config/waybar/scripts/update_system.sh'",
+        "on-click": "kitty --title 'System Update' -e bash -c '~/scripts/system-update.sh'",
         "tooltip": false
     },
     "mpris": {

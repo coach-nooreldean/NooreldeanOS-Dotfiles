@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=System Updater
 Comment=Update Arch Linux and AUR packages
-Exec=bash /home/nooreldean/scripts/system-update.sh
+Exec=bash -c '"$HOME/scripts/system-update.sh"'
 Icon=system-software-update
 Terminal=true
 Type=Application
