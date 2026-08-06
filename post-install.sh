@@ -153,7 +153,7 @@ echo "📥 Setting up NooreldeanOS Dotfiles..."
 su - "$USERNAME" -c "
     export AUTO_INSTALL=1
     echo 'Cloning Dotfiles repository...'
-    git clone \"\$REPO_URL\" ~/NooreldeanOS-Dotfiles
+    git clone \"$REPO_URL\" ~/NooreldeanOS-Dotfiles
     cd ~/NooreldeanOS-Dotfiles
     echo 'Running NooreldeanOS install.sh...'
     bash install.sh
