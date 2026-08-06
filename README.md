@@ -19,6 +19,21 @@
 ## 📸 لقطات من النظام (Screenshots)
 
 <p align="center">
+  <img src="assets/sys1.png" width="48%" />
+  <img src="assets/sys2.png" width="48%" />
+</p>
+<p align="center">
+  <img src="assets/sys3.png" width="48%" />
+  <img src="assets/sys4.png" width="48%" />
+</p>
+<p align="center">
+  <img src="assets/sys5.png" width="48%" />
+  <img src="assets/sys6.png" width="48%" />
+</p>
+
+## 🎨 أشكال تانية (Other Themes)
+
+<p align="center">
   <img src="assets/1.png" width="48%" />
   <img src="assets/2.png" width="48%" />
 </p>
