@@ -1,0 +1,201 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: bold;
+}
+
+.control-center .notification-row:focus,
+.control-center .notification-row:hover {
+  opacity: 1;
+  background: @color4;
+}
+
+.notification-row {
+  outline: none;
+  background: transparent;
+}
+
+.notification-background {
+  background: transparent;
+}
+
+.notification {
+  border-radius: 16px;
+  margin: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  background: alpha(@background, 0.6);
+  color: @foreground;
+}
+
+.notification-content {
+  background: transparent;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.close-button {
+  background: @color1;
+  color: @background;
+  text-shadow: none;
+  padding: 0;
+  border-radius: 100%;
+  margin-top: 5px;
+  margin-right: 5px;
+  box-shadow: none;
+  border: none;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.close-button:hover {
+  box-shadow: none;
+  background: @color2;
+  transition: all .15s ease-in-out;
+  border: none;
+}
+
+.notification-default-action,
+.notification-action {
+  padding: 4px;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  color: @color7;
+  transition: all .15s ease-in-out;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  -gtk-icon-effect: none;
+  background: @color4;
+  color: @background;
+}
+
+.control-center {
+  background: alpha(@background, 0.5);
+  border: 1px solid alpha(@color4, 0.3);
+  border-radius: 24px;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  opacity: 0.5;
+}
+
+.floating-notifications {
+  background: transparent;
+}
+
+.blank-window {
+  background: transparent;
+}
+
+.widget-title {
+  color: @color4;
+  background: transparent;
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.5rem;
+  text-shadow: none;
+}
+
+.widget-title > button {
+  font-size: 1rem;
+  color: @background;
+  text-shadow: none;
+  background: @color1;
+  box-shadow: none;
+  border-radius: 12px;
+  border: none;
+}
+
+.widget-title > button:hover {
+  background: @color2;
+}
+
+.widget-dnd {
+  color: @color7;
+  background: transparent;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+.widget-dnd > switch {
+  font-size: initial;
+  border-radius: 12px;
+  background: @color0;
+  border: 1px solid @color4;
+  box-shadow: none;
+}
+
+.widget-dnd > switch:checked {
+  background: @color4;
+}
+
+.widget-dnd > switch slider {
+  background: @foreground;
+  border-radius: 12px;
+}
+
+.widget-mpris {
+  color: @foreground;
+  background: alpha(@background, 0.3);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 16px;
+  border: 1px solid alpha(@color4, 0.3);
+}
+
+.widget-mpris-player {
+  padding: 5px;
+  margin: 5px;
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.widget-mpris-subtitle {
+  font-size: 1.1rem;
+}
+
+/* Buttons Grid */
+.widget-buttons-grid {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 16px;
+  background: alpha(@background, 0.3);
+  border: 1px solid alpha(@color4, 0.3);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  background: @color1;
+  color: @background;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 5px;
+  min-width: 50px;
+  min-height: 50px;
+  font-size: 1.5rem;
+  box-shadow: none;
+  border: none;
+  transition: all .2s ease-in-out;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: @color2;
+  transform: scale(1.05);
+}
+
+window { background: transparent; }
+.blank-window { background: transparent; }
+.floating-notifications { background: transparent; }
+.control-center { background: transparent; }

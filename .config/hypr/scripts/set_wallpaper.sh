@@ -26,6 +26,7 @@ swaync-client -rs
 ~/.config/hypr/scripts/pywal_discord_sync.py
 ~/.config/hypr/scripts/pywal_spicetify_sync.py
 ~/.config/hypr/scripts/pywal_hyprland_sync.py
+~/.config/hypr/scripts/pywal_cursor_sync.py
 gsettings set org.gnome.desktop.interface gtk-theme '' 
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
 

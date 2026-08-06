@@ -1,0 +1,60 @@
+@import url("/home/nooreldean/.cache/wal/colors-waybar.css");
+
+* {
+    background-image: none;
+    box-shadow: none;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 20px;
+    font-weight: bold;
+}
+
+window {
+    background-color: rgba(13, 12, 14, 0.85); /* Semi-transparent dark glass background */
+}
+
+button {
+    border-radius: 30px;
+    border: 3px solid @color4;
+    color: @foreground;
+    background-color: rgba(255, 255, 255, 0.05);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    margin: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+button:focus, button:active, button:hover {
+    background-color: @color4;
+    box-shadow: 0 0 30px @color4;
+    color: @background;
+    border: 3px solid @color4;
+    outline-style: none;
+}
+
+
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/assets/lock.svg"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/assets/logout.svg"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/assets/suspend.svg"));
+}
+
+#hibernate {
+    background-image: image(url("/usr/share/wlogout/assets/hibernate.svg"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/assets/reboot.svg"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/assets/shutdown.svg"));
+}
