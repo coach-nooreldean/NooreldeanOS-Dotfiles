@@ -14,6 +14,8 @@ echo "🚀 Welcome to the NooreldeanOS Automatic Installer!"
 echo "⚠️ WARNING: This will ERASE EVERYTHING on the selected disk."
 
 # Clean up any leftover temp sudoers from a previous interrupted run (e.g. from a chroot attempt)
+umount -R /mnt 2>/dev/null || true
+swapoff -a 2>/dev/null || true
 rm -f /mnt/etc/sudoers.d/99-temp-nopasswd 2>/dev/null || true
 
 # Pre-flight checks
@@ -96,6 +98,9 @@ if [ "$PART_CHOICE" == "1" ]; then
     fi
 
     echo "🔄 Wiping and partitioning $DISK..."
+    for part in $(lsblk -p -n -l -o NAME "$DISK" | grep "part"); do
+        umount "$part" 2>/dev/null || true
+    done
     # Zero out the beginning of the disk to destroy stubborn metadata/GPT tables
     dd if=/dev/zero of="$DISK" bs=1M count=100 status=none
     wipefs -af "$DISK"
@@ -114,6 +119,8 @@ if [ "$PART_CHOICE" == "1" ]; then
     fi
 
     echo "🔄 Formatting partitions..."
+    umount "$PART_EFI" 2>/dev/null || true
+    umount "$PART_ROOT" 2>/dev/null || true
     mkfs.fat -F32 "$PART_EFI"
     if [ "$FS_CHOICE" == "2" ]; then
         mkfs.btrfs -f "$PART_ROOT"
@@ -167,10 +174,12 @@ elif [ "$PART_CHOICE" == "2" ]; then
     echo -n "⚠️ Do you want to format the EFI partition? (Type 'yes' for new installs, 'no' if you are sharing it with Windows): "
     read FORMAT_EFI
     if [ "$FORMAT_EFI" == "yes" ]; then
+        umount "$PART_EFI" 2>/dev/null || true
         mkfs.fat -F32 "$PART_EFI"
     fi
     
     echo "🔄 Formatting Root partition..."
+    umount "$PART_ROOT" 2>/dev/null || true
     if [ "$FS_CHOICE" == "2" ]; then
         mkfs.btrfs -f "$PART_ROOT"
     else
