@@ -311,7 +311,7 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
 hl.bind(mainMod .. " + SHIFT + B",
     hl.dsp.exec_cmd("pkill waybar && waybar &"))
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
@@ -367,11 +367,10 @@ hl.bind("Print", hl.dsp.exec_cmd("hyprctl keyword decoration:inactive_opacity 1.
 -- New Useful Shortcuts added by Antigravity
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("Telegram"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("telegram-desktop"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("antigravity-ide"))
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprpicker -a -n"))
-hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("sg obs-qos -c obs"))
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("sg obs-qos -c vlc"))
+
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----

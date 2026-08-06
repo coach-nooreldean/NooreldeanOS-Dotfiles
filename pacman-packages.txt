@@ -108,6 +108,7 @@ ttf-dejavu
 ttf-jetbrains-mono-nerd
 tumbler
 udiskie
+ufw
 unzip
 uwsm
 video-downloader

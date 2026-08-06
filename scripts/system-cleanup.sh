@@ -2,10 +2,10 @@
 echo -e "\033[1;36mStarting System Cleanup...\033[0m"
 
 echo -e "\n\033[1;33m>>> 1. Checking for unused dependencies (Orphans)...\033[0m"
-ORPHANS=$(pacman -Qtdq)
+ORPHANS=$(pacman -Qtdq 2>/dev/null)
 if [ -n "$ORPHANS" ]; then
     echo "Found unused packages. You will be prompted to remove them:"
-    sudo pacman -Rns "$ORPHANS"
+    echo "$ORPHANS" | sudo pacman -Rns -
 else
     echo "No unused dependencies found."
 fi

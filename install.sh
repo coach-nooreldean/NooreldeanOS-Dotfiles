@@ -38,9 +38,10 @@ mkdir -p ~/.config ~/.local/share/icons ~/.local/share/applications
 cp -r .config/* ~/.config/ || true
 cp -r home/icons/* ~/.local/share/icons/ 2>/dev/null || true
 cp -r home/.bash* ~/ || true
-cp -r scripts/* ~/ || true
+mkdir -p ~/scripts
+cp -r scripts/* ~/scripts/ || true
+chmod +x ~/scripts/*.sh || true
 cp -r wallpapers ~/ || true
-chmod +x ~/*.sh || true
 cp -r applications/* ~/.local/share/applications/ || true
 
 echo "[4] Restoring System Configs (Needs Sudo)..."

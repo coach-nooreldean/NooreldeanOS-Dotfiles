@@ -30,14 +30,21 @@ systemctl enable NetworkManager
 echo "🔐 Configuring Users..."
 # Prompt for root password (or set a default one and prompt user to change later, but interactive is better)
 # Since we are automating, let's ask for the user password now
-echo "Enter password for the new user 'nooreldean': "
-read -s USER_PASSWORD
-echo "Confirm password: "
-read -s USER_PASSWORD_CONFIRM
+read -sp "Enter password for the new user 'nooreldean': " USER_PASSWORD
+echo
+read -sp "Confirm password: " USER_PASSWORD_CONFIRM
+echo
 
 if [ "$USER_PASSWORD" != "$USER_PASSWORD_CONFIRM" ]; then
-    echo "❌ Passwords do not match! Setting default password to '1234'. PLEASE CHANGE IT LATER."
-    USER_PASSWORD="1234"
+    echo "❌ Passwords do not match! Please try again."
+    read -sp "Enter password: " USER_PASSWORD
+    echo
+    read -sp "Confirm password: " USER_PASSWORD_CONFIRM
+    echo
+    if [ "$USER_PASSWORD" != "$USER_PASSWORD_CONFIRM" ]; then
+        echo "❌ Passwords still don't match! Aborting for security."
+        exit 1
+    fi
 fi
 
 useradd -m -G wheel -s /bin/bash nooreldean

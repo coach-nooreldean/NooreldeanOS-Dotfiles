@@ -8,7 +8,11 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
-fastfetch
+# Only show system info in top-level interactive terminal sessions
+if [[ -z "$BASHRC_LOADED" ]]; then
+    export BASHRC_LOADED=1
+    fastfetch
+fi
 export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
 export PATH="$HOME/.pub-cache/bin:$HOME/fvm/default/bin:$JAVA_HOME/bin:$PATH"
 export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
