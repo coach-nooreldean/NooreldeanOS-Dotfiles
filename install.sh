@@ -44,6 +44,9 @@ chmod +x ~/scripts/*.sh || true
 cp -r wallpapers ~/ || true
 cp -r applications/* ~/.local/share/applications/ || true
 
+echo "    Adjusting hardcoded paths for the current user ($USER)..."
+find ~/.config ~/scripts ~/.local/share/applications ~/wallpapers -type f -exec sed -i "s|/home/nooreldean|$HOME|g" {} + 2>/dev/null || true
+
 echo "[4] Restoring System Configs (Needs Sudo)..."
 sudo cp -r system-configs/sddm/* /etc/
 
