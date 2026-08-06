@@ -205,6 +205,11 @@ else
     echo "⚠️  Warning: system-configs/sddm/ not found, skipping SDDM config."
 fi
 
+# Set jake_the_dog theme for SDDM Astronaut
+if [ -f /usr/share/sddm/themes/sddm-astronaut-theme/Themes/jake_the_dog.conf ]; then
+    sudo cp /usr/share/sddm/themes/sddm-astronaut-theme/Themes/jake_the_dog.conf /usr/share/sddm/themes/sddm-astronaut-theme/theme.conf.user
+fi
+
 CURRENT_STEP="Enabling services"
 echo "[5] Enabling Services and System Optimizations (Needs Sudo)..."
 # ZRAM Setup (Virtual Swap)
