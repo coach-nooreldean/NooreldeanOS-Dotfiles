@@ -2,6 +2,7 @@
 -- Refer to the wiki for more information.
 -- https://wiki.hypr.land/Configuring/Start/
 
+package.loaded["colors"] = nil
 local colors = require("colors")
 
 
@@ -425,5 +426,3 @@ hl.window_rule({
     size = "800 500",
     center = true,
 })
-
-

@@ -11,5 +11,15 @@ if [ ! -f ~/.cache/.wallpaper_initialized ]; then
     touch ~/.cache/.wallpaper_initialized
 else
     # Not first boot: Just restore whatever the user chose last
+    # Check if the last wallpaper actually exists (e.g. not on an unmounted drive)
+    if [ -f ~/.cache/wal/colors.json ]; then
+        LAST_WP=$(jq -r .wallpaper ~/.cache/wal/colors.json 2>/dev/null)
+        if [ ! -f "$LAST_WP" ]; then
+            echo "Last wallpaper $LAST_WP not found. Falling back to default."
+            ~/.config/hypr/scripts/set_wallpaper.sh ~/wallpapers/Pastel-Window.png
+            exit 0
+        fi
+    fi
     awww restore
+    wal -R -n -e 2>/dev/null || true
 fi

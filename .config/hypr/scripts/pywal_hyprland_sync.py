@@ -35,3 +35,7 @@ lua_content += "}\n"
 
 with open(os.path.expanduser("~/.config/hypr/colors.lua"), "w") as f:
     f.write(lua_content)
+
+# Reload Hyprland to apply the new colors
+os.system("hyprctl reload")
+

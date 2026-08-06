@@ -184,7 +184,10 @@ fi
 
 # Pre-generate Pywal colors from the default wallpaper so Hyprland has valid colors on first boot
 echo "    Generating color scheme from default wallpaper..."
-DEFAULT_WALLPAPER=$(find ~/wallpapers -maxdepth 1 -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) 2>/dev/null | head -n 1)
+DEFAULT_WALLPAPER="$HOME/wallpapers/Pastel-Window.png"
+if [ ! -f "$DEFAULT_WALLPAPER" ]; then
+    DEFAULT_WALLPAPER=$(find ~/wallpapers -maxdepth 1 -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) 2>/dev/null | head -n 1 || true)
+fi
 if command -v wal &> /dev/null && [ -n "$DEFAULT_WALLPAPER" ]; then
     wal -i "$DEFAULT_WALLPAPER" -n -e -q 2>/dev/null || true
     if command -v python3 &> /dev/null && [ -f ~/.config/hypr/scripts/pywal_hyprland_sync.py ]; then
