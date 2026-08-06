@@ -271,6 +271,10 @@ CURRENT_STEP="Fetching post-install script"
 SCRIPT_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
 if [ -z "$SCRIPT_DIR" ] || [ ! -f "$SCRIPT_DIR/post-install.sh" ]; then
     echo "    Downloading NooreldeanOS installer files..."
+    if ! command -v git &> /dev/null; then
+        echo "    Git not found, installing on live environment..."
+        pacman -Sy --noconfirm git || true
+    fi
     git clone --depth 1 "$REPO_URL" /tmp/NooreldeanOS-Dotfiles
     SCRIPT_DIR="/tmp/NooreldeanOS-Dotfiles"
 fi
