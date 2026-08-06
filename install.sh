@@ -195,6 +195,13 @@ if command -v wal &> /dev/null && [ -n "$DEFAULT_WALLPAPER" ]; then
     fi
 fi
 
+# Failsafe: Ensure Waybar and Hyprland don't crash if Pywal failed to run (e.g., missing wallpapers)
+mkdir -p ~/.cache/wal
+touch ~/.cache/wal/colors-waybar.css
+if [ ! -f ~/.cache/wal/colors.json ]; then
+    echo '{"special": {"background": "#1e1e2e", "foreground": "#cdd6f4"}, "colors": {"color0": "#45475a", "color1": "#f38ba8", "color2": "#a6e3a1", "color3": "#f9e2af", "color4": "#89b4fa", "color5": "#f5c2e7", "color6": "#94e2d5", "color7": "#bac2de"}}' > ~/.cache/wal/colors.json
+fi
+
 CURRENT_STEP="Restoring system configs"
 echo "[4] Restoring System Configs (Needs Sudo)..."
 if [ -d system-configs/sddm ]; then

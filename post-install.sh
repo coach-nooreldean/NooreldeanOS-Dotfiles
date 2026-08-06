@@ -136,6 +136,16 @@ if lspci | grep -i "vga.*nvidia\|3d.*nvidia" &> /dev/null; then
         echo -e "or configure env variables in ~/.config/hypr/hyprland.conf.\n"
         sleep 3
     fi
+elif lspci | grep -i "vga.*amd\|3d.*amd" &> /dev/null; then
+    echo "AMD GPU detected! Configuring Early KMS to prevent black screens..."
+    pacman -S --noconfirm vulkan-radeon libva-mesa-driver mesa-vdpau
+    sed -i 's/^MODULES=()/MODULES=(amdgpu)/' /etc/mkinitcpio.conf
+    mkinitcpio -P
+elif lspci | grep -i "vga.*intel\|3d.*intel" &> /dev/null; then
+    echo "Intel GPU detected! Configuring Early KMS to prevent black screens..."
+    pacman -S --noconfirm vulkan-intel intel-media-driver
+    sed -i 's/^MODULES=()/MODULES=(i915)/' /etc/mkinitcpio.conf
+    mkinitcpio -P
 fi
 
 echo "👢 Installing GRUB Bootloader..."

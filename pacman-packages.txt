@@ -55,6 +55,7 @@ gst-plugins-good
 gst-plugins-ugly
 
 # --- Terminal Utilities ---
+starship
 kitty
 fastfetch
 btop
@@ -113,7 +114,6 @@ obs-studio-plugin-browser
 droidcam-obs-plugin
 localsend-bin
 notion-app-electron
-claude-desktop-native
 copyq
 thunar
 thunar-volman
