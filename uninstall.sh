@@ -32,9 +32,13 @@ rm -f ~/scripts/system-update.sh
 rm -f ~/scripts/system-cleanup.sh
 echo "    ✅ Scripts removed."
 
-echo "[3] Cleaning up system services..."
-echo "    Note: We are not automatically disabling services (like sddm, bluetooth, docker, ufw, zram) to avoid breaking your system if you relied on them before."
-echo "    If you want to disable them manually, you can use: sudo systemctl disable <service_name>"
+echo "[3] Cleaning up system configs & services..."
+if [ -f /etc/systemd/zram-generator.conf ]; then
+    echo "    Removing NooreldeanOS ZRAM configuration..."
+    sudo rm -f /etc/systemd/zram-generator.conf 2>/dev/null || true
+fi
+echo "    Note: Background services (sddm, bluetooth, docker, ufw) are preserved to keep your system functional."
+echo "    If you wish to disable any manually, use: sudo systemctl disable <service_name>"
 
 echo "[4] Packages and Apps..."
 echo "    ⚠️  To keep your system stable, this script does NOT automatically uninstall the packages downloaded."

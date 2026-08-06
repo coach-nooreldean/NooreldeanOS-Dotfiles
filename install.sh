@@ -78,19 +78,35 @@ echo "[5] Enabling Services and System Optimizations (Needs Sudo)..."
 sudo mkdir -p /etc/systemd/
 echo -e "[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd" | sudo tee /etc/systemd/zram-generator.conf > /dev/null
 
-# Add current user to Docker group
-sudo usermod -aG docker $USER || true
-
 # Enable vital services
 sudo systemctl enable sddm.service || true
 sudo systemctl enable bluetooth.service || true
-sudo systemctl enable docker.service || true
 sudo systemctl enable systemd-timesyncd.service || true
 
-# Setup UFW Firewall
-sudo systemctl enable ufw.service || true
-sudo ufw default deny incoming || true
-sudo ufw default allow outgoing || true
-sudo ufw enable || true
+# Docker Service Setup
+ENABLE_DOCKER="Y"
+if [ -t 0 ]; then
+    read -p "❓ Enable Docker service & add user to docker group? [Y/n]: " USER_DOCKER_INPUT
+    ENABLE_DOCKER=${USER_DOCKER_INPUT:-Y}
+fi
+
+if [[ "$ENABLE_DOCKER" =~ ^[Yy]$ ]]; then
+    sudo usermod -aG docker $USER || true
+    sudo systemctl enable docker.service || true
+fi
+
+# UFW Firewall Setup
+ENABLE_UFW="Y"
+if [ -t 0 ]; then
+    read -p "❓ Enable UFW Firewall? [Y/n]: " USER_UFW_INPUT
+    ENABLE_UFW=${USER_UFW_INPUT:-Y}
+fi
+
+if [[ "$ENABLE_UFW" =~ ^[Yy]$ ]]; then
+    sudo systemctl enable ufw.service || true
+    sudo ufw default deny incoming || true
+    sudo ufw default allow outgoing || true
+    sudo ufw enable || true
+fi
 
 echo "✅ Installation Complete! Please reboot your computer."

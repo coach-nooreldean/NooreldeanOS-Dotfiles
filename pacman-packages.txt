@@ -4,6 +4,7 @@ awww
 base-devel
 bc
 bibata-cursor-theme-bin
+brightnessctl
 bluez
 bluez-utils
 btop
