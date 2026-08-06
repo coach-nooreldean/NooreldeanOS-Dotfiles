@@ -73,7 +73,9 @@ while true; do
     echo "❌ Passwords do not match! Please try again."
 done
 
-useradd -m -G wheel -s /bin/bash "$USERNAME"
+if ! id "$USERNAME" &>/dev/null; then
+    useradd -m -G wheel -s /bin/bash "$USERNAME"
+fi
 printf "%s:%s\n" "$USERNAME" "$USER_PASSWORD" | chpasswd
 
 echo "🔑 Setting root password..."
@@ -100,6 +102,7 @@ grep -q "^Color" /etc/pacman.conf || echo "Color" >> /etc/pacman.conf
 
 # Enable 32-bit support (multilib) for apps like Steam or Wine
 sed -i '/^#\[multilib\]/,/^#Include = \/etc\/pacman.d\/mirrorlist/ s/^#//' /etc/pacman.conf
+pacman -Sy
 
 # Optimize makepkg to use all available CPU cores minus one for insanely fast AUR compilation without freezing
 cp /etc/makepkg.conf /etc/makepkg.conf.bak
