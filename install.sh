@@ -3,10 +3,15 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Error handler: show which step failed before exiting
+trap 'echo "\n❌ ERROR: Installation failed at step: $CURRENT_STEP (line $LINENO)"; echo "   Check the output above for details."' ERR
+CURRENT_STEP="Initialization"
+
 # Ensure we are in the directory of the script
 cd "$(dirname "$0")"
 
 echo "🚀 Installing NooreldeanOS..."
+CURRENT_STEP="Installing packages"
 echo "[1] Installing all programs (This will take time)..."
 
 # Check and install yay if not present
@@ -19,7 +24,7 @@ if ! command -v yay &> /dev/null; then
 fi
 
 yay -S --needed - < pacman-packages.txt
-if [ -f flatpak-packages.txt ]; then
+if [ -f flatpak-packages.txt ] && [ -s flatpak-packages.txt ]; then
     if ! command -v flatpak &> /dev/null; then
         echo "📦 'flatpak' is not installed. Installing flatpak..."
         sudo pacman -S --needed --noconfirm flatpak
@@ -27,12 +32,14 @@ if [ -f flatpak-packages.txt ]; then
     flatpak install -y $(cat flatpak-packages.txt) || true
 fi
 
+CURRENT_STEP="Backing up configurations"
 echo "[2] Backing up existing configurations..."
 BACKUP_DIR=~/.config-backup-$(date +%Y%m%d-%H%M%S)
 mkdir -p "$BACKUP_DIR"
 cp -r ~/.config/* "$BACKUP_DIR/" 2>/dev/null || true
 echo "    Backup saved to: $BACKUP_DIR"
 
+CURRENT_STEP="Restoring configurations"
 echo "[3] Restoring Configurations..."
 mkdir -p ~/.config ~/.local/share/icons ~/.local/share/applications
 cp -r .config/* ~/.config/ || true
@@ -47,9 +54,15 @@ cp -r applications/* ~/.local/share/applications/ || true
 echo "    Adjusting hardcoded paths for the current user ($USER)..."
 find ~/.config ~/scripts ~/.local/share/applications ~/wallpapers -type f -exec sed -i "s|/home/nooreldean|$HOME|g" {} + 2>/dev/null || true
 
+CURRENT_STEP="Restoring system configs"
 echo "[4] Restoring System Configs (Needs Sudo)..."
-sudo cp -r system-configs/sddm/* /etc/
+if [ -d system-configs/sddm ]; then
+    sudo cp -r system-configs/sddm/* /etc/
+else
+    echo "⚠️  Warning: system-configs/sddm/ not found, skipping SDDM config."
+fi
 
+CURRENT_STEP="Enabling services"
 echo "[5] Enabling Services and System Optimizations (Needs Sudo)..."
 # ZRAM Setup (Virtual Swap)
 sudo mkdir -p /etc/systemd/

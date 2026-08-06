@@ -13,10 +13,8 @@ catppuccin-gtk-theme-mocha
 chafa
 clang
 claude-desktop-native
-claude-desktop-native-debug
 cmake
 copyq
-debtap
 docker
 docker-compose
 droidcam-obs-plugin
@@ -86,7 +84,6 @@ qt6-wayland
 qt6ct
 rmpc
 rofi
-rpmextract
 rust
 scrcpy
 sddm

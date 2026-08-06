@@ -1,0 +1,3 @@
+# Flatpak packages to install (one per line)
+# This file is intentionally empty. Add Flatpak app IDs here if needed.
+# Example: com.spotify.Client

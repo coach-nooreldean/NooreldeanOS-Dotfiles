@@ -3,7 +3,25 @@ import urllib.request, urllib.parse, json
 import os, subprocess, time
 from datetime import datetime, timedelta
 
+# Load city/country/method from config file, with defaults
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILE = os.path.join(SCRIPT_DIR, "prayer_config.json")
+# Also check the user's installed config location
+USER_CONFIG = os.path.expanduser("~/.config/waybar/scripts/prayer_config.json")
+
 CITY, COUNTRY, METHOD = "Cairo", "Egypt", 5
+for config_path in [USER_CONFIG, CONFIG_FILE]:
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r") as f:
+                cfg = json.load(f)
+            CITY = cfg.get("city", CITY)
+            COUNTRY = cfg.get("country", COUNTRY)
+            METHOD = cfg.get("method", METHOD)
+            break
+        except Exception:
+            pass
+
 city_encoded = urllib.parse.quote(CITY)
 country_encoded = urllib.parse.quote(COUNTRY)
 

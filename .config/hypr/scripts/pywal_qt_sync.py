@@ -52,6 +52,5 @@ for ver in ["qt5ct", "qt6ct"]:
         with open(conf_file, "w") as f:
             config.write(f)
 
-# Reload UI Components to apply new pywal colors instantly
-os.system("swaync-client -rs") # reload swaync css
-os.system("killall -SIGUSR2 waybar") # reload waybar css
+# Note: UI reloading (waybar, swaync) is handled by set_wallpaper.sh
+# to avoid duplicate reloads when called as part of the wallpaper pipeline.

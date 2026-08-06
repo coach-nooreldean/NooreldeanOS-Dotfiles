@@ -27,39 +27,53 @@ locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 echo "🖥️ Setting Hostname..."
-echo "nooreldeanos" > /etc/hostname
+read -p "👉 Enter hostname for this machine [nooreldeanos]: " HOSTNAME
+HOSTNAME=${HOSTNAME:-nooreldeanos}
+echo "$HOSTNAME" > /etc/hostname
 cat <<EOF > /etc/hosts
 127.0.0.1   localhost
 ::1         localhost
-127.0.1.1   nooreldeanos.localdomain nooreldeanos
+127.0.1.1   ${HOSTNAME}.localdomain ${HOSTNAME}
 EOF
 
 echo "🌐 Enabling NetworkManager..."
 systemctl enable NetworkManager
 
 echo "🔐 Configuring Users..."
-# Prompt for root password (or set a default one and prompt user to change later, but interactive is better)
-# Since we are automating, let's ask for the user password now
-read -sp "Enter password for the new user 'nooreldean': " USER_PASSWORD
-echo
-read -sp "Confirm password: " USER_PASSWORD_CONFIRM
-echo
+read -p "👉 Enter username for the new user [nooreldean]: " USERNAME
+USERNAME=${USERNAME:-nooreldean}
 
-if [ "$USER_PASSWORD" != "$USER_PASSWORD_CONFIRM" ]; then
-    echo "❌ Passwords do not match! Please try again."
-    read -sp "Enter password: " USER_PASSWORD
+# Validate username (lowercase, no spaces, starts with letter)
+if ! [[ "$USERNAME" =~ ^[a-z][a-z0-9_-]*$ ]]; then
+    echo "❌ Invalid username '$USERNAME'. Must start with a lowercase letter and contain only a-z, 0-9, _, -"
+    exit 1
+fi
+
+echo "🔑 Setting password for user '$USERNAME'..."
+while true; do
+    read -sp "Enter password for '$USERNAME': " USER_PASSWORD
     echo
     read -sp "Confirm password: " USER_PASSWORD_CONFIRM
     echo
-    if [ "$USER_PASSWORD" != "$USER_PASSWORD_CONFIRM" ]; then
-        echo "❌ Passwords still don't match! Aborting for security."
-        exit 1
+    if [ "$USER_PASSWORD" == "$USER_PASSWORD_CONFIRM" ]; then
+        break
     fi
-fi
+    echo "❌ Passwords do not match! Please try again."
+done
 
-useradd -m -G wheel -s /bin/bash nooreldean
-echo "nooreldean:$USER_PASSWORD" | chpasswd
-echo "root:$USER_PASSWORD" | chpasswd
+useradd -m -G wheel -s /bin/bash "$USERNAME"
+echo "$USERNAME:$USER_PASSWORD" | chpasswd
+
+echo "🔑 Setting root password (leave empty to use same as user)..."
+read -sp "Enter root password [same as user]: " ROOT_PASSWORD
+echo
+if [ -z "$ROOT_PASSWORD" ]; then
+    ROOT_PASSWORD="$USER_PASSWORD"
+fi
+echo "root:$ROOT_PASSWORD" | chpasswd
+
+# Clear password variables from memory
+unset USER_PASSWORD USER_PASSWORD_CONFIRM ROOT_PASSWORD
 
 # Optimize pacman download speed on the new system
 sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
@@ -72,7 +86,9 @@ sed -i '/^#\[multilib\]/,/^#Include = \/etc\/pacman.d\/mirrorlist/ s/^#//' /etc/
 sed -i "s/^#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j\$(nproc)\"/" /etc/makepkg.conf
 
 # Temporarily allow wheel group to use sudo WITHOUT password (for automated yay install)
-sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+# Using sudoers.d drop-in file instead of editing /etc/sudoers directly (safer)
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/99-temp-nopasswd
+chmod 440 /etc/sudoers.d/99-temp-nopasswd
 
 echo "🔍 Detecting CPU and installing Microcode..."
 CPU_VENDOR=$(lscpu | grep "Vendor ID" | awk '{print $3}')
@@ -97,8 +113,8 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "📥 Setting up NooreldeanOS Dotfiles..."
-# Switch to user nooreldean to clone and install dotfiles
-su - nooreldean -c "
+# Switch to the created user to clone and install dotfiles
+su - "$USERNAME" -c "
     echo 'Cloning Dotfiles repository...'
     git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/NooreldeanOS-Dotfiles
     cd ~/NooreldeanOS-Dotfiles
@@ -106,8 +122,8 @@ su - nooreldean -c "
     bash install.sh
 "
 
-# Revert sudoers to require password for security
-sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+# Remove temporary sudoers override and enable password-required sudo
+rm -f /etc/sudoers.d/99-temp-nopasswd
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 echo "✅ Post-installation setup complete!"
