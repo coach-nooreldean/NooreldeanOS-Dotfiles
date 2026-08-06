@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Wallpaper Picker
+Comment=Choose and set your desktop wallpaper
+Exec=python3 /home/nooreldean/.config/hypr/scripts/wallpaper_picker.py
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Type=Application
+Categories=Utility;Settings;
+Keywords=wallpaper;background;theme;pywal;
