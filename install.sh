@@ -4,7 +4,7 @@
 set -e
 
 # Error handler: show which step failed before exiting
-trap 'echo "\n❌ ERROR: Installation failed at step: $CURRENT_STEP (line $LINENO)"; echo "   Check the output above for details."' ERR
+trap 'echo -e "\n❌ ERROR: Installation failed at step: $CURRENT_STEP (line $LINENO)\n💡 Tip: Check your internet connection or any specific error messages above.\n🔄 You can safely re-run this script after fixing the issue."' ERR
 CURRENT_STEP="Initialization"
 
 # Ensure we are in the directory of the script
