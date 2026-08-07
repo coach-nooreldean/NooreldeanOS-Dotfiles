@@ -20,7 +20,7 @@ install_packages() {
     fi
 
     if [ -f pacman-packages.txt ] && [ -s pacman-packages.txt ]; then
-        readarray -t PACMAN_PKGS < <(cat pacman-packages.txt | tr -d '\r' | grep -v '^\s*#' | grep -v '^\s*$' || true)
+        readarray -t PACMAN_PKGS < <(tr -d '\r' < pacman-packages.txt | grep -v '^\s*#' | grep -v '^\s*$' || true)
         if [ "${#PACMAN_PKGS[@]}" -gt 0 ]; then
             log_info "Installing pacman and AUR packages..."
             if ! yay -S --needed --noconfirm --answerclean All --answerdiff None --answeredit None "${PACMAN_PKGS[@]}"; then
@@ -33,7 +33,7 @@ install_packages() {
     fi
 
     if [ -f flatpak-packages.txt ] && [ -s flatpak-packages.txt ]; then
-        readarray -t FLATPAK_PKGS < <(cat flatpak-packages.txt | tr -d '\r' | grep -v '^\s*#' | grep -v '^\s*$' || true)
+        readarray -t FLATPAK_PKGS < <(tr -d '\r' < flatpak-packages.txt | grep -v '^\s*#' | grep -v '^\s*$' || true)
         if [ "${#FLATPAK_PKGS[@]}" -gt 0 ]; then
             if ! command -v flatpak &> /dev/null; then
                 log_info "'flatpak' is not installed. Installing flatpak..."

@@ -32,33 +32,33 @@ restore_configs() {
             shopt -u dotglob
         }
 
-        [ -d ".config" ] && safe_symlink "$DOTFILES_DIR/.config" ~/.config
-        [ -d "home/icons" ] && safe_symlink "$DOTFILES_DIR/home/icons" ~/.local/share/icons
-        [ -d "home" ] && safe_symlink "$DOTFILES_DIR/home" ~/
-        [ -d "scripts" ] && safe_symlink "$DOTFILES_DIR/scripts" ~/scripts
-        [ -d "scripts" ] && chmod +x ~/scripts/*.sh 2>/dev/null || true
-        [ -d "wallpapers" ] && safe_symlink "$DOTFILES_DIR/wallpapers" ~/wallpapers
-        [ -d "applications" ] && safe_symlink "$DOTFILES_DIR/applications" ~/.local/share/applications
+        if [ -d ".config" ]; then safe_symlink "$DOTFILES_DIR/.config" ~/.config; fi
+        if [ -d "home/icons" ]; then safe_symlink "$DOTFILES_DIR/home/icons" ~/.local/share/icons; fi
+        if [ -d "home" ]; then safe_symlink "$DOTFILES_DIR/home" ~/; fi
+        if [ -d "scripts" ]; then safe_symlink "$DOTFILES_DIR/scripts" ~/scripts; fi
+        if [ -d "scripts" ]; then chmod +x ~/scripts/*.sh 2>/dev/null || true; fi
+        if [ -d "wallpapers" ]; then safe_symlink "$DOTFILES_DIR/wallpapers" ~/wallpapers; fi
+        if [ -d "applications" ]; then safe_symlink "$DOTFILES_DIR/applications" ~/.local/share/applications; fi
     elif command -v rsync &> /dev/null; then
         log_info "Copying files using rsync..."
-        [ -d ".config" ] && rsync -a .config/ ~/.config/ 2>/dev/null || true
-        [ -d "home/icons" ] && rsync -a home/icons/ ~/.local/share/icons/ 2>/dev/null || true
-        [ -d "home" ] && rsync -a home/.bash* ~/ 2>/dev/null || true
-        [ -d "scripts" ] && rsync -a scripts/ ~/scripts/ 2>/dev/null || true
-        [ -d "scripts" ] && chmod +x ~/scripts/*.sh 2>/dev/null || true
-        [ -d "wallpapers" ] && rsync -a wallpapers/ ~/wallpapers/ 2>/dev/null || true
-        [ -d "applications" ] && rsync -a applications/ ~/.local/share/applications/ 2>/dev/null || true
+        if [ -d ".config" ]; then rsync -a .config/ ~/.config/ 2>/dev/null || true; fi
+        if [ -d "home/icons" ]; then rsync -a home/icons/ ~/.local/share/icons/ 2>/dev/null || true; fi
+        if [ -d "home" ]; then rsync -a home/.bash* ~/ 2>/dev/null || true; fi
+        if [ -d "scripts" ]; then rsync -a scripts/ ~/scripts/ 2>/dev/null || true; fi
+        if [ -d "scripts" ]; then chmod +x ~/scripts/*.sh 2>/dev/null || true; fi
+        if [ -d "wallpapers" ]; then rsync -a wallpapers/ ~/wallpapers/ 2>/dev/null || true; fi
+        if [ -d "applications" ]; then rsync -a applications/ ~/.local/share/applications/ 2>/dev/null || true; fi
     else
         # Fallback if rsync is somehow not installed
         log_info "Copying files using cp..."
         shopt -s dotglob
-        [ -d ".config" ] && cp -a .config/* ~/.config/ 2>/dev/null || true
-        [ -d "home/icons" ] && cp -a home/icons/* ~/.local/share/icons/ 2>/dev/null || true
-        [ -d "home" ] && cp -a home/.bash* ~/ 2>/dev/null || true
-        [ -d "scripts" ] && cp -a scripts/* ~/scripts/ 2>/dev/null || true
-        [ -d "scripts" ] && chmod +x ~/scripts/*.sh 2>/dev/null || true
-        [ -d "wallpapers" ] && cp -a wallpapers ~/ 2>/dev/null || true
-        [ -d "applications" ] && cp -a applications/* ~/.local/share/applications/ 2>/dev/null || true
+        if [ -d ".config" ]; then cp -a .config/* ~/.config/ 2>/dev/null || true; fi
+        if [ -d "home/icons" ]; then cp -a home/icons/* ~/.local/share/icons/ 2>/dev/null || true; fi
+        if [ -d "home" ]; then cp -a home/.bash* ~/ 2>/dev/null || true; fi
+        if [ -d "scripts" ]; then cp -a scripts/* ~/scripts/ 2>/dev/null || true; fi
+        if [ -d "scripts" ]; then chmod +x ~/scripts/*.sh 2>/dev/null || true; fi
+        if [ -d "wallpapers" ]; then cp -a wallpapers ~/ 2>/dev/null || true; fi
+        if [ -d "applications" ]; then cp -a applications/* ~/.local/share/applications/ 2>/dev/null || true; fi
         shopt -u dotglob
     fi
 

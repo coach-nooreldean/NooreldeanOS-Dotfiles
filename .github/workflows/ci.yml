@@ -22,4 +22,4 @@ jobs:
       - name: Run ShellCheck on all scripts
         run: |
           echo "Running shellcheck on all .sh files..."
-          find . -type f -name "*.sh" -not -path "*/\.*" | xargs shellcheck -f gcc
+          find . -type f -name "*.sh" -not -path "*/\.*" | xargs shellcheck -x -f gcc
