@@ -25,4 +25,4 @@ rm -rf ~/.cache/thumbnails/*
 rm -rf ~/.cache/yay/*
 
 echo -e "\n\033[1;32mSystem Cleanup Complete!\033[0m"
-read -p "Press Enter to close this window..."
+read -r -p "Press Enter to close this window..."

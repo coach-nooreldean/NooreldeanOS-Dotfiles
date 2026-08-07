@@ -1,0 +1,25 @@
+name: Lint Shell Scripts
+
+on:
+  push:
+    paths:
+      - '**.sh'
+  pull_request:
+    paths:
+      - '**.sh'
+
+jobs:
+  shellcheck:
+    name: Run ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck on all scripts
+        run: |
+          echo "Running shellcheck on all .sh files..."
+          find . -type f -name "*.sh" -not -path "*/\.*" | xargs shellcheck -f gcc

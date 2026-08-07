@@ -51,7 +51,7 @@ done
 
 while true; do
     echo -n "👉 Select the disk number to install on (1-${#DISKS[@]}): "
-    read DISK_NUM
+    read -r DISK_NUM
 
     if [[ "$DISK_NUM" =~ ^[0-9]+$ ]] && [ "$DISK_NUM" -ge 1 ] && [ "$DISK_NUM" -le "${#DISKS[@]}" ]; then
         break
@@ -72,13 +72,13 @@ fi
 echo "💽 Choose Root Filesystem:"
 echo "1) ext4 (Classic & High Stability - Default)"
 echo "2) btrfs (Modern with Subvolumes '@' & '@home' for Snapshots)"
-read -p "Choice [1/2]: " FS_CHOICE
+read -r -p "Choice [1/2]: " FS_CHOICE
 FS_CHOICE=${FS_CHOICE:-1}
 
 echo "⚙️ Choose Partitioning Method:"
 echo "1) 🧹 Auto-Wipe & Partition (ERASES ENTIRE DISK - 1GB EFI, Rest Root)"
 echo "2) 🛠️ Manual Partitioning (Opens cfdisk to create partitions manually)"
-read -p "Choice [1/2]: " PART_CHOICE
+read -r -p "Choice [1/2]: " PART_CHOICE
 
 if [ "$PART_CHOICE" == "1" ]; then
     # Sanity check: Ensure disk is at least 15GB
@@ -91,7 +91,7 @@ if [ "$PART_CHOICE" == "1" ]; then
     echo "⚠️ Existing partitions on $DISK_INFO:"
     lsblk -p -n -l -o NAME,SIZE,TYPE,MOUNTPOINT "$DISK" | grep "part" || echo "   (No existing partitions found)"
     echo -e "\e[31m⚠️ WARNING: You are about to ERASE ALL DATA on $DISK_INFO.\e[0m"
-    read -p "    Type '$DISK' to confirm: " CONFIRM
+    read -r -p "    Type '$DISK' to confirm: " CONFIRM
     if [ "$CONFIRM" != "$DISK" ]; then
         echo "Aborted."
         exit 1
@@ -147,9 +147,9 @@ elif [ "$PART_CHOICE" == "2" ]; then
     
     while true; do
         echo -n "👉 Enter the number of your EFI partition (1-${#PARTS[@]}): "
-        read EFI_NUM
+        read -r EFI_NUM
         echo -n "👉 Enter the number of your Root partition (1-${#PARTS[@]}): "
-        read ROOT_NUM
+        read -r ROOT_NUM
 
         if [[ "$EFI_NUM" =~ ^[0-9]+$ ]] && [ "$EFI_NUM" -ge 1 ] && [ "$EFI_NUM" -le "${#PARTS[@]}" ] && \
            [[ "$ROOT_NUM" =~ ^[0-9]+$ ]] && [ "$ROOT_NUM" -ge 1 ] && [ "$ROOT_NUM" -le "${#PARTS[@]}" ]; then
@@ -165,14 +165,14 @@ elif [ "$PART_CHOICE" == "2" ]; then
     echo "✅ Selected EFI: $PART_EFI"
     echo "✅ Selected Root: $PART_ROOT"
 
-    read -p "⚠️ Are you ABSOLUTELY SURE these are the correct partitions? (Type 'yes' to confirm): " CONFIRM_MANUAL
+    read -r -p "⚠️ Are you ABSOLUTELY SURE these are the correct partitions? (Type 'yes' to confirm): " CONFIRM_MANUAL
     if [ "$CONFIRM_MANUAL" != "yes" ]; then
         echo "❌ Aborting installation. Please run the script again and select carefully."
         exit 1
     fi
 
     echo -n "⚠️ Do you want to format the EFI partition? (Type 'yes' for new installs, 'no' if you are sharing it with Windows): "
-    read FORMAT_EFI
+    read -r FORMAT_EFI
     if [ "$FORMAT_EFI" == "yes" ]; then
         umount "$PART_EFI" 2>/dev/null || true
         mkfs.fat -F32 "$PART_EFI"
@@ -238,14 +238,14 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Optional Swapfile Creation
 echo "💡 Do you want to create a Swapfile?"
 echo "   (Note: NooreldeanOS uses ZRAM automatically, so you only need a Swapfile if you plan to use Hibernation or have very low RAM)"
-read -p "    Create Swapfile? [y/N]: " CREATE_SWAP
+read -r -p "    Create Swapfile? [y/N]: " CREATE_SWAP
 if [[ "$CREATE_SWAP" =~ ^[Yy]$ ]]; then
-    read -p "    👉 Enter Swapfile size in GB (e.g., 8): " SWAP_SIZE
+    read -r -p "    👉 Enter Swapfile size in GB (e.g., 8): " SWAP_SIZE
     if [[ "$SWAP_SIZE" =~ ^[0-9]+$ ]]; then
         echo "🔄 Creating ${SWAP_SIZE}GB Swapfile..."
         if [ "$FS_CHOICE" == "2" ]; then
             # BTRFS Swapfile (Requires btrfs-progs)
-            btrfs filesystem mkswapfile --size ${SWAP_SIZE}g --uuid clear /mnt/swap/swapfile || echo "⚠️ Failed to create Btrfs swapfile."
+            btrfs filesystem mkswapfile --size "${SWAP_SIZE}g" --uuid clear /mnt/swap/swapfile || echo "⚠️ Failed to create Btrfs swapfile."
             echo "/swap/swapfile none swap defaults 0 0" >> /mnt/etc/fstab
             echo "💡 Tip: To use Hibernation on BTRFS, you must calculate the resume_offset of this swapfile"
             echo "   and add 'resume=/dev/mapper/YOUR_PARTITION resume_offset=OFFSET' to your GRUB config."
@@ -278,6 +278,7 @@ if [ -z "$SCRIPT_DIR" ] || [ ! -f "$SCRIPT_DIR/post-install.sh" ]; then
     git clone --depth 1 "$REPO_URL" /tmp/NooreldeanOS-Dotfiles
     SCRIPT_DIR="/tmp/NooreldeanOS-Dotfiles"
 fi
+cp -r "$SCRIPT_DIR/lib" /mnt/lib
 cp "$SCRIPT_DIR/post-install.sh" /mnt/post-install.sh
 chmod +x /mnt/post-install.sh
 
@@ -289,6 +290,7 @@ arch-chroot /mnt /post-install.sh "$DISK"
 # Clean up
 echo "🧹 Cleaning up..."
 rm -f /mnt/post-install.sh
+rm -rf /mnt/lib
 rm -f /mnt/etc/sudoers.d/99-temp-nopasswd
 umount -R /mnt
 

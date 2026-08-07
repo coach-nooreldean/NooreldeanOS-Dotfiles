@@ -12,4 +12,4 @@ else
 fi
 
 echo -e "\n\033[1;32mSystem Update Complete!\033[0m"
-read -p "Press Enter to close this window..."
+read -r -p "Press Enter to close this window..."

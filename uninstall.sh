@@ -11,7 +11,7 @@ echo "🗑️  Uninstalling NooreldeanOS..."
 
 echo "[1] Restoring previous configuration..."
 # Find backup directories
-mapfile -t BACKUP_DIRS < <(ls -d ~/.NooreldeanOS-backup-* 2>/dev/null | sort -r)
+mapfile -t BACKUP_DIRS < <(find ~ -maxdepth 1 -name ".NooreldeanOS-backup-*" -type d 2>/dev/null | sort -r)
 
 if [ ${#BACKUP_DIRS[@]} -eq 0 ]; then
     LATEST_BACKUP=""
@@ -22,7 +22,7 @@ else
     for i in "${!BACKUP_DIRS[@]}"; do
         echo "    $((i+1))) ${BACKUP_DIRS[$i]}"
     done
-    read -p "    Select which backup to restore [1-${#BACKUP_DIRS[@]}]: " SEL
+    read -r -p "    Select which backup to restore [1-${#BACKUP_DIRS[@]}]: " SEL
     if [[ "$SEL" =~ ^[0-9]+$ ]] && [ "$SEL" -ge 1 ] && [ "$SEL" -le "${#BACKUP_DIRS[@]}" ]; then
         LATEST_BACKUP="${BACKUP_DIRS[$((SEL-1))]}"
     else
@@ -106,7 +106,7 @@ echo "    If you wish to disable any manually, use: sudo systemctl disable <serv
 echo "[4] Packages and Apps..."
 echo "    ⚠️  WARNING: Removing packages might break your system if other software depends on them!"
 echo "    ⚠️  It is highly recommended to leave the packages installed unless you are absolutely sure."
-read -p "    ❓ Are you ABSOLUTELY SURE you want to uninstall the packages? [y/N]: " UNINSTALL_PKGS
+read -r -p "    ❓ Are you ABSOLUTELY SURE you want to uninstall the packages? [y/N]: " UNINSTALL_PKGS
 if [[ "$UNINSTALL_PKGS" =~ ^[Yy]$ ]]; then
     if [ -f pacman-packages.txt ] && [ -s pacman-packages.txt ]; then
         readarray -t PACMAN_PKGS < <(grep -v '^\s*#' pacman-packages.txt | grep -v '^\s*$' || true)
