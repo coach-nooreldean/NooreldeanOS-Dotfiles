@@ -116,8 +116,12 @@ pacman -Sy
 cp /etc/makepkg.conf /etc/makepkg.conf.bak
 sed -i "s/^#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j\$(( \$(nproc) > 1 ? \$(nproc) - 1 : 1 ))\"/" /etc/makepkg.conf
 
+# Permanently enable password-required sudo for the wheel group
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
 # Temporarily allow wheel group to use sudo WITHOUT password (for automated yay and install.sh)
-sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/99-temp-nopasswd
+chmod 0440 /etc/sudoers.d/99-temp-nopasswd
 
 
 log_step "Detecting CPU and installing Microcode..."
@@ -176,8 +180,7 @@ su - "$USERNAME" -c "
     bash install.sh
 "
 
-# Remove temporary sudoers override and enable password-required sudo
-sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+# Remove temporary sudoers override (also handled by EXIT trap for safety)
+rm -f /etc/sudoers.d/99-temp-nopasswd
 
 log_success "Post-installation setup complete!"
