@@ -39,6 +39,11 @@ local menu = "rofi -show drun"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
+-- Notification daemon
+hl.exec_once("swaync")
+
+-- Advanced Additions
+hl.exec_once("pypr")
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function ()
@@ -355,7 +360,12 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 
 
--- تصوير منطقة معينة (Super + S)
+-- Advanced Tools
+hl.bind(mainMod, "R", hl.dsp.exec_cmd("walker"))
+hl.bind(mainMod, "V", hl.dsp.exec_cmd("cliphist list | walker --dmenu | cliphist decode | wl-copy"))
+hl.bind("ALT", "F12", hl.dsp.exec_cmd("pypr toggle term"))
+hl.bind(mainMod, "F11", hl.dsp.exec_cmd("pypr toggle volume"))
+hl.bind(mainMod .. " + ALT", "N", hl.dsp.exec_cmd("hyprshade toggle blue-light-filter"))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
 -- تصوير الشاشة كاملة (Print Screen)
 hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
