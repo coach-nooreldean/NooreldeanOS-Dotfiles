@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Drive Formatter
+Name[ar]=تهيئة الأقراص
+Comment=Format hard drives and USB flash drives safely
+Comment[ar]=فرمتة وتهيئة الأقراص والفلاشات بأمان
+Exec=bash -c "$HOME/.config/drive-formatter/run.sh"
+Icon=drive-harddisk
+Terminal=false
+Categories=System;Utility;

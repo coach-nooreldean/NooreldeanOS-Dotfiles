@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Video Converter
+Name[ar]=محول الفيديو السريع
+Comment=Convert between MP4 and MOV losslessly
+Comment[ar]=تحويل الفيديوهات بين صيغتي MP4 و MOV بسرعة وبدون فقدان الجودة لدافنشي
+Exec=bash -c "$HOME/.config/video-converter/run.sh"
+Icon=video-x-generic
+Terminal=false
+Type=Application
+Categories=AudioVideo;AudioVideoEditing;
