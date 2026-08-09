@@ -16,3 +16,4 @@ Thumbs.db
 
 # Pywal generated (auto-regenerated at runtime)
 .config/hypr/colors.lua
+.config/hypr/local_settings.lua

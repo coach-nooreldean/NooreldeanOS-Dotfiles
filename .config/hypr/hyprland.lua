@@ -11,7 +11,9 @@ local colors = require("colors")
 ---- MONITORS ----
 ------------------
 
--- See https://wiki.hypr.land/Configuring/Basics/Monitors/
+
+
+-- Fallback for any other monitor that might be plugged in
 hl.monitor({
     output   = "",
     mode     = "preferred",
@@ -350,6 +352,9 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+
+
+
 -- تصوير منطقة معينة (Super + S)
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
 -- تصوير الشاشة كاملة (Print Screen)
@@ -426,3 +431,6 @@ hl.window_rule({
     size = "800 500",
     center = true,
 })
+
+-- Load local device-specific settings if they exist (monitors, keyboards, etc)
+pcall(require, "local_settings")
