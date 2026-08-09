@@ -142,8 +142,3 @@ grim
 android-tools
 uwsm
 
-# --- Power User Extras ---
-onlyoffice-bin
-pyprland
-walker
-hyprshade

@@ -46,7 +46,6 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("awww-daemon &")
     hl.exec_cmd("copyq --start-server &")
     hl.exec_cmd("waybar &")
-    hl.exec_cmd("pypr &")
     hl.exec_cmd("~/.config/hypr/scripts/startup_wallpaper.sh &")
     hl.exec_cmd("udiskie &")
     hl.exec_cmd("swaync &")
@@ -356,11 +355,6 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 
 -- Advanced Tools
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("walker"))
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | walker --dmenu | cliphist decode | wl-copy"))
-hl.bind("ALT + F12", hl.dsp.exec_cmd("pypr toggle term"))
-hl.bind(mainMod .. " + F11", hl.dsp.exec_cmd("pypr toggle volume"))
-hl.bind(mainMod .. " + ALT + N", hl.dsp.exec_cmd("hyprshade toggle blue-light-filter"))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
 -- تصوير الشاشة كاملة (Print Screen)
 hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
