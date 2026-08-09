@@ -38,12 +38,6 @@ local menu = "rofi -show drun"
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
--- Autostart necessary processes (like notifications daemons, status bars, etc.)
--- Notification daemon
-hl.exec_once("swaync")
-
--- Advanced Additions
-hl.exec_once("pypr")
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function ()
@@ -52,6 +46,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("awww-daemon &")
     hl.exec_cmd("copyq --start-server &")
     hl.exec_cmd("waybar &")
+    hl.exec_cmd("pypr &")
     hl.exec_cmd("~/.config/hypr/scripts/startup_wallpaper.sh &")
     hl.exec_cmd("udiskie &")
     hl.exec_cmd("swaync &")
