@@ -6,6 +6,9 @@
 
 set -eo pipefail
 
+# Ensure we run from a safe directory so deleting caches doesn't invalidate $PWD
+cd "$HOME" || exit 1
+
 # ANSI Colors
 BOLD="\033[1m"
 GREEN="\033[1;32m"
@@ -41,8 +44,10 @@ fi
 log_done "Privileges acquired."
 
 # Measure disk usage before cleanup
-DISK_BEFORE_KB=$(df -k / | awk 'NR==2 {print $3}')
-DISK_BEFORE_HUMAN=$(df -h / | awk 'NR==2 {print $3}')
+DISK_BEFORE_KB=$(df -k / 2>/dev/null | awk 'NR==2 {print $3}')
+DISK_BEFORE_KB=${DISK_BEFORE_KB:-0}
+DISK_BEFORE_HUMAN=$(df -h / 2>/dev/null | awk 'NR==2 {print $3}')
+DISK_BEFORE_HUMAN=${DISK_BEFORE_HUMAN:-"N/A"}
 
 # Step 1: Remove Orphan Packages
 log_title "Step 1: Removing Unused Dependencies (Orphans)"
@@ -101,8 +106,10 @@ else
 fi
 
 # Summary Report
-DISK_AFTER_KB=$(df -k / | awk 'NR==2 {print $3}')
-DISK_AFTER_HUMAN=$(df -h / | awk 'NR==2 {print $3}')
+DISK_AFTER_KB=$(df -k / 2>/dev/null | awk 'NR==2 {print $3}')
+DISK_AFTER_KB=${DISK_AFTER_KB:-0}
+DISK_AFTER_HUMAN=$(df -h / 2>/dev/null | awk 'NR==2 {print $3}')
+DISK_AFTER_HUMAN=${DISK_AFTER_HUMAN:-"N/A"}
 FREED_KB=$((DISK_BEFORE_KB - DISK_AFTER_KB))
 
 echo -e "\n${BOLD}${GREEN}======================================================${RESET}"
@@ -113,9 +120,9 @@ echo -e "  Used space after  : ${BOLD}${CYAN}$DISK_AFTER_HUMAN${RESET}"
 
 if [ "$FREED_KB" -gt 0 ]; then
     if [ "$FREED_KB" -ge 1048576 ]; then
-        FREED_HUMAN=$(awk "BEGIN {printf \"%.2f GB\", $FREED_KB/1048576}")
+        FREED_HUMAN=$(awk -v k="$FREED_KB" 'BEGIN {printf "%.2f GB", k/1048576}')
     elif [ "$FREED_KB" -ge 1024 ]; then
-        FREED_HUMAN=$(awk "BEGIN {printf \"%.2f MB\", $FREED_KB/1024}")
+        FREED_HUMAN=$(awk -v k="$FREED_KB" 'BEGIN {printf "%.2f MB", k/1024}')
     else
         FREED_HUMAN="${FREED_KB} KB"
     fi
