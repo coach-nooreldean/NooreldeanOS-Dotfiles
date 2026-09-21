@@ -50,6 +50,7 @@ alias reload='source ~/.bashrc && echo "⚡ ~/.bashrc reloaded!"'
 alias ports='ss -tulpn'
 alias df='df -h'
 alias free='free -m'
+alias clean="sys-clean"
 
 # Core tools
 alias ls='ls --color=auto'
