@@ -20,6 +20,7 @@ log_step()  { echo -e "${BOLD}${BLUE}➜ $1${RESET}"; }
 log_info()  { echo -e "  ${CYAN}•${RESET} $1"; }
 log_done()  { echo -e "  ${GREEN}✔${RESET} $1"; }
 log_warn()  { echo -e "  ${YELLOW}⚠${RESET} $1"; }
+log_error() { echo -e "  ${RED}✖${RESET} $1"; }
 
 echo -e "${BOLD}${GREEN}"
 echo "   ___ _   _ ___       ___ _    ___   _   _  _ "
@@ -48,6 +49,7 @@ log_title "Step 1: Removing Unused Dependencies (Orphans)"
 ORPHANS=$(pacman -Qtdq 2>/dev/null || true)
 if [ -n "$ORPHANS" ]; then
     log_info "Found orphans: $(echo "$ORPHANS" | tr '\n' ' ')"
+    # shellcheck disable=SC2086
     sudo pacman -Rns --noconfirm $ORPHANS
     log_done "Orphan packages removed."
 else
