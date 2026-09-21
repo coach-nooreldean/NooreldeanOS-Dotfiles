@@ -6,6 +6,9 @@
 # Core & System
 base
 base-devel
+mkinitcpio
+mkinitcpio-archiso
+iptables
 linux-zen
 linux-zen-headers
 linux-firmware
@@ -41,7 +44,6 @@ hyprlock
 hypridle
 brightnessctl
 playerctl
-wlogout
 fastfetch
 swaybg
 grim
@@ -67,7 +69,6 @@ mesa
 vulkan-radeon
 vulkan-intel
 libva-mesa-driver
-mesa-vdpau
 intel-media-driver
 pciutils
 nvidia-dkms
