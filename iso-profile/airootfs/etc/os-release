@@ -1,0 +1,10 @@
+NAME="NooreldeanOS"
+PRETTY_NAME="NooreldeanOS (Arch Linux)"
+ID=nooreldeanos
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;112;226;255"
+HOME_URL="https://coach-nooreldean.github.io/NooreldeanOS-Dotfiles/"
+SUPPORT_URL="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles"
+BUG_REPORT_URL="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles/issues"
+LOGO=archlinux

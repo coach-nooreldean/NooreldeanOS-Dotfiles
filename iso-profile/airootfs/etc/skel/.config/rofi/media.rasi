@@ -1,0 +1,65 @@
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+* {
+    font: "JetBrainsMono Nerd Font 14";
+    background-color: transparent;
+}
+
+window {
+    transparency: "real";
+    width: 450px;
+    background-color: #0D0C0EE6; /* 90% opacity */
+    border: 2px;
+    border-color: @selected-normal-background;
+    border-radius: 20px;
+    padding: 25px;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 25px;
+}
+
+inputbar {
+    children: [ prompt ];
+    background-color: transparent;
+    horizontal-align: 0.5;
+}
+
+prompt {
+    font: "JetBrainsMono Nerd Font Bold 16";
+    text-color: #BF8C76;
+    horizontal-align: 0.5;
+    padding: 0px 10px;
+}
+
+listview {
+    columns: 4;
+    lines: 1;
+    spacing: 20px;
+    border: 0;
+    scrollbar: false;
+}
+
+element {
+    padding: 15px 0px;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+element-text {
+    font: "JetBrainsMono Nerd Font 28";
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    text-color: @foreground;
+}
+
+element selected {
+    background-color: @selected-normal-background;
+}
+
+element-text selected {
+    text-color: @foreground;
+}

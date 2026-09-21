@@ -1,0 +1,89 @@
+name: Build NooreldeanOS Live ISO
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release Tag (e.g. v2026.09)'
+        required: false
+        default: 'latest'
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-iso:
+    name: Build Archiso Image
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+      options: --privileged
+    steps:
+      - name: Initialize Arch Linux Repositories & Install Dependencies
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman -Syu --noconfirm archiso git zstd dosfstools libisoburn mtools squashfs-tools
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Mark Safe Directory for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Validate Archiso Profile
+        run: |
+          chmod +x scripts/build-iso.sh
+          ./scripts/build-iso.sh --check
+
+      - name: Build NooreldeanOS Live ISO
+        run: |
+          mkdir -p out
+          mkarchiso -v -w /tmp/nooreldeanos-work -o out ./iso-profile
+
+      - name: Compute SHA256 Checksum
+        run: |
+          cd out
+          for f in *.iso; do
+            if [ -f "$f" ]; then
+              sha256sum "$f" > "${f}.sha256"
+            fi
+          done
+          ls -lh out/
+
+      - name: Upload ISO Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NooreldeanOS-ISO
+          path: |
+            out/*.iso
+            out/*.sha256
+
+      - name: Publish GitHub Release (On Tag or Dispatch)
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.release_tag != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name || github.event.inputs.release_tag }}
+          name: "NooreldeanOS Live ISO ${{ github.ref_name || github.event.inputs.release_tag }}"
+          body: |
+            ## 🚀 NooreldeanOS Live ISO Release
+            Official bootable Live ISO image for NooreldeanOS Linux.
+            
+            - **Kernel**: `linux-zen`
+            - **Desktop**: Hyprland (Wayland) with Pywal dynamic styling
+            - **Installer**: Calamares Graphical System Installer
+            - **Architecture**: x86_64 UEFI & Legacy BIOS
+            
+            ### 🔒 Checksums
+            Verify your download using:
+            ```bash
+            sha256sum -c *.iso.sha256
+            ```
+          files: |
+            out/*.iso
+            out/*.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

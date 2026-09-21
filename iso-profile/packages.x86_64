@@ -1,0 +1,113 @@
+# ==============================================================================
+# NooreldeanOS Official ISO Package Manifest
+# Based on Arch Linux & linux-zen Kernel
+# ==============================================================================
+
+# Core & System
+base
+base-devel
+linux-zen
+linux-zen-headers
+linux-firmware
+efibootmgr
+grub
+dosfstools
+btrfs-progs
+e2fsprogs
+ntfs-3g
+exfatprogs
+zstd
+zram-generator
+sudo
+arch-install-scripts
+
+# Hyprland & Wayland Desktop Environment
+hyprland
+waybar
+rofi-wayland
+kitty
+starship
+swaync
+hyprlock
+hypridle
+wlogout
+fastfetch
+swaybg
+grim
+slurp
+wl-clipboard
+polkit-kde-agent
+qt5-wayland
+qt6-wayland
+qt5ct
+qt6ct
+kvantum
+nwg-look
+xsettingsd
+
+# Display Manager
+sddm
+qt5-svg
+qt5-quickcontrols2
+qt5-graphicaleffects
+
+# Graphics, OpenGL & Vulkan Drivers
+mesa
+vulkan-radeon
+vulkan-intel
+libva-mesa-driver
+mesa-vdpau
+intel-media-driver
+
+# Audio Architecture (PipeWire)
+pipewire
+pipewire-audio
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumber
+pavucontrol
+alsa-utils
+sof-firmware
+
+# Network & Connectivity
+networkmanager
+network-manager-applet
+wireless_tools
+wpa_supplicant
+dialog
+bluez
+bluez-utils
+
+# Calamares Graphical Installer & Partitioning
+calamares
+kpmcore
+parted
+gparted
+dmidecode
+gptfdisk
+hwinfo
+upower
+ckbcomp
+squashfs-tools
+rsync
+
+# Shell, Fonts & Tools
+python
+python-pip
+python-pywal
+git
+curl
+wget
+neovim
+thunar
+thunar-archive-plugin
+file-roller
+ttf-jetbrains-mono-nerd
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+zoxide
+fzf
+libnotify
+ffmpeg

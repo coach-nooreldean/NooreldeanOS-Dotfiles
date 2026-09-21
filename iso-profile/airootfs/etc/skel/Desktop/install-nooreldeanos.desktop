@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install NooreldeanOS
+Name[ar]=تثبيت NooreldeanOS
+GenericName=Live System Installer
+Comment=Install NooreldeanOS permanently to your disk
+Icon=calamares
+Exec=install-nooreldeanos
+Terminal=false
+Categories=System;

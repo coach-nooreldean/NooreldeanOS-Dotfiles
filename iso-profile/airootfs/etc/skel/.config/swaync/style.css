@@ -1,0 +1,300 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+/* Global Font & Reset */
+* {
+  font-family: "Alexandria", "Tajawal", "Outfit", "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 14px;
+}
+
+window {
+  background: transparent;
+}
+
+/* Floating Notification Toast Popups */
+.floating-notifications {
+  background: transparent;
+}
+
+.blank-window {
+  background: transparent;
+}
+
+.notification-row {
+  outline: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-background {
+  background: transparent;
+}
+
+.notification {
+  border-radius: 18px;
+  margin: 8px 12px;
+  padding: 12px 14px;
+  background: rgba(13, 16, 24, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  color: @foreground;
+  transition: all 0.25s ease-in-out;
+}
+
+.notification:hover {
+  background: rgba(18, 22, 34, 0.95);
+  border-color: @color4;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Urgency Color Accents */
+.notification.low {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.notification.normal {
+  border-color: alpha(@color4, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 15px alpha(@color4, 0.15);
+}
+
+.notification.critical {
+  border: 1.5px solid #f38ba8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 25px rgba(243, 139, 168, 0.35);
+}
+
+.notification-content {
+  background: transparent;
+  padding: 4px;
+}
+
+.summary {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.body {
+  font-size: 13.5px;
+  color: #cdd6f4;
+  line-height: 1.5;
+}
+
+.time {
+  font-size: 11px;
+  color: #6c7086;
+  margin-right: 12px;
+}
+
+.app-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: @color4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Smooth Circular Close Button */
+.close-button {
+  background: rgba(255, 255, 255, 0.08);
+  color: #a6adc8;
+  text-shadow: none;
+  border-radius: 50%;
+  margin: 4px;
+  min-width: 26px;
+  min-height: 26px;
+  border: none;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #f38ba8;
+  color: #11111b;
+  transform: scale(1.1);
+}
+
+/* Notification Action Buttons */
+.notification-default-action,
+.notification-action {
+  padding: 8px 14px;
+  margin: 6px 4px 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  background: @color4;
+  color: #08090d;
+  border-color: @color4;
+}
+
+/* SwayNC Control Center (Sidebar Panel) */
+.control-center {
+  background: rgba(11, 14, 22, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 14px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  opacity: 0.45;
+  color: #6c7086;
+  font-size: 15px;
+  padding: 24px;
+}
+
+/* Header & Title Widget */
+.widget-title {
+  color: #ffffff;
+  background: transparent;
+  padding: 8px 14px;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.widget-title > button {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 6px 14px;
+  transition: all 0.2s ease;
+}
+
+.widget-title > button:hover {
+  background: #f38ba8;
+  color: #08090d;
+  border-color: #f38ba8;
+}
+
+/* DND (Do Not Disturb) Widget */
+.widget-dnd {
+  color: #a6adc8;
+  background: transparent;
+  padding: 6px 14px 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.widget-dnd > switch {
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  min-width: 44px;
+  min-height: 24px;
+}
+
+.widget-dnd > switch:checked {
+  background: @color4;
+  border-color: @color4;
+}
+
+.widget-dnd > switch slider {
+  background: #ffffff;
+  border-radius: 50%;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+/* Volume & Backlight Sliders */
+.widget-volume,
+.widget-backlight {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin: 6px 10px;
+  color: #ffffff;
+}
+
+.widget-volume scale trough,
+.widget-backlight scale trough {
+  min-height: 8px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.widget-volume scale highlight,
+.widget-backlight scale highlight {
+  min-height: 8px;
+  border-radius: 99px;
+  background: @color4;
+}
+
+.widget-volume scale slider,
+.widget-backlight scale slider {
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* MPRIS Media Player Widget */
+.widget-mpris {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 12px;
+  margin: 6px 10px;
+}
+
+.widget-mpris-player {
+  padding: 4px;
+}
+
+.widget-mpris-title {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.widget-mpris-subtitle {
+  font-size: 0.9rem;
+  color: #a6adc8;
+}
+
+/* 6-Button Quick Actions Grid */
+.widget-buttons-grid {
+  padding: 10px;
+  margin: 6px 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px;
+  margin: 4px;
+  min-width: 52px;
+  min-height: 52px;
+  font-size: 1.35rem;
+  box-shadow: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: @color4;
+  color: #ffffff;
+  border-color: @color4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}

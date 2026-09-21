@@ -971,11 +971,14 @@
       </p>
 
       <div class="hero-actions">
-        <a href="#install" class="btn-primary">
-          <span>⚡</span> ابدأ التثبيت السريع
+        <a href="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles/releases" target="_blank" class="btn-primary" style="background:linear-gradient(135deg, #cba6f7, #89b4fa);">
+          <span>💿</span> تحميل أسطوانة الـ Live ISO
+        </a>
+        <a href="#install" class="btn-secondary">
+          <span>⚡</span> التثبيت السريع
         </a>
         <a href="#showcase" class="btn-secondary">
-          <span>📸</span> تصفح المعرض التفاعلي
+          <span>📸</span> تصفح المعرض
         </a>
       </div>
 
@@ -1116,22 +1119,57 @@
       <div class="terminal-wrapper">
         <div class="terminal-header">
           <div class="terminal-methods">
-            <button class="terminal-method-btn active" onclick="switchInstall('tab-existing', this)">
-              🏎️ على نظام Arch شغال بالفعل
+            <button class="terminal-method-btn active" onclick="switchInstall('tab-iso', this)">
+              💿 أسطوانة NooreldeanOS (Live ISO)
+            </button>
+            <button class="terminal-method-btn" onclick="switchInstall('tab-existing', this)">
+              🏎️ على نظام Arch شغال
             </button>
             <button class="terminal-method-btn" onclick="switchInstall('tab-scratch', this)">
-              🪄 من أسطوانة Arch ISO من الصفر
+              🪄 سكريبت Arch ISO
             </button>
             <button class="terminal-method-btn" onclick="switchInstall('tab-uninstall', this)">
-              🧹 إلغاء التثبيت والاسترجاع
+              🧹 إلغاء التثبيت
             </button>
           </div>
           <span style="font-size:12px;color:var(--text-dim);font-family:var(--font-mono);">bash installer</span>
         </div>
 
         <div class="terminal-body">
+          <!-- Method: Live ISO -->
+          <div class="terminal-pane active" id="tab-iso">
+            <p style="color:var(--text-muted);font-size:14.5px;margin-bottom:16px;">
+              توزيعة مستقلة رسمياً وجاهزة للحرق على فلاشة USB: إقلاع حي فوري بـ Hyprland مع مثبت Calamares الرسومي الشهير ونواة <code>linux-zen</code> فائقة السرعة.
+            </p>
+            <div class="terminal-command-bar">
+              <span class="terminal-code"># لحرق الأسطوانة عبر التيرمينال (استبدل sdX بمسار فلاشة الـ USB):<br>sudo dd bs=4M if=NooreldeanOS-x86_64.iso of=/dev/sdX status=progress oflag=sync</span>
+              <a href="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles/releases" target="_blank" class="copy-action-btn" style="text-decoration:none;">
+                <span>⬇️</span> تحميل الـ ISO
+              </a>
+            </div>
+
+            <div class="terminal-perks">
+              <div class="terminal-perk">
+                <h4>1. مثبت Calamares</h4>
+                <p>تثبيت رسومي بنقرات زر وتقسيم قرص تلقائي بدعم كامل للعربية.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>2. نواة linux-zen</h4>
+                <p>معدلة لتقليل زمن الاستجابة وتقديم أداء ألعاب وفيديو خارق.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>3. إقلاع مباشر بـ Hyprland</h4>
+                <p>تجربة النظام حياً بالكامل (Live Demo) فوراً من الفلاشة.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>4. دعم كروت Nvidia</h4>
+                <p>خيار إقلاع مخصص لتعريفات Nvidia الرسمية أو المعالجات المدمجة.</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Method 1: Existing Arch -->
-          <div class="terminal-pane active" id="tab-existing">
+          <div class="terminal-pane" id="tab-existing">
             <p style="color:var(--text-muted);font-size:14.5px;margin-bottom:16px;">
               لو مسطب Arch Linux بالفعل، انسخ الأمر ده في التيرمينال وسيتكفل السكربت بتثبيت البرامج، أخذ باك أب من إعداداتك، وتحديث مسارات يوزرك أوتوماتيك:
             </p>

@@ -1,0 +1,24 @@
+@import url("file:///home/nooreldean/.cache/wal/colors-waybar.css");
+
+@define-color theme_fg_color @foreground;
+@define-color theme_bg_color @background;
+@define-color theme_text_color @foreground;
+@define-color theme_base_color @background;
+@define-color theme_selected_bg_color @color4;
+@define-color theme_selected_fg_color @background;
+@define-color accent_color @color4;
+@define-color accent_bg_color @color4;
+@define-color accent_fg_color @background;
+
+@define-color window_bg_color @background;
+@define-color window_fg_color @foreground;
+@define-color view_bg_color @background;
+@define-color view_fg_color @foreground;
+@define-color headerbar_bg_color @color0;
+@define-color headerbar_fg_color @foreground;
+@define-color popover_bg_color @background;
+@define-color popover_fg_color @foreground;
+@define-color card_bg_color @color0;
+@define-color card_fg_color @foreground;
+@define-color dialog_bg_color @background;
+@define-color dialog_fg_color @foreground;

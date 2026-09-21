@@ -20,3 +20,10 @@ Thumbs.db
 .config/gtk-4.0/assets
 .config/gtk-4.0/gtk-dark.css
 docs/assets
+
+# Archiso build artifacts
+out/
+work/
+iso-profile/airootfs/etc/skel/wallpapers/
+*.iso
+*.iso.sha256

@@ -85,9 +85,18 @@
 
 ---
 
-## ⚙️ إزاي تسطب العظمة دي؟ (Installation)
+## ⚙️ طرق التثبيت (Installation)
 
-عندك طريقتين للتسطيب، اختار اللي تناسبك:
+عندك الآن 3 طرق مختلفة للتثبيت، اختار الأنسب لاحتياجاتك:
+
+### 0️⃣ تحميل أسطوانة NooreldeanOS Live ISO الرسمية (مثبت Calamares الرسومي) 💿
+إذا كنت ترغب في تجربة وتثبيت NooreldeanOS كنظام تشغيل متكامل ومستقل بنواة `linux-zen`:
+1. حمّل أسطوانة الـ ISO من [صفحة الإصدارات (Releases)](https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles/releases).
+2. احرق الملف على فلاشة USB عبر [BalenaEtcher](https://etcher.balena.io/) أو عبر الأمر:
+   ```bash
+   sudo dd bs=4M if=NooreldeanOS-x86_64.iso of=/dev/sdX status=progress oflag=sync
+   ```
+3. أقلع من الفلاشة لتفتح لك بيئة Hyprland الحية مباشرة مع مثبت Calamares الرسومي الشهير لتثبيت النظام بنقرات بسيطة!
 
 ### 1️⃣ تسطيب نظام Arch بالكامل من الصفر (بضغطة زرار) 🪄
 لو أنت لسه محمل أسطوانة Arch Linux (ISO) وعايز تفرمت وتنزل النظام كله وتسطب NooreldeanOS مرة واحدة، كل اللي هتعمله إنك تشبك نت وتكتب الأمر السحري ده في التيرمينال:
