@@ -35,6 +35,8 @@ starship
 swaync
 hyprlock
 hypridle
+brightnessctl
+playerctl
 wlogout
 fastfetch
 swaybg
