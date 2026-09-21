@@ -59,6 +59,19 @@ def convert_video(input_path, output_format, progress_callback=None, codec_mode=
             "-c:a", "pcm_s16le",
             str(output_file)
         ]
+    elif codec_mode == "h264":
+        cmd = [
+            "ffmpeg",
+            "-y",
+            "-i", str(input_file),
+            "-c:v", "libx264",
+            "-preset", "fast",
+            "-crf", "23",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            str(output_file)
+        ]
     else:
         cmd = [
             "ffmpeg",

@@ -25,7 +25,7 @@ restore_configs() {
                 local target
                 target="$dest_dir/$(basename "$item")"
                 if [ -d "$target" ] && [ ! -L "$target" ]; then
-                    rm -rf "$target"
+                    mv "$target" "${target}.bak"
                 fi
                 ln -sfn "$item" "$dest_dir/" 2>/dev/null || true
             done

@@ -31,6 +31,10 @@ class ConverterThread(QThread):
                 from_format = 'mp4'
                 to_format = 'mov'
                 codec_mode = 'mpeg4'
+            elif self.mode == 'mov_to_mp4_h264':
+                from_format = 'mov'
+                to_format = 'mp4'
+                codec_mode = 'h264'
             else:
                 from_format = 'mov'
                 to_format = 'mp4'
@@ -109,12 +113,14 @@ class VideoConverterApp(QMainWindow):
         mode_layout = QVBoxLayout()
         self.radio_mp4_to_mov_linux = QRadioButton("من MP4 إلى MOV (لدافنشي لينكس - DNxHR) [يحافظ على الجودة - بطيء وحجم كبير]")
         self.radio_mp4_to_mov_mpeg4 = QRadioButton("من MP4 إلى MOV (لدافنشي لينكس - MPEG-4) [سريع وحجمه أصغر - جودة أقل قليلاً]")
-        self.radio_mov_to_mp4 = QRadioButton("من MOV إلى MP4")
+        self.radio_mov_to_mp4 = QRadioButton("من MOV إلى MP4 (نسخ الحاوية سريعاً - لا يدعم ProRes)")
+        self.radio_mov_to_mp4_h264 = QRadioButton("من MOV إلى MP4 (إلى كوديك H.264 - متوافق كلياً مع جميع الأجهزة)")
         self.radio_mp4_to_mov_linux.setChecked(True)
         
         mode_layout.addWidget(self.radio_mp4_to_mov_linux)
         mode_layout.addWidget(self.radio_mp4_to_mov_mpeg4)
         mode_layout.addWidget(self.radio_mov_to_mp4)
+        mode_layout.addWidget(self.radio_mov_to_mp4_h264)
         mode_group.setLayout(mode_layout)
         layout.addWidget(mode_group)
         
@@ -264,6 +270,9 @@ class VideoConverterApp(QMainWindow):
         elif self.radio_mp4_to_mov_mpeg4.isChecked():
             mode = 'mp4_to_mov_mpeg4'
             self.log("جاري بدء التحويل السريع باستخدام كوديك MPEG-4 (حجم أصغر)...")
+        elif self.radio_mov_to_mp4_h264.isChecked():
+            mode = 'mov_to_mp4_h264'
+            self.log("جاري بدء تحويل الكوديك إلى H.264 (قد يستغرق وقتاً أطول، لكنه متوافق كلياً)...")
         else:
             mode = 'mov_to_mp4'
             self.log("جاري بدء التحويل السريع (تغيير الحاوية فقط)...")

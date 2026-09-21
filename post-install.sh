@@ -138,7 +138,7 @@ if lspci | grep -i "vga.*nvidia\|3d.*nvidia" &> /dev/null; then
     pacman -S --noconfirm nvidia nvidia-utils
     # Hyprland requires nvidia-drm.modeset=1 for Nvidia cards and Early KMS modules
     sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="nvidia-drm.modeset=1 /' /etc/default/grub
-    sed -i 's/^MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+    sed -i 's/^MODULES=(.*)/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
     mkinitcpio -P
     
     # Check for Optimus (Dual GPU) setups
@@ -151,18 +151,20 @@ if lspci | grep -i "vga.*nvidia\|3d.*nvidia" &> /dev/null; then
 elif lspci | grep -i "vga.*amd\|3d.*amd" &> /dev/null; then
     log_info "AMD GPU detected! Configuring Early KMS to prevent black screens..."
     pacman -S --noconfirm vulkan-radeon libva-mesa-driver mesa-vdpau
-    sed -i 's/^MODULES=()/MODULES=(amdgpu)/' /etc/mkinitcpio.conf
+    sed -i 's/^MODULES=(.*)/MODULES=(amdgpu)/' /etc/mkinitcpio.conf
     mkinitcpio -P
 elif lspci | grep -i "vga.*intel\|3d.*intel" &> /dev/null; then
     log_info "Intel GPU detected! Configuring Early KMS to prevent black screens..."
     pacman -S --noconfirm vulkan-intel intel-media-driver
-    sed -i 's/^MODULES=()/MODULES=(i915)/' /etc/mkinitcpio.conf
+    sed -i 's/^MODULES=(.*)/MODULES=(i915)/' /etc/mkinitcpio.conf
     mkinitcpio -P
 fi
 
 log_step "Installing GRUB Bootloader..."
 # Enable os-prober for Windows Dual-Boot detection
-echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+if ! grep -q "GRUB_DISABLE_OS_PROBER=false" /etc/default/grub 2>/dev/null; then
+    echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+fi
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 log_info "Tip: If you are dual-booting Windows, it may not be detected right now."

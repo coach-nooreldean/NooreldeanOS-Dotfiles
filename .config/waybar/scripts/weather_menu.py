@@ -73,7 +73,7 @@ rofi_cmd = [
     "-no-config",
     "-dmenu",
     "-p", "⛅  Hourly Forecast",
-    "-theme", "/home/nooreldean/.config/rofi/prayer.rasi",
+    "-theme", os.path.expanduser("~/.config/rofi/prayer.rasi"),
     "-theme-str", "listview { lines: 8; }"
 ]
 

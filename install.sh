@@ -19,12 +19,13 @@ if [ "$EUID" -eq 0 ]; then
     exit 1
 fi
 
-# Clean up any leftover temp sudoers from a previous interrupted run
-sudo rm -f /etc/sudoers.d/99-temp-nopasswd 2>/dev/null || true
 
 # Ask for sudo password upfront
 log_info "Please enter your password to grant sudo access for the installation:"
 sudo -v
+
+# Clean up any leftover temp sudoers from a previous interrupted run
+sudo rm -f /etc/sudoers.d/99-temp-nopasswd 2>/dev/null || true
 # Keep-alive: update existing sudo time stamp if set, otherwise do nothing.
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 SUDO_KEEP_ALIVE_PID=$!

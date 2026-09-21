@@ -38,7 +38,7 @@ rofi_cmd = [
     "-dmenu",
     "-markup-rows",
     "-p", "🕋  Prayer Times",
-    "-theme", "/home/nooreldean/.config/rofi/prayer.rasi"
+    "-theme", os.path.expanduser("~/.config/rofi/prayer.rasi")
 ]
 
 subprocess.run(rofi_cmd, input=options_str.encode("utf-8"))

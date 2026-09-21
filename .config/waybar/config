@@ -107,7 +107,8 @@
         "interval": 60,
         "format": " {}",
         "tooltip": false,
-        "on-click": "python3 ~/.config/waybar/scripts/prayer_menu.py"
+        "on-click": "python3 ~/.config/waybar/scripts/prayer_menu.py",
+        "on-click-right": "pkill -f adhan.mp3"
     },
     "custom/power": {
         "format": "⏻",
