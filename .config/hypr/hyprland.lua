@@ -362,6 +362,7 @@ hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
 -- New Useful Shortcuts added by Antigravity
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper_switcher.sh"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("telegram-desktop"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("antigravity-ide"))
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprpicker -a -n"))
