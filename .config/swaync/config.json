@@ -69,19 +69,27 @@
         },
         {
           "label": "󰂯",
-          "command": "kitty --title 'إدارة البلوتوث' -e bluetoothctl"
+          "command": "kitty --title \"إدارة البلوتوث\" -e bluetoothctl"
         },
         {
           "label": "󰕾",
           "command": "~/.config/hypr/scripts/audio_switcher.sh"
         },
         {
+          "label": "󰍹",
+          "command": "~/.config/hypr/scripts/display_switcher.sh"
+        },
+        {
           "label": "󰏘",
           "command": "~/.config/hypr/scripts/wallpaper_switcher.sh"
         },
         {
+          "label": "󰄬",
+          "command": "noor-snap rofi"
+        },
+        {
           "label": "󰃢",
-          "command": "kitty --title 'صيانة النظام' -e sys-clean"
+          "command": "kitty --title \"صيانة النظام\" -e sys-clean"
         },
         {
           "label": "󰌢",

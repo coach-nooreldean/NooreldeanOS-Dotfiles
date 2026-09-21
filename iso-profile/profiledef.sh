@@ -25,4 +25,5 @@ file_permissions=(
   ["/usr/local/bin/install-nooreldeanos"]="0:0:755"
   ["/usr/local/bin/nooreldeanos-gpu-setup"]="0:0:755"
   ["/usr/local/bin/noor-snap"]="0:0:755"
+  ["/usr/local/bin/display_switcher.sh"]="0:0:755"
 )

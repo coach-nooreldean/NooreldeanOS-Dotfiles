@@ -131,6 +131,7 @@ git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/Noorel
 | `Super + W` | مبدل الثيمات والخلفيات (Rofi Grid) |
 | `Super + A` | مبدل مخارج الصوت والبلوتوث (Audio Switcher) |
 | `Super + Shift + S` | إدارة واسترجاع لقطات النظام (Btrfs Snapshots Tool) |
+| `Super + Shift + D` | مبدل التردد والدقة (Display & 144Hz/240Hz Switcher) |
 | `Super + Q` | قفل النافذة الحالية |
 | `Super + E` | مدير الملفات (Yazi / Thunar) |
 | `Super + B` | فتح المتصفح |

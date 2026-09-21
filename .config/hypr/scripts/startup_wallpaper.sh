@@ -23,3 +23,12 @@ else
     awww restore
     wal -R -n -e 2>/dev/null || true
 fi
+
+# Restore custom monitor resolutions & refresh rates
+if [[ -f ~/.config/hypr/monitors.conf ]]; then
+    while IFS= read -r line; do
+        [[ -z "$line" || "$line" =~ ^# ]] && continue
+        rule="${line#monitor = }"
+        hyprctl keyword monitor "$rule" 2>/dev/null || true
+    done < ~/.config/hypr/monitors.conf
+fi
