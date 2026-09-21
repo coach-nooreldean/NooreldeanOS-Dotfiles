@@ -423,12 +423,89 @@ hl.layer_rule({ name = "swaync-dim", match = { namespace = "swaync-control-cente
 
 
 
+-- Utility & Popup Floating Rules
 hl.window_rule({
     name  = "pavucontrol-float",
     match = { class = "^pavucontrol$" },
     float = true,
     size = "800 500",
     center = true,
+})
+
+-- Picture-in-Picture: float, pin across all workspaces, position in bottom-right corner, full opacity
+hl.window_rule({
+    name = "pip-float",
+    match = {
+        title = "Picture-in-picture|Picture in picture|Picture-in-Picture",
+    },
+    float = true,
+    pin = true,
+    size = "640 360",
+    move = "monitor_w-660 monitor_h-380",
+    opacity = "1.0 1.0",
+})
+
+-- Video Converter Tool
+hl.window_rule({
+    name  = "video-converter-float",
+    match = {
+        title = ".*محول صيغ الفيديو.*",
+    },
+    float = true,
+    center = true,
+    size = "760 620",
+})
+
+-- Drive Formatter Tool
+hl.window_rule({
+    name  = "drive-formatter-float",
+    match = {
+        title = "Drive Formatter",
+    },
+    float = true,
+    center = true,
+    size = "680 520",
+})
+
+-- File Pickers, Open/Save Dialogs, and Portals
+hl.window_rule({
+    name  = "file-picker-dialogs",
+    match = {
+        class = "xdg-desktop-portal-gtk|org.freedesktop.impl.portal.desktop.gtk",
+    },
+    float = true,
+    center = true,
+    size = "920 620",
+})
+
+hl.window_rule({
+    name  = "common-dialogs",
+    match = {
+        title = "^(Open File|Open Folder|Save As|Save File|File Upload|Select a File)$",
+    },
+    float = true,
+    center = true,
+    size = "900 600",
+})
+
+-- Quick Image & Media Viewers
+hl.window_rule({
+    name  = "media-viewers-float",
+    match = {
+        class = "feh|imv|Viewnior",
+    },
+    float = true,
+    center = true,
+    opacity = "1.0 1.0",
+})
+
+-- Prevent idle / screen lock during fullscreen media playback
+hl.window_rule({
+    name  = "fullscreen-idle-inhibit",
+    match = {
+        fullscreen = true,
+    },
+    idle_inhibit = "fullscreen",
 })
 
 -- Load local device-specific settings if they exist (monitors, keyboards, etc)
