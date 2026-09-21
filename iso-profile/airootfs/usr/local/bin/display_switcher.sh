@@ -7,6 +7,14 @@
 set -euo pipefail
 
 MONITORS_CONF="$HOME/.config/hypr/monitors.conf"
+ROFI_THEME="${HOME}/.config/rofi/display.rasi"
+
+ROFI_CMD=(rofi -dmenu -i)
+if [[ -f "$ROFI_THEME" ]]; then
+  ROFI_CMD+=(-theme "$ROFI_THEME")
+else
+  ROFI_CMD+=(-theme-str 'window { width: 640px; border-radius: 18px; } listview { columns: 1; fixed-height: false; }')
+fi
 
 notify() {
   local title="$1"
@@ -61,7 +69,7 @@ if [[ "$NUM_MONITORS" -gt 1 ]]; then
     MON_LIST+="${NAME} — ${MODEL} (${WIDTH}x${HEIGHT} @ ${HZ}Hz)\n"
   done
 
-  CHOICE="$(echo -e "$MON_LIST" | sed '/^$/d' | rofi -dmenu -p "🖥️ اختر الشاشة (Select Monitor):" -theme-str 'window {width: 480px;}')"
+  CHOICE="$(echo -e "$MON_LIST" | sed '/^$/d' | "${ROFI_CMD[@]}" -p "🖥️ الشاشة:")"
   if [[ -z "$CHOICE" ]]; then
     exit 0
   fi
@@ -82,7 +90,7 @@ CURR_POS="${CURR_X}x${CURR_Y}"
 AVAILABLE_MODES="$(echo "$MON_DATA" | jq -r '.availableModes[]?')"
 
 # Step 2: Main Menu for Selected Monitor
-ACTION="$(printf "⚡ معدل الإنعاش (Refresh Rate: %sHz)\n📐 دقة الشاشة (Resolution: %sx%s)\n🔍 مقياس الواجهة (UI Scale: %s)\n⏹️ إيقاف / تشغيل الشاشة (Toggle Power)" "$CURR_HZ" "$CURR_WIDTH" "$CURR_HEIGHT" "$CURR_SCALE" | rofi -dmenu -p "⚙️ إعدادات [$SELECTED_NAME]:" -theme-str 'window {width: 420px;}')"
+ACTION="$(printf "⚡ معدل الإنعاش (Refresh Rate: %sHz)\n📐 دقة الشاشة (Resolution: %sx%s)\n🔍 مقياس الواجهة (UI Scale: %s)\n⏹️ إيقاف / تشغيل الشاشة (Toggle Power)" "$CURR_HZ" "$CURR_WIDTH" "$CURR_HEIGHT" "$CURR_SCALE" | "${ROFI_CMD[@]}" -p "⚙️ [${SELECTED_NAME}]:")"
 
 case "$ACTION" in
   *"Refresh Rate"*)
@@ -102,7 +110,7 @@ case "$ACTION" in
       fi
     done
 
-    TARGET_HZ="$(echo -e "$HZ_LIST" | sed '/^$/d' | rofi -dmenu -p "⚡ اختر التردد (Refresh Rate):" -theme-str 'window {width: 340px;}')"
+    TARGET_HZ="$(echo -e "$HZ_LIST" | sed '/^$/d' | "${ROFI_CMD[@]}" -p "⚡ التردد:")"
     if [[ -n "$TARGET_HZ" ]]; then
       CLEAN_HZ="$(echo "$TARGET_HZ" | grep -oE '[0-9]+' | head -n 1)"
       hyprctl keyword monitor "${SELECTED_NAME}, ${CURR_WIDTH}x${CURR_HEIGHT}@${CLEAN_HZ}, ${CURR_POS}, ${CURR_SCALE}"
@@ -127,7 +135,7 @@ case "$ACTION" in
       fi
     done
 
-    TARGET_RES="$(echo -e "$RES_LIST" | sed '/^$/d' | rofi -dmenu -p "📐 اختر الدقة (Resolution):" -theme-str 'window {width: 360px;}')"
+    TARGET_RES="$(echo -e "$RES_LIST" | sed '/^$/d' | "${ROFI_CMD[@]}" -p "📐 الدقة:")"
     if [[ -n "$TARGET_RES" ]]; then
       CLEAN_RES="$(echo "$TARGET_RES" | grep -oE '[0-9]+x[0-9]+')"
       hyprctl keyword monitor "${SELECTED_NAME}, ${CLEAN_RES}@${CURR_HZ}, ${CURR_POS}, ${CURR_SCALE}"
@@ -138,7 +146,7 @@ case "$ACTION" in
 
   *"UI Scale"*)
     SCALES="1.0  (100% - دقة عادية)\n1.25 (125% - موصى به لـ 2K)\n1.5  (150% - موصى به لـ 4K)\n1.75 (175%)\n2.0  (200% - HiDPI)"
-    TARGET_SCALE="$(echo -e "$SCALES" | rofi -dmenu -p "🔍 اختر مقياس الواجهة (Scale):" -theme-str 'window {width: 380px;}')"
+    TARGET_SCALE="$(echo -e "$SCALES" | "${ROFI_CMD[@]}" -p "🔍 المقياس:")"
     if [[ -n "$TARGET_SCALE" ]]; then
       CLEAN_SCALE="$(echo "$TARGET_SCALE" | awk '{print $1}')"
       hyprctl keyword monitor "${SELECTED_NAME}, ${CURR_WIDTH}x${CURR_HEIGHT}@${CURR_HZ}, ${CURR_POS}, ${CLEAN_SCALE}"

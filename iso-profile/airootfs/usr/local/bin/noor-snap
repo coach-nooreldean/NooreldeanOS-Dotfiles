@@ -126,13 +126,21 @@ cmd_rofi() {
     exit 1
   fi
 
+  local rofi_theme="${HOME}/.config/rofi/snapshots.rasi"
+  local rofi_cmd=(rofi -dmenu -i)
+  if [[ -f "$rofi_theme" ]]; then
+    rofi_cmd+=(-theme "$rofi_theme")
+  else
+    rofi_cmd+=(-theme-str 'window { width: 660px; border-radius: 18px; } listview { columns: 1; fixed-height: false; }')
+  fi
+
   local choice
-  choice="$(printf "📸 أخذ لقطة نظام جديدة (Create Snapshot)\n📋 استعراض اللقطات المحفوظة (List Snapshots)\n🔄 استرجاع النظام للقطة سابقة (Rollback)\n🗑️ حذف لقطة قديمة (Delete Snapshot)\n📊 مساحة تخزين اللقطات (Disk Usage)" | rofi -dmenu -p "🛡️ حماية النظام (Snapshots)" -theme-str 'window {width: 480px; border-radius: 12px;}')"
+  choice="$(printf "📸 أخذ لقطة نظام جديدة (Create Snapshot)\n📋 استعراض اللقطات المحفوظة (List Snapshots)\n🔄 استرجاع النظام للقطة سابقة (Rollback)\n🗑️ حذف لقطة قديمة (Delete Snapshot)\n📊 مساحة تخزين اللقطات (Disk Usage)" | "${rofi_cmd[@]}" -p "🛡️ حماية النظام:")"
 
   case "$choice" in
     *"Create Snapshot"*)
       local desc
-      desc="$(rofi -dmenu -p "📝 وصف اللقطة (Snapshot Note):" -theme-str 'window {width: 420px;}')"
+      desc="$("${rofi_cmd[@]}" -p "📝 وصف اللقطة:")"
       if [[ -n "$desc" ]]; then
         ensure_root
         cmd_create "$desc"
@@ -141,18 +149,18 @@ cmd_rofi() {
     *"List Snapshots"*)
       local snaps
       snaps="$(snapper -c root list | tail -n +3 || echo "لا توجد لقطات")"
-      echo "$snaps" | rofi -dmenu -p "📋 اللقطات المسجلة" -theme-str 'window {width: 680px;}'
+      echo "$snaps" | "${rofi_cmd[@]}" -p "📋 اللقطات:" -theme-str 'window { width: 780px; } element-text { font: "JetBrainsMono Nerd Font 12"; }'
       ;;
     *"Rollback"*)
       local id
-      id="$(rofi -dmenu -p "🔄 أدخل رقم اللقطة للاسترجاع (Snapshot ID):" -theme-str 'window {width: 380px;}')"
+      id="$("${rofi_cmd[@]}" -p "🔄 رقم اللقطة:")"
       if [[ -n "$id" ]]; then
         kitty -e bash -c "sudo noor-snap rollback '$id'; echo 'Press Enter to close'; read"
       fi
       ;;
     *"Delete Snapshot"*)
       local del_id
-      del_id="$(rofi -dmenu -p "🗑️ رقم اللقطة المراد حذفها (Delete ID):" -theme-str 'window {width: 380px;}')"
+      del_id="$("${rofi_cmd[@]}" -p "🗑️ رقم اللقطة:")"
       if [[ -n "$del_id" ]]; then
         ensure_root
         cmd_delete "$del_id"
@@ -161,7 +169,7 @@ cmd_rofi() {
     *"Disk Usage"*)
       local usage
       usage="$(btrfs filesystem df / 2>/dev/null || echo "Unable to query Btrfs")"
-      echo "$usage" | rofi -dmenu -p "📊 مساحة القرص Btrfs" -theme-str 'window {width: 500px;}'
+      echo "$usage" | "${rofi_cmd[@]}" -p "📊 مساحة القرص:" -theme-str 'window { width: 680px; } element-text { font: "JetBrainsMono Nerd Font 12"; }'
       ;;
   esac
 }
