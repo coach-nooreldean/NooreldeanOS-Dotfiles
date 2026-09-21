@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NooreldeanOS - The Ultimate Arch Linux Experience</title>
+  <meta name="description" content="تجربة سطح مكتب عصرية وفائقة السرعة مبنية على Arch Linux و Hyprland وثيمات ذكية متناسقة تلقائياً.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Favicon / Icons -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+  <style>
+    :root {
+      --bg-base: #0b0d14;
+      --bg-surface: #121520;
+      --bg-surface-elevated: rgba(22, 27, 40, 0.7);
+      --bg-glass: rgba(18, 21, 32, 0.65);
+      
+      --accent-cyan: #89dceb;
+      --accent-blue: #89b4fa;
+      --accent-purple: #cba6f7;
+      --accent-pink: #f5c2e7;
+      --accent-green: #a6e3a1;
+      --accent-peach: #fab387;
+      
+      --text-main: #cdd6f4;
+      --text-muted: #9399b2;
+      --text-dim: #6c7086;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(137, 180, 250, 0.25);
+      
+      --font-heading: 'Outfit', 'Tajawal', sans-serif;
+      --font-body: 'Tajawal', 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      selection-background-color: var(--accent-purple);
+      selection-color: #111;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(137, 180, 250, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 60%, rgba(203, 166, 247, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(137, 220, 235, 0.05) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-logo {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid var(--border-subtle);
+      transition: all 0.25s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-blue);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 40px 0 60px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(137, 180, 250, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(137, 180, 250, 0.25);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent-cyan) 60%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    /* Command Bar (Instant Install) */
+    .command-box {
+      max-width: 640px;
+      margin: 0 auto 48px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 8px 12px 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(137, 180, 250, 0.08);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .command-text {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--accent-cyan);
+      overflow-x: auto;
+      white-space: nowrap;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .command-prompt {
+      color: var(--text-dim);
+      margin-right: 8px;
+      user-select: none;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      color: #0d0f18;
+      font-weight: 700;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      opacity: 0.92;
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(203, 166, 247, 0.4);
+    }
+
+    .copy-btn.copied {
+      background: var(--accent-green);
+      color: #0b0d14;
+    }
+
+    /* Showcase Carousel / Gallery */
+    .showcase-wrapper {
+      margin-bottom: 80px;
+    }
+
+    .screen-main-box {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      position: relative;
+      aspect-ratio: 16 / 10;
+    }
+
+    .screen-main-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+      cursor: zoom-in;
+    }
+
+    .screen-thumbs {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .thumb-btn {
+      background: var(--bg-surface);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 16 / 10;
+      padding: 0;
+      transition: all 0.25s ease;
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-btn:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .thumb-btn.active {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 15px rgba(203, 166, 247, 0.4);
+    }
+
+    /* Features Grid */
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title h2 {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .feature-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-glow);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(137, 180, 250, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(137, 180, 250, 0.2);
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* Themes Showcase */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+
+    .theme-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-purple);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .theme-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+
+    .theme-info {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .theme-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .theme-tag {
+      font-size: 12px;
+      color: var(--accent-cyan);
+      background: rgba(137, 220, 235, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+    }
+
+    /* Shortcuts Table */
+    .shortcuts-box {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 80px;
+      backdrop-filter: blur(12px);
+    }
+
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .shortcut-desc {
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    kbd {
+      background: #181b28;
+      border: 1px solid #31364d;
+      border-bottom: 2px solid #232738;
+      color: var(--accent-cyan);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      direction: ltr;
+    }
+
+    /* Warning Banner */
+    .warning-box {
+      background: rgba(250, 179, 135, 0.08);
+      border: 1px solid rgba(250, 179, 135, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 80px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .warning-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .warning-text h4 {
+      color: var(--accent-peach);
+      font-size: 18px;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .warning-text p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--border-glow);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .command-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .copy-btn {
+        justify-content: center;
+      }
+      .screen-thumbs {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <div class="container">
+    
+    <!-- Navbar -->
+    <header class="navbar">
+      <a href="#" class="brand">
+        <span class="brand-logo">🚀</span>
+        <span class="brand-title">NooreldeanOS</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features" class="nav-btn">المميزات</a>
+        <a href="#themes" class="nav-btn">الثيمات</a>
+        <a href="#shortcuts" class="nav-btn">الاختصارات</a>
+        <a href="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles" target="_blank" class="nav-btn" style="background: rgba(137, 180, 250, 0.15); border-color: var(--accent-blue); color: #fff;">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          GitHub
+        </a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="badge">ARCH LINUX • HYPRLAND • WAYLAND • CATPPUCCIN</div>
+      <h1 class="hero-title">
+        The Ultimate <span class="hero-gradient-text">Arch Linux</span> Experience
+      </h1>
+      <p class="hero-desc">
+        نظام لينكس فائق السرعة والجمال، مصمم خصيصاً ليمنحك تجربة استخدام استثنائية من اللحظة الأولى مع ثيمات متناسقة تلقائياً، مدير نوافذ تفاعلي، وأدوات إنتاجية متكاملة.
+      </p>
+
+      <!-- Instant Install Command -->
+      <div class="command-box">
+        <div class="command-text">
+          <span class="command-prompt">$</span>bash -c "$(curl -fsSL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/install.sh)"
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyInstallCmd()">
+          <span id="copyIcon">📋</span>
+          <span id="copyText">نسخ الأمر</span>
+        </button>
+      </div>
+
+      <!-- Main Showcase Screen -->
+      <div class="showcase-wrapper">
+        <div class="screen-main-box" onclick="openLightbox(document.getElementById('mainScreen').src)">
+          <img id="mainScreen" src="assets/sys1.png" alt="NooreldeanOS Showcase" class="screen-main-img">
+        </div>
+        <div class="screen-thumbs">
+          <button class="thumb-btn active" onclick="switchScreen('assets/sys1.png', this)">
+            <img src="assets/sys1.png" alt="Desktop View">
+          </button>
+          <button class="thumb-btn" onclick="switchScreen('assets/sys2.png', this)">
+            <img src="assets/sys2.png" alt="Terminal View">
+          </button>
+          <button class="thumb-btn" onclick="switchScreen('assets/sys3.png', this)">
+            <img src="assets/sys3.png" alt="App Launcher View">
+          </button>
+          <button class="thumb-btn" onclick="switchScreen('assets/sys4.png', this)">
+            <img src="assets/sys4.png" alt="Workspaces View">
+          </button>
+          <button class="thumb-btn" onclick="switchScreen('assets/sys5.png', this)">
+            <img src="assets/sys5.png" alt="Control Center View">
+          </button>
+          <button class="thumb-btn" onclick="switchScreen('assets/sys6.png', this)">
+            <img src="assets/sys6.png" alt="Media & Tools View">
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Warning Notice -->
+    <div class="warning-box">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text">
+        <h4>تنبيه توافق النظام</h4>
+        <p>هذه الـ Dotfiles وسكربت التثبيت مصممة حصرياً لتوزيعة <strong>Arch Linux</strong> أو التوزيعات المبنية عليها (مثل EndeavourOS). تشغيلها على أوبونتو أو فيدورا قد يؤدي إلى تعارض في الحزم!</p>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features">
+      <div class="section-title">
+        <h2>أبرز مميزات النظام</h2>
+        <p>بنية معمارية متطورة تدمج بين الجمال والأداء العالي</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🪟</div>
+          <h3>Hyprland Wayland Compositor</h3>
+          <p>مدير نوافذ سلس وسريع جداً مع رسوم متحركة ناعمة (macOS-like curves)، تقسيم ديناميكي ذكي، وقواعد عائمة للنوافذ المنبثقة والـ PiP.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Waybar تفاعلي غني</h3>
+          <p>شريط علوي زجاجي يعرض درجات حرارة كرت الشاشة (Nvidia/AMD)، سرعة الشبكة، استهلاك الذاكرة، والطقس الحي في مدينتك.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🕌</div>
+          <h3>مواقيت الصلاة والأذان</h3>
+          <p>تكامل مباشر مع مواقيت الصلاة في شريط Waybar مع التنبيه بالأذان فور حلول الوقت، وإمكانية إيقاف الصوت بضغطة زر يمين.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>مزامنة ألوان ذكية (Pywal)</h3>
+          <p>بمجرد تغيير الخلفية، يقوم النظام تلقائياً بتوليد باليت ألوان متناسقة وتطبيقها على Kitty و Rofi و Waybar وثيمات النظام.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>طرفية مطورين متكاملة</h3>
+          <p>محاكي Kitty مع خط JetBrainsMono Nerd Font، موجه Starship السريع، أداة Zoxide للقفز الفوري، وبحث FZF الذكي واختصارات Git و Flutter.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧹</div>
+          <h3>أداة صيانة النظام (sys-clean)</h3>
+          <p>أداة CLI مستقلة تنظف كاش الباكمان، تحذف الحزم اليتيمة، تفرغ سجلات النظام، وتشغل fstrim لتحسين سرعة وعمر الـ SSD.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Themes Gallery Section -->
+    <section id="themes">
+      <div class="section-title">
+        <h2>ثيمات وخلفيات منتقاة</h2>
+        <p>مجموعة من الألوان المجهزة للتناسب مع مختلف الأذواق</p>
+      </div>
+
+      <div class="themes-grid">
+        <div class="theme-card" onclick="openLightbox('assets/1.png')">
+          <img src="assets/1.png" alt="Theme 1" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Tokyo Pink</span>
+            <span class="theme-tag">Pastel Anime</span>
+          </div>
+        </div>
+        <div class="theme-card" onclick="openLightbox('assets/2.png')">
+          <img src="assets/2.png" alt="Theme 2" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Lofi Anime Room</span>
+            <span class="theme-tag">Cozy Purple</span>
+          </div>
+        </div>
+        <div class="theme-card" onclick="openLightbox('assets/3.png')">
+          <img src="assets/3.png" alt="Theme 3" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Fantasy Tavern</span>
+            <span class="theme-tag">Dark Medieval</span>
+          </div>
+        </div>
+        <div class="theme-card" onclick="openLightbox('assets/4.png')">
+          <img src="assets/4.png" alt="Theme 4" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Neon Cyberpunk</span>
+            <span class="theme-tag">Night Glow</span>
+          </div>
+        </div>
+        <div class="theme-card" onclick="openLightbox('assets/5.png')">
+          <img src="assets/5.png" alt="Theme 5" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Minimal Studio</span>
+            <span class="theme-tag">Modern Clean</span>
+          </div>
+        </div>
+        <div class="theme-card" onclick="openLightbox('assets/6.png')">
+          <img src="assets/6.png" alt="Theme 6" class="theme-img">
+          <div class="theme-info">
+            <span class="theme-name">Pastel Sunset</span>
+            <span class="theme-tag">Warm Gradient</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shortcuts Section -->
+    <section id="shortcuts">
+      <div class="section-title">
+        <h2>أهم اختصارات لوحة المفاتيح</h2>
+        <p>تنقل واعمل بسرعة البرق دون الحاجة للمس الفأرة</p>
+      </div>
+
+      <div class="shortcuts-box">
+        <div class="shortcuts-grid">
+          <div class="shortcut-item">
+            <span class="shortcut-desc">فتح مبنى الأوامر (Kitty)</span>
+            <kbd>Super + Enter</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">قائمة التطبيقات (Rofi)</span>
+            <kbd>Super + R</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">مدير الملفات (Yazi)</span>
+            <kbd>Super + E</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">إغلاق النافذة الحالية</span>
+            <kbd>Super + Q</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">تحويل النافذة لعائمة (Float)</span>
+            <kbd>Super + F</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">مدير الحافظة (CopyQ)</span>
+            <kbd>Super + V</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">قفل الشاشة الفوري (Hyprlock)</span>
+            <kbd>Super + L</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">مركز الإشعارات (SwayNC)</span>
+            <kbd>Super + N</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-desc">التقاط لقطة شاشة</span>
+            <kbd>Print</kbd>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>صُمم وطُوّر بواسطة <a href="https://github.com/coach-nooreldean" target="_blank">Nooreldean</a> • مرخص تحت رخصة MIT</p>
+      <p style="margin-top: 8px; font-size: 13px;">Arch Linux® is a trademark of Aaron Griffin.</p>
+    </footer>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="Fullscreen Preview">
+  </div>
+
+  <!-- Javascript Interaction -->
+  <script>
+    function copyInstallCmd() {
+      const cmd = 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/install.sh)"';
+      navigator.clipboard.writeText(cmd).then(() => {
+        const btn = document.getElementById('copyBtn');
+        const icon = document.getElementById('copyIcon');
+        const text = document.getElementById('copyText');
+        
+        btn.classList.add('copied');
+        icon.textContent = '✔';
+        text.textContent = 'تم النسخ!';
+        
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          icon.textContent = '📋';
+          text.textContent = 'نسخ الأمر';
+        }, 2500);
+      });
+    }
+
+    function switchScreen(src, btn) {
+      document.getElementById('mainScreen').src = src;
+      document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      lb.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>

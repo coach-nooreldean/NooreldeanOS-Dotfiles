@@ -19,3 +19,4 @@ Thumbs.db
 .config/hypr/local_settings.lua
 .config/gtk-4.0/assets
 .config/gtk-4.0/gtk-dark.css
+docs/assets

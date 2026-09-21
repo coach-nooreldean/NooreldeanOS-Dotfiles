@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'docs/**'
+      - 'assets/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -28,27 +32,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Prepare Documentation Site
+      - name: Prepare Assets for Pages
         run: |
-          mkdir -p _site
-          cp README.md _site/index.md
-          if [ -d "assets" ]; then cp -r assets _site/; fi
-          cat << 'CONFIG_EOF' > _site/_config.yml
-          theme: jekyll-theme-primer
-          title: "NooreldeanOS"
-          description: "The Ultimate Arch Linux Experience"
-          CONFIG_EOF
+          mkdir -p docs/assets
+          cp -r assets/* docs/assets/
 
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./_site
-          destination: ./_site/_build
-
-      - name: Upload artifact
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./_site/_build
+          path: ./docs
 
       - name: Deploy to GitHub Pages
         id: deployment
