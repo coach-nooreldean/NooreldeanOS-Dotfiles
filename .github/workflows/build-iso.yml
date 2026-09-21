@@ -52,7 +52,7 @@ jobs:
               sha256sum "$f" > "${f}.sha256"
             fi
           done
-          ls -lh out/
+          ls -lh .
 
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
