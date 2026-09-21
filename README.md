@@ -118,6 +118,8 @@ git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/Noorel
 | :--- | :--- |
 | `Super + Return` | فتح التيرمينال (Kitty) |
 | `Super + R` | فتح قائمة البرامج (Rofi Launcher) |
+| `Super + W` | مبدل الثيمات والخلفيات (Rofi Grid) |
+| `Super + A` | مبدل مخارج الصوت والبلوتوث (Audio Switcher) |
 | `Super + Q` | قفل النافذة الحالية |
 | `Super + E` | مدير الملفات (Yazi / Thunar) |
 | `Super + B` | فتح المتصفح |
