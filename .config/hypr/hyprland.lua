@@ -357,6 +357,7 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 -- Advanced Tools
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("noor-snap rofi"))
 -- تصوير الشاشة كاملة (Print Screen)
 hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
 

@@ -13,6 +13,10 @@ efibootmgr
 grub
 dosfstools
 btrfs-progs
+snapper
+snap-pac
+grub-btrfs
+inotify-tools
 e2fsprogs
 ntfs-3g
 exfatprogs

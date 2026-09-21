@@ -1,0 +1,2 @@
+# Configuration for snapper services
+SNAPPER_CONFIGS="root"
