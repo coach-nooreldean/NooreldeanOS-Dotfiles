@@ -62,6 +62,25 @@ jobs:
             out/*.iso
             out/*.sha256
 
+      - name: Prepare Release Assets (Handle GitHub 2GB Limit)
+        run: |
+          mkdir -p release-assets
+          cp out/*.sha256 release-assets/ 2>/dev/null || true
+          cd out
+          for iso in *.iso; do
+            if [ -f "$iso" ]; then
+              size=$(stat -c%s "$iso")
+              echo "Checking $iso (Size: $size bytes)..."
+              if [ "$size" -ge 2000000000 ]; then
+                echo "ISO exceeds GitHub 2GB release limit. Splitting into 1.8GB parts..."
+                split -b 1800M -d --additional-suffix=.part "$iso" "../release-assets/${iso}."
+              else
+                cp "$iso" ../release-assets/
+              fi
+            fi
+          done
+          ls -lh ../release-assets/
+
       - name: Publish GitHub Release (On Tag or Dispatch)
         if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.release_tag != ''
         uses: softprops/action-gh-release@v2
@@ -77,13 +96,27 @@ jobs:
             - **Installer**: Calamares Graphical System Installer
             - **Architecture**: x86_64 UEFI & Legacy BIOS
             
+            ### 📦 How to Reassemble the ISO (If Split)
+            GitHub Releases limits individual files to 2GB, so images >2GB are split into `.part*` files.
+            
+            **On Linux / macOS:**
+            ```bash
+            cat nooreldeanos-*.iso.part* > nooreldeanos-x86_64.iso
+            ```
+            
+            **On Windows (Command Prompt):**
+            ```cmd
+            copy /b nooreldeanos-*.iso.part* nooreldeanos-x86_64.iso
+            ```
+            
             ### 🔒 Checksums
-            Verify your download using:
+            Verify your reconstructed ISO using:
             ```bash
             sha256sum -c *.iso.sha256
             ```
+            *(Or download the unified full ISO directly from the GitHub Actions Artifacts tab)*
           files: |
-            out/*.iso
-            out/*.sha256
+            release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
