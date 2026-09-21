@@ -19,6 +19,7 @@ exfatprogs
 zstd
 zram-generator
 sudo
+plymouth
 arch-install-scripts
 
 # Hyprland & Wayland Desktop Environment

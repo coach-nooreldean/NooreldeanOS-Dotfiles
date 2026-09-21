@@ -58,6 +58,7 @@
 - **الـ Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/) - سريع جداً ومريح للعين.
 - **شكل الـ Prompt:** [Starship](https://starship.rs/) - تيرمينال شيك ومفيد.
 - **الـ Themes:** [Kvantum](https://github.com/tsujan/Kvantum) - تناسق تام في أشكال البرامج.
+- **شاشة الإقلاع (Boot Splash):** [Plymouth](https://www.freedesktop.org/wiki/Software/Plymouth/) - ثيم Dark Glow فائق الجمال بإقلاع سلس وبدون وميض (Flicker-free DRM). لتفعيله أو معاينته: `sudo bash scripts/setup-plymouth.sh`.
 - **الإشعارات (Notifications):** [SwayNC](https://github.com/ErikReider/SwayNotificationCenter) - مركز إشعارات متكامل.
 - **قائمة الخروج (Logout Menu):** [Wlogout](https://github.com/ArtsyMacaw/wlogout) - أزرار تحكم أنيقة.
 - **معلومات النظام:** [Fastfetch](https://github.com/fastfetch-cli/fastfetch) - بيعرض إمكانيات جهازك بشكل احترافي.

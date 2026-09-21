@@ -1,0 +1,18 @@
+[Plymouth Theme]
+Name=NooreldeanOS Dark Glow
+Description=Ultra-modern minimalist dark glowing boot splash for NooreldeanOS Linux
+ModuleName=two-step
+
+[two-step]
+ImageDir=/usr/share/plymouth/themes/nooreldeanos
+HorizontalAlignment=0.5
+VerticalAlignment=0.42
+Transition=fade
+TransitionDuration=0.4
+BackgroundStartColor=0x08090d
+BackgroundEndColor=0x0d121c
+ProgressBarShowPercentage=false
+UseFirmwareBackground=false
+Icon=logo.png
+ProgressAnimation=animation-
+ProgressAnimationFrames=30
