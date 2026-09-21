@@ -53,6 +53,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("xsettingsd &")
     hl.exec_cmd("nm-applet &")
     hl.exec_cmd("blueman-applet &")
+    hl.exec_cmd("~/.config/hypr/scripts/gpu_notify.sh &")
 end)
 
 

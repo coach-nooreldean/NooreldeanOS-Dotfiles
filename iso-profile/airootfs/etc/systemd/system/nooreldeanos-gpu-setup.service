@@ -1,0 +1,12 @@
+[Unit]
+Description=NooreldeanOS GPU Auto-Detection & Driver Tuning
+Before=display-manager.service sddm.service
+ConditionPathExists=!/var/log/nooreldeanos-gpu.done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nooreldeanos-gpu-setup
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -59,6 +59,13 @@ vulkan-intel
 libva-mesa-driver
 mesa-vdpau
 intel-media-driver
+intel-media-driver
+pciutils
+nvidia-dkms
+nvidia-utils
+nvidia-prime
+egl-wayland
+libva-nvidia-driver
 
 # Audio Architecture (PipeWire)
 pipewire
