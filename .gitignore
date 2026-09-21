@@ -17,3 +17,5 @@ Thumbs.db
 # Pywal generated (auto-regenerated at runtime)
 .config/hypr/colors.lua
 .config/hypr/local_settings.lua
+.config/gtk-4.0/assets
+.config/gtk-4.0/gtk-dark.css
