@@ -112,7 +112,6 @@ rsync
 # Shell, Fonts & Tools
 python
 python-pip
-python-pywal
 git
 curl
 wget
