@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NooreldeanOS - الدليل والتوثيق الرسمي الشامل</title>
-  <meta name="description" content="الدليل الرسمي والتقني الشامل لنظام NooreldeanOS: المبني على Arch Linux و Hyprland مع ثيمات متناسقة تلقائياً بـ Pywal، معمارية برمجية modular، وطرق تثبيت من الصفر أو على نظام حالي.">
-  
-  <!-- Fonts -->
+  <title>NooreldeanOS - The Ultimate Hyprland Experience</title>
+  <meta name="description" content="واجهة وتوزيعة NooreldeanOS المبنية على Arch Linux و Hyprland: سرعة خارقة، جماليات Catppuccin و Pywal الديناميكية، وأدوات إنتاجية متطورة.">
+
+  <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 
   <style>
     :root {
-      --bg-base: #0a0c14;
-      --bg-surface: #101422;
-      --bg-surface-elevated: #161c30;
-      --bg-glass: rgba(16, 20, 34, 0.78);
+      --bg-base: #08090d;
+      --bg-surface: #0f1118;
+      --bg-surface-elevated: #151824;
+      --bg-surface-hover: #1c2030;
+      --bg-glass: rgba(15, 17, 24, 0.72);
       
-      --accent-cyan: #89dceb;
+      --accent-cyan: #70e2ff;
       --accent-blue: #89b4fa;
       --accent-purple: #cba6f7;
       --accent-pink: #f5c2e7;
@@ -28,17 +29,18 @@
       --accent-peach: #fab387;
       --accent-yellow: #f9e2af;
       --accent-red: #f38ba8;
-      
-      --text-main: #cdd6f4;
-      --text-muted: #a6adc8;
-      --text-dim: #6c7086;
-      
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(137, 180, 250, 0.28);
-      --border-cyan: rgba(137, 220, 235, 0.35);
-      
-      --font-heading: 'Outfit', 'Tajawal', sans-serif;
-      --font-body: 'Tajawal', 'Outfit', sans-serif;
+
+      --text-main: #f0f3ff;
+      --text-muted: #9aa2c0;
+      --text-dim: #5e6482;
+
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-elevated: rgba(255, 255, 255, 0.12);
+      --border-cyan-glow: rgba(112, 226, 255, 0.35);
+      --border-blue-glow: rgba(137, 180, 250, 0.35);
+
+      --font-heading: 'Alexandria', 'Outfit', sans-serif;
+      --font-body: 'Alexandria', 'Outfit', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -56,12 +58,19 @@
       background-color: var(--bg-base);
       color: var(--text-main);
       font-family: var(--font-body);
-      line-height: 1.75;
+      line-height: 1.7;
       overflow-x: hidden;
+      selection-background-color: var(--accent-blue);
+      selection-color: #000;
     }
 
-    /* Ambient Background Glows */
-    .ambient-glow {
+    ::selection {
+      background: rgba(112, 226, 255, 0.25);
+      color: #fff;
+    }
+
+    /* Cinematic Mesh Background */
+    .bg-mesh {
       position: fixed;
       top: 0;
       left: 0;
@@ -70,237 +79,535 @@
       pointer-events: none;
       z-index: 0;
       background: 
-        radial-gradient(circle at 10% 15%, rgba(137, 180, 250, 0.09) 0%, transparent 45%),
-        radial-gradient(circle at 90% 40%, rgba(203, 166, 247, 0.09) 0%, transparent 45%),
-        radial-gradient(circle at 50% 85%, rgba(137, 220, 235, 0.06) 0%, transparent 45%);
+        radial-gradient(ellipse 70% 45% at 50% -15%, rgba(137, 180, 250, 0.15), transparent 70%),
+        radial-gradient(circle 350px at 90% 40%, rgba(203, 166, 247, 0.08), transparent 60%),
+        radial-gradient(circle 400px at 10% 70%, rgba(112, 226, 255, 0.07), transparent 60%);
     }
 
     .container {
-      max-width: 1240px;
+      max-width: 1220px;
       margin: 0 auto;
       padding: 0 24px;
       position: relative;
       z-index: 1;
     }
 
-    /* Warning Banner */
-    .warning-banner {
-      background: linear-gradient(90deg, rgba(243, 139, 168, 0.15), rgba(250, 179, 135, 0.15));
-      border-bottom: 1px solid rgba(243, 139, 168, 0.35);
-      padding: 12px 20px;
-      text-align: center;
-      font-size: 14px;
-      position: relative;
-      z-index: 101;
-      backdrop-filter: blur(10px);
-    }
-    .warning-banner strong {
-      color: var(--accent-red);
-    }
-
-    /* Navbar */
+    /* Ultra-sleek Navbar */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 18px 24px;
+      margin-top: 16px;
+      background: rgba(15, 17, 24, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 99px;
       position: sticky;
-      top: 0;
-      background: rgba(10, 12, 20, 0.88);
-      backdrop-filter: blur(16px);
-      z-index: 100;
+      top: 16px;
+      z-index: 1000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       color: #fff;
     }
 
-    .brand-logo {
-      font-size: 26px;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .brand-title {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 22px;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-links {
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e2438, #111422);
+      border: 1px solid var(--border-elevated);
       display: flex;
-      gap: 20px;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 14px rgba(112, 226, 255, 0.2);
     }
 
-    .nav-link {
+    .brand-text {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+      font-family: 'Outfit', 'Alexandria', sans-serif;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-item {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
-      transition: color 0.2s, transform 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .nav-link:hover {
-      color: var(--accent-cyan);
-      transform: translateY(-1px);
+    .nav-item:hover {
+      color: #fff;
     }
 
-    .nav-btn-gh {
+    .nav-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      color: #08090d;
       padding: 8px 18px;
       border-radius: 99px;
-      color: #fff;
       text-decoration: none;
       font-size: 13px;
-      font-weight: 600;
-      transition: all 0.2s;
+      font-weight: 700;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
     }
 
-    .nav-btn-gh:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: var(--accent-blue);
+    .nav-cta:hover {
+      background: var(--accent-cyan);
       transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(112, 226, 255, 0.4);
     }
 
     /* Hero Section */
     .hero {
       text-align: center;
-      padding: 60px 0 50px;
+      padding: 70px 0 40px;
     }
 
-    .badge {
+    .pill-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 18px;
+      padding: 6px 16px;
+      background: rgba(137, 180, 250, 0.08);
+      border: 1px solid rgba(137, 180, 250, 0.25);
       border-radius: 99px;
-      background: rgba(137, 180, 250, 0.1);
-      border: 1px solid var(--border-glow);
-      color: var(--accent-blue);
-      font-family: var(--font-mono);
       font-size: 12px;
       font-weight: 600;
+      color: var(--accent-blue);
       margin-bottom: 24px;
-      letter-spacing: 0.8px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
 
     .hero-title {
-      font-family: var(--font-heading);
-      font-size: clamp(34px, 5.5vw, 62px);
+      font-size: clamp(34px, 5.2vw, 64px);
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.18;
+      letter-spacing: -1.2px;
       margin-bottom: 20px;
-      letter-spacing: -1px;
+      color: #fff;
     }
 
-    .hero-gradient {
-      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 45%, var(--accent-purple) 90%);
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff 10%, #89b4fa 50%, #cba6f7 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero-desc {
-      font-size: clamp(16px, 2vw, 20px);
+    .hero-subtitle {
+      font-size: clamp(16px, 1.8vw, 19px);
       color: var(--text-muted);
-      max-width: 820px;
-      margin: 0 auto 35px;
-      line-height: 1.85;
+      max-width: 760px;
+      margin: 0 auto 32px;
+      line-height: 1.8;
+      font-weight: 400;
     }
 
-    /* Warning Callout Box */
-    .warning-callout {
-      background: rgba(243, 139, 168, 0.08);
-      border: 1px solid rgba(243, 139, 168, 0.3);
-      border-radius: 14px;
-      padding: 16px 24px;
-      max-width: 860px;
-      margin: 0 auto 35px;
-      text-align: right;
+    .hero-actions {
       display: flex;
-      align-items: flex-start;
+      justify-content: center;
       gap: 16px;
-    }
-    .warning-callout-icon {
-      font-size: 24px;
-      line-height: 1;
-    }
-    .warning-callout-text {
-      font-size: 14px;
-      color: #ffdce5;
-    }
-    .warning-callout-text strong {
-      color: var(--accent-red);
+      flex-wrap: wrap;
+      margin-bottom: 28px;
     }
 
-    /* Interactive Installation Box */
-    .install-box {
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #70e2ff, #89b4fa);
+      color: #06080e;
+      padding: 13px 28px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 24px rgba(112, 226, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(112, 226, 255, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      padding: 13px 26px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-elevated);
+      transform: translateY(-2px);
+    }
+
+    .hero-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--accent-peach);
+      background: rgba(250, 179, 135, 0.08);
+      border: 1px solid rgba(250, 179, 135, 0.22);
+      padding: 6px 16px;
+      border-radius: 99px;
+    }
+
+    /* Cinematic Hero Interactive Window */
+    .hero-preview-wrapper {
+      margin: 45px auto 80px;
+      max-width: 1140px;
+    }
+
+    .window-frame {
       background: var(--bg-surface);
-      border: 1px solid var(--border-glow);
+      border: 1px solid var(--border-elevated);
       border-radius: 20px;
-      max-width: 920px;
-      margin: 0 auto 50px;
       overflow: hidden;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 25px 70px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(137, 180, 250, 0.1);
+      position: relative;
     }
 
-    .install-tabs {
+    .window-topbar {
+      background: rgba(10, 12, 18, 0.95);
+      padding: 14px 20px;
       display: flex;
-      background: rgba(0, 0, 0, 0.35);
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .install-tab-btn {
-      flex: 1;
-      padding: 16px 20px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: var(--font-body);
-      font-size: 15px;
+    .window-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .window-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .window-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .window-tab {
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
       font-weight: 700;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
       cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .window-tab:hover {
+      color: #fff;
+    }
+
+    .window-tab.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-cyan);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .window-screen {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      cursor: zoom-in;
+    }
+
+    .window-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .window-screen:hover img {
+      transform: scale(1.01);
+    }
+
+    .window-caption {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(10, 12, 18, 0.88);
+      border: 1px solid var(--border-elevated);
+      backdrop-filter: blur(12px);
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .window-thumbnails {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      padding: 16px 20px 20px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .window-thumb-btn {
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.2s ease;
+    }
+
+    .window-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .window-thumb-btn:hover img {
+      opacity: 0.9;
+    }
+
+    .window-thumb-btn.active {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 16px rgba(112, 226, 255, 0.35);
+    }
+
+    .window-thumb-btn.active img {
+      opacity: 1;
+    }
+
+    /* Bento Grid Section */
+    .bento-section {
+      padding: 60px 0 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-cyan);
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3.6vw, 42px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .bento-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bento-card:hover {
+      border-color: var(--border-elevated);
+      background: var(--bg-surface-elevated);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    .bento-span-2 {
+      grid-column: span 2;
+    }
+
+    .bento-header {
+      margin-bottom: 18px;
+    }
+
+    .bento-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      transition: all 0.2s;
-      border-bottom: 2px solid transparent;
+      font-size: 22px;
+      margin-bottom: 16px;
     }
 
-    .install-tab-btn:hover {
+    .bento-card h3 {
+      font-size: 20px;
+      font-weight: 800;
       color: #fff;
-      background: rgba(255, 255, 255, 0.03);
+      margin-bottom: 10px;
     }
 
-    .install-tab-btn.active {
+    .bento-card p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .bento-preview-widget {
+      margin-top: 24px;
+      background: #07090e;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    /* Terminal Quick Install Box */
+    .terminal-section {
+      padding: 40px 0 80px;
+    }
+
+    .terminal-wrapper {
+      background: #090b12;
+      border: 1px solid var(--border-elevated);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .terminal-header {
+      background: #111420;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .terminal-methods {
+      display: flex;
+      gap: 8px;
+    }
+
+    .terminal-method-btn {
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .terminal-method-btn.active {
+      background: rgba(112, 226, 255, 0.12);
       color: var(--accent-cyan);
-      border-bottom-color: var(--accent-cyan);
-      background: rgba(137, 220, 235, 0.05);
     }
 
-    .tab-content {
+    .terminal-body {
+      padding: 28px;
+    }
+
+    .terminal-pane {
       display: none;
-      padding: 30px;
-      text-align: right;
     }
 
-    .tab-content.active {
+    .terminal-pane.active {
       display: block;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.25s ease;
     }
 
     @keyframes fadeIn {
@@ -308,16 +615,9 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .tab-desc {
-      color: var(--text-muted);
-      font-size: 15px;
-      margin-bottom: 20px;
-      line-height: 1.8;
-    }
-
-    .command-container {
-      background: #06080e;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .terminal-command-bar {
+      background: #040508;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
       padding: 14px 18px;
       display: flex;
@@ -327,25 +627,25 @@
       font-family: var(--font-mono);
       direction: ltr;
       text-align: left;
+      margin-bottom: 22px;
     }
 
-    .command-code {
+    .terminal-code {
       color: var(--accent-green);
-      font-size: 13.5px;
+      font-size: 14px;
       overflow-x: auto;
       white-space: nowrap;
-      padding-bottom: 4px;
       flex: 1;
     }
 
-    .copy-btn {
+    .copy-action-btn {
       background: rgba(137, 180, 250, 0.15);
-      border: 1px solid var(--border-glow);
+      border: 1px solid var(--border-blue-glow);
       color: #fff;
       padding: 8px 18px;
       border-radius: 8px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -356,474 +656,97 @@
       direction: rtl;
     }
 
-    .copy-btn:hover {
+    .copy-action-btn:hover {
       background: var(--accent-blue);
-      color: #06080e;
-      box-shadow: 0 0 15px rgba(137, 180, 250, 0.4);
+      color: #08090d;
     }
 
-    .copy-btn.copied {
+    .copy-action-btn.copied {
       background: var(--accent-green);
-      color: #06080e;
+      color: #08090d;
       border-color: var(--accent-green);
     }
 
-    .install-details {
-      margin-top: 24px;
+    .terminal-perks {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
 
-    .install-step-card {
-      background: rgba(255, 255, 255, 0.03);
+    .terminal-perk {
+      background: rgba(255, 255, 255, 0.025);
       border: 1px solid var(--border-subtle);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 14px;
       text-align: right;
     }
 
-    .install-step-card strong {
-      display: block;
+    .terminal-perk h4 {
+      font-size: 13.5px;
       color: var(--accent-cyan);
-      font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .install-step-card p {
-      font-size: 13px;
+    .terminal-perk p {
+      font-size: 12.5px;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.5;
       margin: 0;
     }
 
-    /* Showcase & Gallery Section */
-    .gallery-section {
-      padding: 40px 0 60px;
-    }
-
-    .gallery-tabs-wrap {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .gallery-toggle-btn {
-      padding: 10px 24px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .gallery-toggle-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .gallery-toggle-btn.active {
-      background: rgba(137, 180, 250, 0.2);
-      border-color: var(--accent-blue);
-      color: #fff;
-      box-shadow: 0 0 16px rgba(137, 180, 250, 0.3);
-    }
-
-    .showcase-container {
+    /* Architecture Box */
+    .arch-container {
       background: var(--bg-surface);
-      border: 1px solid var(--border-glow);
+      border: 1px solid var(--border-subtle);
       border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-    }
-
-    .screen-main-box {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border: 1px solid var(--border-subtle);
-      cursor: zoom-in;
-    }
-
-    .screen-main-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .screen-main-box:hover .screen-main-img {
-      transform: scale(1.015);
-    }
-
-    .screen-main-badge {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      background: rgba(10, 12, 20, 0.85);
-      border: 1px solid var(--border-glow);
-      backdrop-filter: blur(10px);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .screen-thumbs {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .thumb-btn {
-      background: transparent;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      overflow: hidden;
-      padding: 0;
-      cursor: pointer;
-      aspect-ratio: 16 / 9;
-      position: relative;
-      transition: all 0.2s;
-    }
-
-    .thumb-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0.65;
-      transition: opacity 0.2s;
-    }
-
-    .thumb-btn:hover img {
-      opacity: 0.9;
-    }
-
-    .thumb-btn.active {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 16px rgba(137, 220, 235, 0.4);
-    }
-
-    .thumb-btn.active img {
-      opacity: 1;
-    }
-
-    /* Section Headings */
-    .section-header {
-      text-align: center;
-      margin-bottom: 45px;
-    }
-
-    .section-tag {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      color: var(--accent-cyan);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .section-title {
-      font-family: var(--font-heading);
-      font-size: clamp(28px, 3.8vw, 42px);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-
-    .section-desc {
-      color: var(--text-muted);
-      max-width: 650px;
-      margin: 0 auto;
-      font-size: 16px;
-    }
-
-    /* Tech Stack Grid */
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      padding: 34px;
       margin-bottom: 80px;
     }
 
-    .stack-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 24px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stack-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-glow);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      background: var(--bg-surface-elevated);
-    }
-
-    .stack-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .stack-icon {
-      font-size: 26px;
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border-subtle);
-    }
-
-    .stack-name {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 18px;
-      color: #fff;
-    }
-
-    .stack-role {
-      font-size: 13px;
-      color: var(--accent-blue);
-      font-family: var(--font-mono);
-    }
-
-    .stack-desc {
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    /* Features Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 22px;
-      margin-bottom: 80px;
-    }
-
-    .feature-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 28px;
-      position: relative;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--border-cyan);
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-    }
-
-    .feature-card-icon {
-      font-size: 32px;
-      margin-bottom: 16px;
-      display: inline-block;
-    }
-
-    .feature-card h3 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 14.5px;
-      line-height: 1.7;
-    }
-
-    /* Technical Architecture Section (from README-Tech.md) */
-    .tech-arch-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-glow);
-      border-radius: 20px;
-      padding: 36px;
-      margin-bottom: 80px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-    }
-
-    .tree-code {
-      background: #06080e;
+    .tree-box {
+      background: #040508;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 20px;
       font-family: var(--font-mono);
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--accent-cyan);
       direction: ltr;
       text-align: left;
       overflow-x: auto;
+      line-height: 1.6;
       margin: 20px 0;
-      line-height: 1.6;
     }
 
-    .lifecycle-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 24px;
+    /* Shortcuts with Live Filter */
+    .shortcuts-section {
+      padding: 40px 0 80px;
     }
 
-    .lifecycle-step {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .lifecycle-step-num {
-      width: 28px;
-      height: 28px;
-      background: var(--accent-blue);
-      color: #06080e;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .lifecycle-step h4 {
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .lifecycle-step p {
-      color: var(--text-muted);
-      font-size: 13.5px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    /* Hardware Agnostic Box */
-    .hardware-box {
-      background: linear-gradient(135deg, rgba(17, 20, 32, 0.95), rgba(22, 27, 44, 0.95));
-      border: 1px solid var(--border-cyan);
-      border-radius: 20px;
-      padding: 38px;
-      margin-bottom: 80px;
-      position: relative;
-    }
-
-    .hardware-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .hardware-header-icon {
-      font-size: 34px;
-    }
-
-    .hardware-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .hardware-desc {
-      font-size: 16px;
-      color: var(--text-main);
-      line-height: 1.85;
-      margin-bottom: 24px;
-    }
-
-    .hardware-points {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-    }
-
-    .hardware-point {
-      display: flex;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .hardware-point-check {
-      color: var(--accent-green);
-      font-size: 18px;
-      line-height: 1.2;
-    }
-
-    .hardware-point-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .hardware-point-text strong {
-      color: #fff;
-    }
-
-    .btrfs-note {
-      background: rgba(249, 226, 175, 0.08);
-      border-right: 4px solid var(--accent-yellow);
-      padding: 14px 20px;
-      border-radius: 8px;
-      margin-top: 24px;
-      font-size: 14px;
-      color: #fff3d4;
-      line-height: 1.7;
-    }
-
-    /* Keybindings Section with Search */
-    .shortcuts-wrapper {
+    .shortcuts-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 20px;
       padding: 30px;
-      margin-bottom: 80px;
     }
 
-    .shortcuts-toolbar {
+    .shortcuts-bar {
       display: flex;
-      gap: 16px;
-      align-items: center;
       justify-content: space-between;
+      gap: 16px;
       margin-bottom: 24px;
       flex-wrap: wrap;
     }
 
-    .search-input-wrap {
+    .search-field {
       flex: 1;
       min-width: 260px;
       position: relative;
     }
 
-    .search-input {
+    .search-field input {
       width: 100%;
-      background: #06080e;
+      background: #05070c;
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
       padding: 12px 18px 12px 42px;
@@ -834,11 +757,11 @@
       transition: border-color 0.2s;
     }
 
-    .search-input:focus {
+    .search-field input:focus {
       border-color: var(--accent-cyan);
     }
 
-    .search-icon {
+    .search-icon-abs {
       position: absolute;
       left: 14px;
       top: 50%;
@@ -847,32 +770,26 @@
       font-size: 16px;
     }
 
-    .shortcuts-grid {
+    .shortcuts-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 12px;
     }
 
-    .shortcut-row {
+    .shortcut-item {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       background: rgba(255, 255, 255, 0.025);
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
-      padding: 14px 18px;
+      padding: 13px 18px;
       transition: all 0.2s;
     }
 
-    .shortcut-row:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border-glow);
-    }
-
-    .shortcut-action {
-      font-size: 14.5px;
-      color: var(--text-main);
-      font-weight: 500;
+    .shortcut-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-elevated);
     }
 
     kbd {
@@ -883,29 +800,29 @@
       font-family: var(--font-mono);
       font-size: 12.5px;
       color: var(--accent-cyan);
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.8);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.7);
       white-space: nowrap;
       direction: ltr;
       display: inline-block;
     }
 
-    /* FAQ Section */
-    .faq-grid {
+    /* FAQ Accordion */
+    .faq-wrapper {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 80px;
     }
 
-    .faq-item {
+    .faq-tile {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 14px;
       overflow: hidden;
     }
 
-    .faq-question {
-      padding: 20px 24px;
+    .faq-q {
+      padding: 18px 24px;
       cursor: pointer;
       font-weight: 700;
       font-size: 16px;
@@ -913,78 +830,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.2s;
     }
 
-    .faq-question:hover {
+    .faq-q:hover {
       background: rgba(255, 255, 255, 0.02);
     }
 
-    .faq-answer {
+    .faq-a {
       padding: 0 24px 20px;
       color: var(--text-muted);
       font-size: 14.5px;
       line-height: 1.8;
       border-top: 1px solid rgba(255, 255, 255, 0.04);
       padding-top: 16px;
-    }
-
-    /* Uninstall Box */
-    .uninstall-box {
-      background: linear-gradient(135deg, rgba(243, 139, 168, 0.08), rgba(203, 166, 247, 0.08));
-      border: 1px solid rgba(243, 139, 168, 0.25);
-      border-radius: 20px;
-      padding: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 80px;
-    }
-
-    .uninstall-info h3 {
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .uninstall-info p {
-      color: var(--text-muted);
-      font-size: 14.5px;
-      max-width: 680px;
-      line-height: 1.7;
-    }
-
-    .uninstall-cmd {
-      background: #06080e;
-      border: 1px solid rgba(243, 139, 168, 0.35);
-      border-radius: 12px;
-      padding: 14px 24px;
-      color: var(--accent-red);
-      font-family: var(--font-mono);
-      font-size: 15px;
-      font-weight: 700;
-      direction: ltr;
-      white-space: nowrap;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border-subtle);
-      padding: 45px 0 60px;
-      text-align: center;
-      color: var(--text-dim);
-      font-size: 14px;
-    }
-
-    footer a {
-      color: var(--accent-blue);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
     }
 
     /* Lightbox Modal */
@@ -996,7 +854,7 @@
       width: 100vw;
       height: 100vh;
       background: rgba(0, 0, 0, 0.94);
-      z-index: 9999;
+      z-index: 99999;
       align-items: center;
       justify-content: center;
       cursor: zoom-out;
@@ -1008,445 +866,363 @@
       max-height: 92vh;
       border-radius: 14px;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
-      border: 1px solid var(--border-glow);
+      border: 1px solid var(--border-elevated);
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        gap: 16px;
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0 60px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13.5px;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
       }
-      .command-container {
-        flex-direction: column;
-        align-items: stretch;
+      .bento-span-2 {
+        grid-column: span 1;
       }
-      .copy-btn {
-        justify-content: center;
+      .terminal-perks {
+        grid-template-columns: repeat(2, 1fr);
       }
-      .screen-thumbs {
+      .window-thumbnails {
         grid-template-columns: repeat(3, 1fr);
       }
-      .uninstall-box {
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
         flex-direction: column;
+        gap: 14px;
+        border-radius: 20px;
+      }
+      .terminal-perks {
+        grid-template-columns: 1fr;
+      }
+      .window-topbar {
+        flex-direction: column;
+        gap: 12px;
         align-items: flex-start;
       }
-      .shortcuts-toolbar {
+      .terminal-command-bar {
         flex-direction: column;
         align-items: stretch;
+      }
+      .copy-action-btn {
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="ambient-glow"></div>
-
-  <!-- Top Alert Warning -->
-  <div class="warning-banner">
-    ⚠️ <strong>تنبيه هام جداً:</strong> هذا السكربت مصمم <strong>حصرياً</strong> لتوزيعة Arch Linux أو التوزيعات المبنية عليها. تشغيله على Ubuntu أو Fedora أو غيرها قد يؤدي إلى إتلاف نظامك!
-  </div>
+  <div class="bg-mesh"></div>
 
   <div class="container">
-    
-    <!-- Navbar -->
+
+    <!-- Floating Navbar -->
     <header class="navbar">
       <a href="#" class="brand">
-        <span class="brand-logo">🚀</span>
-        <span class="brand-title">NooreldeanOS</span>
+        <div class="brand-icon">🚀</div>
+        <span class="brand-text">NooreldeanOS</span>
       </a>
-      <nav class="nav-links">
-        <a href="#install" class="nav-link">طرق التثبيت</a>
-        <a href="#gallery" class="nav-link">معرض النظام</a>
-        <a href="#features" class="nav-link">المميزات</a>
-        <a href="#stack" class="nav-link">الـ Stack التقني</a>
-        <a href="#architecture" class="nav-link">معمارية الكود</a>
-        <a href="#hardware" class="nav-link">توافق الهاردوير</a>
-        <a href="#shortcuts" class="nav-link">الاختصارات</a>
-        <a href="#faq" class="nav-link">الأسئلة الشائعة</a>
-        <a href="#uninstall" class="nav-link">إلغاء التثبيت</a>
-        <a href="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles" target="_blank" class="nav-btn-gh">
-          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-          GitHub Repo
-        </a>
+
+      <nav class="nav-menu">
+        <a href="#showcase" class="nav-item">المعرض</a>
+        <a href="#features" class="nav-item">المميزات</a>
+        <a href="#install" class="nav-item">التثبيت</a>
+        <a href="#shortcuts" class="nav-item">الاختصارات</a>
+        <a href="#architecture" class="nav-item">المعمارية</a>
+        <a href="#faq" class="nav-item">الأسئلة</a>
       </nav>
+
+      <a href="https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles" target="_blank" class="nav-cta">
+        <svg height="15" width="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+        GitHub
+      </a>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-      <div class="badge">ARCH LINUX • HYPRLAND • WAYLAND • CATPPUCCIN • PYWAL • MODULAR LIB</div>
+      <div class="pill-badge">
+        <span class="pill-dot"></span>
+        ARCH LINUX • HYPRLAND • WAYLAND • PYWAL
+      </div>
+
       <h1 class="hero-title">
-        The Ultimate <span class="hero-gradient">Arch Linux</span> Experience
+        السطح المكتبي الخارق.<br>
+        <span class="text-gradient">The Ultimate Linux Experience.</span>
       </h1>
-      <p class="hero-desc">
-        يا هلا بيك في NooreldeanOS! المستودع ده فيه كل الإعدادات والأدوات اللي بستخدمها عشان أروق على نظام لينكس وأخليه شغال زي الفل وشكله يفتح النفس. تم بناء وتجميع النظام بالكامل ليكون فائق السرعة، متناسق الألوان تلقائياً، ومصمم بمعمارية برمجية نظيفة.
+
+      <p class="hero-subtitle">
+        توليفة مبهرة تجمع بين أحدث تقنيات Wayland و Hyprland مع ألوان تتكيف تلقائياً مع خلفيتك بـ Pywal، معمارية كود نظيفة، وأدوات ذكية مصممة خصيصاً للمطورين وصناع المحتوى.
       </p>
 
-      <!-- Warning Callout -->
-      <div class="warning-callout">
-        <div class="warning-callout-icon">🚨</div>
-        <div class="warning-callout-text">
-          <strong>تنبيه هام جداً قبل البدء:</strong> هذا السكربت مخصص <strong>حصرياً لنظام Arch Linux</strong> والتوزيعات المبنية عليه مثل (EndeavourOS, CachyOS, Artix). تشغيل هذا السكربت على Ubuntu أو Debian أو Fedora سيؤدي إلى كسر مديري الحزم!
-        </div>
+      <div class="hero-actions">
+        <a href="#install" class="btn-primary">
+          <span>⚡</span> ابدأ التثبيت السريع
+        </a>
+        <a href="#showcase" class="btn-secondary">
+          <span>📸</span> تصفح المعرض التفاعلي
+        </a>
       </div>
 
-      <!-- Installation Tabs Box -->
-      <div class="install-box" id="install">
-        <div class="install-tabs">
-          <button class="install-tab-btn active" onclick="switchInstallTab('tab-existing', this)">
-            <span>🏎️</span> 1. التسطيب على نظام Arch شغال بالفعل (سطر واحد)
-          </button>
-          <button class="install-tab-btn" onclick="switchInstallTab('tab-scratch', this)">
-            <span>🪄</span> 2. تسطيب Arch بالكامل من الصفر (بضغطة زر)
-          </button>
-        </div>
+      <div>
+        <span class="hero-notice">
+          ℹ️ مصمم حصرياً لتوزيعة Arch Linux والأنظمة المبنية عليها (EndeavourOS, CachyOS).
+        </span>
+      </div>
+    </section>
 
-        <!-- Tab 1: Existing Arch -->
-        <div class="tab-content active" id="tab-existing">
-          <p class="tab-desc">
-            لو مسطب Arch Linux أصلاً وعايز تركب الـ Dotfiles دي وكل أدواتها بضغطة زر واحدة: السكربت هيسطب كل الحزم، يأخذ نسخة احتياطية من إعداداتك القديمة، يتعرف على اسم المستخدم بتاعك تلقائياً، ويعدل المسارات دون الحاجة للمس أي كود!
-          </p>
-          <div class="command-container">
-            <span class="command-code">git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/NooreldeanOS-Dotfiles &amp;&amp; cd ~/NooreldeanOS-Dotfiles &amp;&amp; bash install.sh</span>
-            <button class="copy-btn" onclick="copyCmd('git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/NooreldeanOS-Dotfiles && cd ~/NooreldeanOS-Dotfiles && bash install.sh', this)">
-              <span>📋</span> نسخ الأمر
+    <!-- Hero Showcase Window -->
+    <section class="hero-preview-wrapper" id="showcase">
+      <div class="window-frame">
+        <div class="window-topbar">
+          <div class="window-dots">
+            <div class="window-dot dot-red"></div>
+            <div class="window-dot dot-yellow"></div>
+            <div class="window-dot dot-green"></div>
+          </div>
+
+          <!-- Category Toggle Tabs -->
+          <div class="window-tabs">
+            <button class="window-tab active" id="tabSys" onclick="switchCategory('sys')">
+              <span>📸</span> لقطات النظام (System)
+            </button>
+            <button class="window-tab" id="tabThemes" onclick="switchCategory('themes')">
+              <span>🎨</span> ثيمات وألوان Pywal
             </button>
           </div>
 
-          <div class="install-details">
-            <div class="install-step-card">
-              <strong>1. كشف المستخدم وتحديث المسارات</strong>
-              <p>السكربت يتعرف على يوزرك ويغير مسارات ملفات Hyprland و Waybar تلقائياً لتفادي أي أخطاء.</p>
-            </div>
-            <div class="install-step-card">
-              <strong>2. نسخة احتياطية ذكية (Backup)</strong>
-              <p>ينشئ مجلداً مؤرخاً <code>~/.NooreldeanOS-backup-TIMESTAMP</code> لحفظ ملفاتك السابقة قبل الكتابة عليها.</p>
-            </div>
-            <div class="install-step-card">
-              <strong>3. تثبيت الحزم (Pacman + AUR)</strong>
-              <p>يتحقق من وجود Yay ويسطب جميع الأدوات من <code>pacman-packages.txt</code> و <code>flatpak-packages.txt</code>.</p>
-            </div>
-            <div class="install-step-card">
-              <strong>4. تفعيل خدمات النظام الأساسية</strong>
-              <p>يضبط ZRAM لتسريع الذاكرة، وخدمات SDDM وشبكة UFW وجلسة Wayland فوراً.</p>
+          <span style="font-size:12px;color:var(--text-dim);font-family:var(--font-mono);">hyprland@archlinux</span>
+        </div>
+
+        <div class="window-screen" onclick="zoomImg(document.getElementById('screenImg').src)">
+          <img id="screenImg" src="assets/sys1.png" alt="NooreldeanOS Desktop Preview">
+          <div class="window-caption" id="screenCaption">السطح المكتبي الرئيسي مع شريط Waybar الزجاجي</div>
+        </div>
+
+        <div class="window-thumbnails" id="thumbsContainer">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Grid Features Section -->
+    <section class="bento-section" id="features">
+      <div class="section-header">
+        <div class="section-tag">CAPABILITIES &amp; HIGHLIGHTS</div>
+        <h2 class="section-title">مميزات صُممت لراحتك وإنتاجيتك</h2>
+        <p class="section-desc">كل ميزة في NooreldeanOS تم ضبطها واختبارها لتعطيك تجربة استخدام ممتعة وسلسة خالية من التعقيد.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Bento 1: Pywal (Span 2) -->
+        <div class="bento-card bento-span-2">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-purple);">🎨</div>
+            <h3>تكامل Pywal التلقائي الشامل</h3>
+            <p>مجرد ما تختار أي خلفية، النظام بيولد لوحة ألوان كاملة ويطبقها في ثانية واحدة على Hyprland، Waybar، SwayNC، تطبيقات Qt، ومؤشر الفأرة بدون الحاجة لأي ريستارت!</p>
+          </div>
+          <div class="bento-preview-widget" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <span style="font-size:13px;color:var(--text-muted);">الألوان تتناغم أوتوماتيكياً:</span>
+            <div style="display:flex;gap:8px;">
+              <span style="width:18px;height:18px;border-radius:50%;background:#89dceb;display:inline-block;box-shadow:0 0 10px #89dceb;"></span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#89b4fa;display:inline-block;box-shadow:0 0 10px #89b4fa;"></span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#cba6f7;display:inline-block;box-shadow:0 0 10px #cba6f7;"></span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#f38ba8;display:inline-block;box-shadow:0 0 10px #f38ba8;"></span>
+              <span style="width:18px;height:18px;border-radius:50%;background:#a6e3a1;display:inline-block;box-shadow:0 0 10px #a6e3a1;"></span>
             </div>
           </div>
         </div>
 
-        <!-- Tab 2: From Scratch ISO -->
-        <div class="tab-content" id="tab-scratch">
-          <p class="tab-desc">
-            لو لسه محمل أسطوانة Arch Linux الرسمية (ISO) وعايز تفرمت وتنزل النظام كله وتسطب NooreldeanOS مرة واحدة: كل اللي هتعمله إنك تشبك نت وتكتب الأمر السحري ده في التيرمينال:
-          </p>
-          <div class="command-container">
-            <span class="command-code">bash &lt;(curl -sL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/start.sh)</span>
-            <button class="copy-btn" onclick="copyCmd('bash <(curl -sL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/start.sh)', this)">
-              <span>📋</span> نسخ الأمر
+        <!-- Bento 2: Wallpaper Switcher -->
+        <div class="bento-card">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-cyan);">🖼️</div>
+            <h3>مبدل الثيمات الشبكي</h3>
+            <p>اضغط <kbd>Super + W</kbd> لتفتح شبكة مصغرات لـ 80+ خلفية 4K منتقاة بعناية واختيار الثيم بضغطة زر.</p>
+          </div>
+          <div class="bento-preview-widget" style="font-size:12.5px;color:var(--accent-cyan);font-family:var(--font-mono);text-align:center;">
+            Super + W ➜ Rofi Grid 4x3
+          </div>
+        </div>
+
+        <!-- Bento 3: Audio Switcher -->
+        <div class="bento-card">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-green);">🎧</div>
+            <h3>مبدل مخارج الصوت والبلوتوث</h3>
+            <p>تحويل فوري بين السماعات والسبيكر وشاشات HDMI مع كشف البلوتوث عبر <kbd>Super + A</kbd> أو كليك يمين على Waybar.</p>
+          </div>
+          <div class="bento-preview-widget" style="font-size:12.5px;color:var(--accent-green);font-family:var(--font-mono);text-align:center;">
+            WirePlumber (wpctl) + Bluetooth
+          </div>
+        </div>
+
+        <!-- Bento 4: sys-clean (Span 2) -->
+        <div class="bento-card bento-span-2">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-peach);">🧹</div>
+            <h3>أداة الصيانة الذكية (sys-clean)</h3>
+            <p>أداة CLI تمسح كاش Pacman و Yay، تحذف الحزم اليتيمة، تفرغ سجلات Journalctl، وتعمل fstrim لأقراص الـ SSD لتوفير عشرات الجيجابايت بأمان تام عبر الأمر <code>clean</code>.</p>
+          </div>
+          <div class="bento-preview-widget" style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">➜ command: clean</span>
+            <span style="font-size:12px;background:rgba(166,227,161,0.15);color:var(--accent-green);padding:4px 10px;border-radius:6px;font-weight:700;">حرر أكثر من 27GB</span>
+          </div>
+        </div>
+
+        <!-- Bento 5: Prayer Times -->
+        <div class="bento-card">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-yellow);">🕌</div>
+            <h3>مواقيت الصلاة والأذان المباشر</h3>
+            <p>تنبيه الأذان بصوت الشيخ عند دخول الوقت، مع إمكانية إيقاف الصوت كليك يمين من الشريط العلوي.</p>
+          </div>
+        </div>
+
+        <!-- Bento 6: Hardware Safety -->
+        <div class="bento-card bento-span-2">
+          <div class="bento-header">
+            <div class="bento-icon-box" style="color:var(--accent-blue);">🛡️</div>
+            <h3>أمان وتوافق الهاردوير (Hardware Agnostic)</h3>
+            <p>مفلترة بالكامل من أي إعدادات خاصة بكروت شاشة أو معالجات محددة. تعمل على لابتوبات وبي سي (Intel, AMD, Nvidia) مع دعم ZRAM التلقائي وعزل إعدادات الشاشات في <code>local_settings.lua</code>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terminal Quick Install Section -->
+    <section class="terminal-section" id="install">
+      <div class="section-header">
+        <div class="section-tag">EASY INSTALLATION</div>
+        <h2 class="section-title">طرق التثبيت (سطر واحد فقط)</h2>
+        <p class="section-desc">اختر الطريقة المناسبة لحالتك واستمتع بالنظام في دقائق معدودة.</p>
+      </div>
+
+      <div class="terminal-wrapper">
+        <div class="terminal-header">
+          <div class="terminal-methods">
+            <button class="terminal-method-btn active" onclick="switchInstall('tab-existing', this)">
+              🏎️ على نظام Arch شغال بالفعل
+            </button>
+            <button class="terminal-method-btn" onclick="switchInstall('tab-scratch', this)">
+              🪄 من أسطوانة Arch ISO من الصفر
+            </button>
+            <button class="terminal-method-btn" onclick="switchInstall('tab-uninstall', this)">
+              🧹 إلغاء التثبيت والاسترجاع
             </button>
           </div>
+          <span style="font-size:12px;color:var(--text-dim);font-family:var(--font-mono);">bash installer</span>
+        </div>
 
-          <div class="install-details">
-            <div class="install-step-card">
-              <strong>1. تحديد وقسم القرص</strong>
-              <p>السكربت سيسألك عن الهارد المطلوب ويهيئ قطاعات EFI و Root بنظام Btrfs/Ext4 بأعلى معايير الأمان.</p>
+        <div class="terminal-body">
+          <!-- Method 1: Existing Arch -->
+          <div class="terminal-pane active" id="tab-existing">
+            <p style="color:var(--text-muted);font-size:14.5px;margin-bottom:16px;">
+              لو مسطب Arch Linux بالفعل، انسخ الأمر ده في التيرمينال وسيتكفل السكربت بتثبيت البرامج، أخذ باك أب من إعداداتك، وتحديث مسارات يوزرك أوتوماتيك:
+            </p>
+            <div class="terminal-command-bar">
+              <span class="terminal-code">git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/NooreldeanOS-Dotfiles &amp;&amp; cd ~/NooreldeanOS-Dotfiles &amp;&amp; bash install.sh</span>
+              <button class="copy-action-btn" onclick="copySnippet('git clone https://github.com/coach-nooreldean/NooreldeanOS-Dotfiles.git ~/NooreldeanOS-Dotfiles && cd ~/NooreldeanOS-Dotfiles && bash install.sh', this)">
+                <span>📋</span> نسخ الأمر
+              </button>
             </div>
-            <div class="install-step-card">
-              <strong>2. تنزيل قاعدة النواة (Pacstrap)</strong>
-              <p>يقوم بتحميل نواة لينكس وأساسيات النظام ومستودعات Arch الرسمية بأقصى سرعة اتصال.</p>
+
+            <div class="terminal-perks">
+              <div class="terminal-perk">
+                <h4>1. فحص المستخدم</h4>
+                <p>تعديل مسارات ملفات الكونفيج تلقائياً دون لمس أي كود.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>2. نسخ احتياطي آمن</h4>
+                <p>حفظ ملفاتك السابقة في مجلد <code>~/.NooreldeanOS-backup</code>.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>3. حزم Pacman + Yay</h4>
+                <p>تثبيت البرامج الأساسية وحزم الـ AUR المطلوبة بسلاسة.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>4. تفعيل الخدمات</h4>
+                <p>ضبط ZRAM وشبكة UFW وجلسة Hyprland للتشغيل الفوري.</p>
+              </div>
             </div>
-            <div class="install-step-card">
-              <strong>3. الإعدادات التلقائية (post-install.sh)</strong>
-              <p>يضبط الوقت والمنطقة الزمنية، الشبكة، اسم الجهاز، إنشاء حسابك الشخصي وكلمات المرور في خطوة واحدة.</p>
+          </div>
+
+          <!-- Method 2: Scratch ISO -->
+          <div class="terminal-pane" id="tab-scratch">
+            <p style="color:var(--text-muted);font-size:14.5px;margin-bottom:16px;">
+              لو لسه محمل أسطوانة Arch Linux الرسمية (ISO) وعايز تفرمت الهارد وتنزل النظام بالكامل مع NooreldeanOS:
+            </p>
+            <div class="terminal-command-bar">
+              <span class="terminal-code">bash &lt;(curl -sL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/start.sh)</span>
+              <button class="copy-action-btn" onclick="copySnippet('bash <(curl -sL https://raw.githubusercontent.com/coach-nooreldean/NooreldeanOS-Dotfiles/main/start.sh)', this)">
+                <span>📋</span> نسخ الأمر
+              </button>
             </div>
-            <div class="install-step-card">
-              <strong>4. إقلاع مباشر في Hyprland</strong>
-              <p>يعيد التشغيل ويدخلك مباشرة في واجهة SDDM Astronaut الفضائية جاهزاً للعمل والإبداع.</p>
+
+            <div class="terminal-perks">
+              <div class="terminal-perk">
+                <h4>1. تقسيم القرص</h4>
+                <p>تهيئة قطاعات EFI ونظام Btrfs/Ext4 بأمان.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>2. تنزيل النواة</h4>
+                <p>تحميل النواة ومستودعات Arch الرسمية بسرعة البرق.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>3. إعداد الحساب</h4>
+                <p>ضبط الشبكة والوقت وإنشاء حسابك الشخصي في خطوة واحدة.</p>
+              </div>
+              <div class="terminal-perk">
+                <h4>4. إقلاع مباشر</h4>
+                <p>إعادة تشغيل ودخول مباشر في واجهة SDDM Astronaut.</p>
+              </div>
             </div>
+          </div>
+
+          <!-- Method 3: Uninstall -->
+          <div class="terminal-pane" id="tab-uninstall">
+            <p style="color:var(--text-muted);font-size:14.5px;margin-bottom:16px;">
+              لو حابب تلغي التثبيت أو ترجع لإعداداتك القديمة زي ما كانت من الباك أب:
+            </p>
+            <div class="terminal-command-bar">
+              <span class="terminal-code">./uninstall.sh</span>
+              <button class="copy-action-btn" onclick="copySnippet('./uninstall.sh', this)">
+                <span>📋</span> نسخ الأمر
+              </button>
+            </div>
+            <p style="font-size:13px;color:var(--text-muted);margin:0;">
+              السكربت هيسألك إذا كنت ترغب في إبقاء برامجك وتطبيقاتك الشخصية أو إزالتها واسترجاع ملفات الـ Dotfiles السابقة.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Visual Showcase Gallery (Screenshots + Themes) -->
-    <section id="gallery" class="gallery-section">
-      <div class="section-header">
-        <div class="section-tag">VISUAL TOUR</div>
-        <h2 class="section-title">معرض لقطات وثيمات النظام</h2>
-        <p class="section-desc">شاهد جمال وتناسق واجهة NooreldeanOS في الاستخدام الواقعي وتعدد الثيمات الديناميكية</p>
-      </div>
-
-      <!-- Gallery Category Toggle Buttons -->
-      <div class="gallery-tabs-wrap">
-        <button class="gallery-toggle-btn active" id="btnGallerySys" onclick="switchGalleryCategory('sys')">
-          📸 لقطات من النظام (Screenshots)
-        </button>
-        <button class="gallery-toggle-btn" id="btnGalleryThemes" onclick="switchGalleryCategory('themes')">
-          🎨 أشكال وثيمات تانية (Pywal Themes)
-        </button>
-      </div>
-
-      <!-- Showcase Container -->
-      <div class="showcase-container">
-        <div class="screen-main-box" onclick="openLightbox(document.getElementById('mainScreen').src)">
-          <img id="mainScreen" src="assets/sys1.png" alt="NooreldeanOS Desktop" class="screen-main-img">
-          <div class="screen-main-badge" id="screenBadge">السطح المكتبي الرئيسي مع شريط Waybar</div>
+    <!-- Technical Architecture Section -->
+    <section class="container" id="architecture" style="margin-bottom:80px;">
+      <div class="arch-container">
+        <div class="section-header" style="margin-bottom:30px;">
+          <div class="section-tag">ENGINEERING &amp; MODULARITY</div>
+          <h2 class="section-title">المعمارية البرمجية للمشروع</h2>
+          <p class="section-desc">مبني بنظام Modular Modules نظيف تحت <code>lib/</code> مع نظام مصيدة الأخطاء و ShellCheck CI.</p>
         </div>
 
-        <!-- Thumbnails Grid -->
-        <div class="screen-thumbs" id="thumbsGrid">
-          <!-- Populated by Javascript -->
-        </div>
-      </div>
-    </section>
-
-    <!-- Post-Installation Instructions -->
-    <section style="margin-bottom:80px;">
-      <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:20px;padding:32px;">
-        <h3 style="font-size:20px;font-weight:800;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-          <span>🎯</span> ماذا تفعل بعد اكتمال التثبيت؟ (First Boot)
-        </h3>
-        <p style="color:var(--text-muted);font-size:15px;margin-bottom:20px;line-height:1.7;">
-          بمجرد انتهاء السكربت بنجاح وإعادة تشغيل الحاسوب، ستظهر لك شاشة تسجيل الدخول <strong>SDDM Astronaut</strong>:
-        </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:16px;">
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:12px;padding:16px;">
-            <div style="color:var(--accent-cyan);font-weight:700;margin-bottom:6px;">1. اختيار الجلسة</div>
-            <p style="font-size:13.5px;color:var(--text-muted);margin:0;">تأكد من اختيار جلسة <strong>Hyprland (Wayland)</strong> من القائمة قبل تسجيل الدخول.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:12px;padding:16px;">
-            <div style="color:var(--accent-cyan);font-weight:700;margin-bottom:6px;">2. اختيار الثيم المفضل</div>
-            <p style="font-size:13.5px;color:var(--text-muted);margin:0;">اضغط <code>Super + W</code> لتفتح قائمة الخلفيات المصغرة، واختر خلفيتك المفضلة ليتولد الثيم فوراً.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:12px;padding:16px;">
-            <div style="color:var(--accent-cyan);font-weight:700;margin-bottom:6px;">3. شاشتك وأبعاد العرض</div>
-            <p style="font-size:13.5px;color:var(--text-muted);margin:0;">إذا كان لديك شاشات متعددة أو تردد 144Hz، قم بتعديل <code>~/.config/hypr/local_settings.lua</code>.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech Stack Section -->
-    <section id="stack">
-      <div class="section-header">
-        <div class="section-tag">ARCHITECTURE &amp; TOOLS</div>
-        <h2 class="section-title">الـ Stack التقني اللي بستخدمه</h2>
-        <p class="section-desc">مجموعة منتقاة من أفضل وأقوى الأدوات في عالم اللينكس لضمان أداء خارق واستقرار تام</p>
-      </div>
-
-      <div class="stack-grid">
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🪟</div>
-            <div>
-              <div class="stack-name"><a href="https://hyprland.org/" target="_blank" style="color:#fff;text-decoration:none;">Hyprland</a></div>
-              <div class="stack-role">Window Manager</div>
-            </div>
-          </div>
-          <p class="stack-desc">مدير النوافذ الأساسي على Wayland - أنميشنز خرافية وناعمة وسلاسة ملهاش مثيل مع دعم كامل للـ Tiling الذكي والتعتيم (Blur).</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">📊</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/Alexays/Waybar" target="_blank" style="color:#fff;text-decoration:none;">Waybar</a></div>
-              <div class="stack-role">Status Bar</div>
-            </div>
-          </div>
-          <p class="stack-desc">شريط المهام العلوي مخصص بالكامل وبشكل زجاجي أنيق مع مراقبة حرارة الـ GPU (Nvidia/AMD)، استهلاك الرامات، سرعة النت، ومواقيت الصلاة.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🚀</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/davatorium/rofi" target="_blank" style="color:#fff;text-decoration:none;">Rofi</a></div>
-              <div class="stack-role">App Launcher &amp; Menus</div>
-            </div>
-          </div>
-          <p class="stack-desc">لانشر التطبيقات فائق السرعة، ومبدل الخلفيات الشبكي المصور مع دعم خطوط الأيقونات وتأثيرات الشفافية.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🐱</div>
-            <div>
-              <div class="stack-name"><a href="https://sw.kovidgoyal.net/kitty/" target="_blank" style="color:#fff;text-decoration:none;">Kitty</a></div>
-              <div class="stack-role">Terminal Emulator</div>
-            </div>
-          </div>
-          <p class="stack-desc">محاكي طرفية معتمد على كرت الشاشة (GPU-accelerated)، سريع جداً، مريح للعين، وبشفافية زجاجية متناسقة مع ثيم النظام.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">⭐</div>
-            <div>
-              <div class="stack-name"><a href="https://starship.rs/" target="_blank" style="color:#fff;text-decoration:none;">Starship</a></div>
-              <div class="stack-role">Cross-Shell Prompt</div>
-            </div>
-          </div>
-          <p class="stack-desc">موجه أوامر تيرمينال شيك ومفيد، يوضح مسارات المجلدات وفروع Git وحزم Node و Python و Rust بسرعة البرق.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🎨</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/dylanaraps/pywal" target="_blank" style="color:#fff;text-decoration:none;">Pywal</a></div>
-              <div class="stack-role">Dynamic Color Engine</div>
-            </div>
-          </div>
-          <p class="stack-desc">المحرك السحري لتنسيق الألوان - يولد لوحة ألوان متكاملة من خلفيتك ويطبقها على النظام وتطبيقات Qt و Hyprland و Waybar فوراً.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🔔</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/ErikReider/SwayNotificationCenter" target="_blank" style="color:#fff;text-decoration:none;">SwayNC</a></div>
-              <div class="stack-role">Notification Center</div>
-            </div>
-          </div>
-          <p class="stack-desc">مركز إشعارات وتحكم متكامل يشبه أنظمة الهواتف الحديثة مع أزرار سريعة للواي فاي، البلوتوث، والتحكم في الإضاءة والصوت.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🔒</div>
-            <div>
-              <div class="stack-name">Hyprlock</div>
-              <div class="stack-role">Lockscreen</div>
-            </div>
-          </div>
-          <p class="stack-desc">شاشة قفل خرافية مع تأثيرات التمويه (Blur) وتناسق كامل في الألوان مع ثيم النظام وساعة عصرية رائعة.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🚪</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/ArtsyMacaw/wlogout" target="_blank" style="color:#fff;text-decoration:none;">Wlogout</a></div>
-              <div class="stack-role">Session Menu</div>
-            </div>
-          </div>
-          <p class="stack-desc">قائمة خروج وإيقاف تشغيل وإسبات بشاشة كاملة وأزرار تحكم أنيقة وسهلة الاستخدام بضغطة زر واحدة.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">⚡</div>
-            <div>
-              <div class="stack-name"><a href="https://github.com/fastfetch-cli/fastfetch" target="_blank" style="color:#fff;text-decoration:none;">Fastfetch</a></div>
-              <div class="stack-role">System Information</div>
-            </div>
-          </div>
-          <p class="stack-desc">أداة عرض مواصفات النظام والمعالج وكروت الشاشة والذاكرة فور فتح التيرمينال بسرعة خيالية وبشكل جذاب.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">🌌</div>
-            <div>
-              <div class="stack-name">SDDM Astronaut</div>
-              <div class="stack-role">Display Manager Theme</div>
-            </div>
-          </div>
-          <p class="stack-desc">شاشة دخول النظام الفضائية الجذابة والمتحركة للترحيب بك من أول لحظة تشغيل للحاسوب بأعلى درجات الفخامة.</p>
-        </div>
-
-        <div class="stack-card">
-          <div class="stack-header">
-            <div class="stack-icon">💎</div>
-            <div>
-              <div class="stack-name">Kvantum &amp; Qt6ct</div>
-              <div class="stack-role">Qt &amp; GTK Theming</div>
-            </div>
-          </div>
-          <p class="stack-desc">تناسق تام وموحد في أشكال البرامج بين تطبيقات Qt وتطبيقات GTK لتجربة بصرية خالية من أي تشوهات.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Exclusive Features Section -->
-    <section id="features">
-      <div class="section-header">
-        <div class="section-tag">EXCLUSIVE CAPABILITIES</div>
-        <h2 class="section-title">مميزات حصرية تميز NooreldeanOS</h2>
-        <p class="section-desc">أدوات ذكية مدمجة تجعل استخدامك اليومي أسرع وأكثر إنتاجية وراحة</p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-card-icon">🎨</div>
-          <h3>تكامل Pywal التلقائي الشامل</h3>
-          <p>بمجرد ما تغير الخلفية، النظام بيغير ألوان <strong>كل حاجة</strong> أوتوماتيك فوراً — Hyprland، Waybar، SwayNC، وتطبيقات Qt والـ Cursor وحتى إطار النوافذ النشطة دون الحاجة لإعادة التشغيل.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🖼️</div>
-          <h3>مبدل الثيمات الشبكي (Super + W)</h3>
-          <p>أداة بواجهة رسومية (GUI) في Rofi تعرض شبكة مصغرات لأكثر من 80 خلفية فائقة الجودة. تختار منها الخلفية وتطبق الألوان لوحدها في ثواني معدودة.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🔊</div>
-          <h3>مبدل مخارج الصوت الذكي (Super + A)</h3>
-          <p>قائمة Rofi سريعة للتحويل بين مكبرات الصوت (Speakers)، السماعات، وشاشات HDMI مع كشف أجهزة البلوتوث وإشعار فوري بالجهاز الجديد (أو كليك يمين على ويدجت الصوت في Waybar).</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🧹</div>
-          <h3>أداة الصيانة الذكية (sys-clean)</h3>
-          <p>أداة CLI مستقلة تنظف كاش Pacman و Yay، تحذف الحزم اليتيمة (Orphans)، تفرغ سجلات Journalctl القديمة، وتجري fstrim للـ SSD بضغطة زر واحدة أو كتابة <code>clean</code>.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">📦</div>
-          <h3>محدث النظام المتكامل (System Updater)</h3>
-          <p>أداة مدمجة تقوم بتحديث جميع حزم النظام الرسمية (Pacman) ومستودعات مجتمع Arch (AUR via Yay) وحزم Flatpak بضغطة واحدة وبكل أمان.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🕌</div>
-          <h3>مواقيت الصلاة والأذان المباشر</h3>
-          <p>شريط Waybar يعرض وقت الصلاة القادمة بدقة وتنبيه فوري عند حلول الأذان بصوت الشيخ، مع ميزة حصرية لإيقاف صوت الأذان فوراً بنقرة زر الفأرة الأيمن.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🎬</div>
-          <h3>محول الفيديو السريع (Video Converter)</h3>
-          <p>تطبيق رسومي خفيف للتحويل السريع بين صيغ MP4 و MOV بجودة DNxHR للمونتاج على DaVinci Resolve أو H.264 لمشاركة المقاطع دون تعقيدات ffmpeg.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">💾</div>
-          <h3>منسق الأقراص السريع (Drive Formatter)</h3>
-          <p>أداة رسومية سريعة ومحمية لفرمتة وتنسيق الفلاشات وأقراص التخزين الخارجية بأنظمة FAT32 و NTFS و Ext4 بأمان تام وسهولة.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card-icon">🚀</div>
-          <h3>بيئة مطورين متكاملة للطرفية</h3>
-          <p>دمج تلقائي لأدوات <code>zoxide</code> (تنقل ذكي بالأمر <code>z</code>)، واختصارات بحث التاريخ السريع <code>fzf</code>، ومجموعة اختصارات Git الذكية لتسريع التطوير اليومي.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Technical Architecture Section (from README-Tech.md) -->
-    <section id="architecture">
-      <div class="section-header">
-        <div class="section-tag">ENGINEERING &amp; MODULARITY</div>
-        <h2 class="section-title">المعمارية البرمجية للمشروع (Developers Guide)</h2>
-        <p class="section-desc">مبني بمعمارية معيارية (Modular Architecture) تضمن سهولة الصيانة، تتبع الأخطاء، ونظام نسخ احتياطي صارم</p>
-      </div>
-
-      <div class="tech-arch-box">
-        <h3 style="color:#fff;font-size:22px;margin-bottom:12px;">📂 الهيكل التنظيمي المعياري (Modular Architecture)</h3>
-        <p style="color:var(--text-muted);font-size:15px;line-height:1.7;">
-          بدلاً من الاعتماد على سكربت تثبيت واحد ضخم يصعب تتبعه، تم تقسيم منطق التثبيت (Installation Logic) إلى عدة وحدات برمجية مستقلة تحت مجلد <code>lib/</code>، مما يسهل التطوير والمساهمة:
-        </p>
-
-        <div class="tree-code">
+        <div class="tree-box">
 NooreldeanOS-Dotfiles/
 ├── install.sh            # نقطة الإدخال الرئيسية للتثبيت (Entry Point)
 ├── post-install.sh       # يعمل داخل chroot عند تثبيت النظام من الصفر
@@ -1461,172 +1237,103 @@ NooreldeanOS-Dotfiles/
 │   └── services.sh       # تفعيل خدمات النظام (systemd, ufw, docker, zram)
 └── .github/workflows/    # أتمتة الـ CI/CD (فحص ShellCheck ونشر التوثيق)
         </div>
-
-        <h3 style="color:#fff;font-size:20px;margin:28px 0 14px;">⚙️ دورة حياة التثبيت (Installation Lifecycle)</h3>
-        <div class="lifecycle-steps">
-          <div class="lifecycle-step">
-            <div class="lifecycle-step-num">1</div>
-            <h4>التحقق من الصلاحيات</h4>
-            <p>يمنع تشغيل السكربت كـ <code>root</code> لتجنب إفساد صلاحيات مجلد الـ Home، ويقوم بتشغيل حلقة keep-alive لصلاحيات <code>sudo</code> أثناء التثبيت.</p>
-          </div>
-          <div class="lifecycle-step">
-            <div class="lifecycle-step-num">2</div>
-            <h4>نظام مصيدة الأخطاء (Trap)</h4>
-            <p>يعتمد السكربت على <code>set -eo pipefail</code> مع Trap mechanism لطباعة اسم الخطوة ورقم السطر فور حدوث أي خطأ بدقة بالغة.</p>
-          </div>
-          <div class="lifecycle-step">
-            <div class="lifecycle-step-num">3</div>
-            <h4>التسجيل الموحد (Logging)</h4>
-            <p>يكتب المخرجات الملونة في الطرفية ويخزن السجلات الكاملة في <code>/var/log/nooreldeanos-install.log</code> لتسهيل المراجعة عند الحاجة.</p>
-          </div>
-          <div class="lifecycle-step">
-            <div class="lifecycle-step-num">4</div>
-            <h4>أتمتة الجودة (CI/CD)</h4>
-            <p>فحص دوري لكل أكواد وسكربتات Bash عبر <strong>ShellCheck</strong> مع كل عملية Push لضمان خلو الأكواد من الأخطاء القياسية.</p>
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- Hardware Agnostic & Safety -->
-    <section id="hardware">
-      <div class="hardware-box">
-        <div class="hardware-header">
-          <span class="hardware-header-icon">🛡️</span>
-          <div>
-            <h2 class="hardware-title">أمان وتوافق الهاردوير (Hardware Agnostic)</h2>
-            <p style="color:var(--accent-cyan);font-size:14px;font-family:var(--font-mono);">مصمم ليعمل بأمان تام على أي جهاز حاسوب</p>
-          </div>
-        </div>
-        <p class="hardware-desc">
-          حلاوة الـ Dotfiles دي إنها <strong>مفلترة ومتنضفة بالكامل</strong> من أي إعدادات حصرية بهاردوير جهازي الشخصي (مثل تعريفات كروت الشاشة الحصرية، تحديثات المعالج، أو ملفات الـ Boot المحمية). يعني تقدر تاخد الإعدادات وتسحبها على <strong>أي جهاز في العالم</strong> وأنت مطمئن تماماً إنها مش هتعمل أي تعارض مع مواصفاتك! 💯
-        </p>
-
-        <div class="hardware-points">
-          <div class="hardware-point">
-            <span class="hardware-point-check">✓</span>
-            <div class="hardware-point-text">
-              <strong>دعم شامل لكروت الشاشة:</strong> سكربت Waybar يتعرف تلقائياً على كروت Nvidia أو كروت AMD وقراءة درجات الحرارة بدقة مع تفعيل Wayland flags لكروت Nvidia.
-            </div>
-          </div>
-          <div class="hardware-point">
-            <span class="hardware-point-check">✓</span>
-            <div class="hardware-point-text">
-              <strong>نسخ احتياطي آمن (.bak):</strong> السكربت يأخذ نسخة احتياطية من ملفات إعدادك القديمة تلقائياً في مجلد مؤرخ قبل لمس أي شيء.
-            </div>
-          </div>
-          <div class="hardware-point">
-            <span class="hardware-point-check">✓</span>
-            <div class="hardware-point-text">
-              <strong>إدارة ذكية للذاكرة (ZRAM):</strong> النظام يعتمد افتراضياً على ZRAM لضغط الذاكرة في الرام لتسريع الاستجابة وتوفير استهلاك الرامات.
-            </div>
-          </div>
-          <div class="hardware-point">
-            <span class="hardware-point-check">✓</span>
-            <div class="hardware-point-text">
-              <strong>ملف التخصيص المحلي (local_settings.lua):</strong> يمكنك وضع إعدادات شاشاتك الخاصة دون أن تتأثر أو يتم استبدالها بتحديثات Git.
-            </div>
-          </div>
-        </div>
-
-        <div class="btrfs-note">
-          ⚠️ <strong>ملاحظة هامة بخصوص الإسبات (Hibernation):</strong> النظام يستخدم ZRAM بشكل افتراضي لتوفير مساحة الرام وسرعة الأداء. إذا اخترت نظام ملفات Btrfs وكنت ترغب في تفعيل خاصية الإسبات (Hibernation) في المستقبل، ستحتاج إلى إعداد Swapfile مخصص بطريقة معينة تتناسب مع Btrfs (تحديد الـ offset المناسب في إعدادات النواة).
-        </div>
-      </div>
-    </section>
-
-    <!-- Keybindings Section with Interactive Search -->
-    <section id="shortcuts">
+    <!-- Keybindings Cheat Sheet Section -->
+    <section class="shortcuts-section" id="shortcuts">
       <div class="section-header">
-        <div class="section-tag">KEYBOARD NAVIGATION</div>
-        <h2 class="section-title">أهم اختصارات لوحة المفاتيح (Keybindings)</h2>
-        <p class="section-desc">تنقل وتحكم في حاسوبك بسرعة الصاروخ دون الحاجة للمس الفأرة</p>
+        <div class="section-tag">KEYBOARD WORKFLOW</div>
+        <h2 class="section-title">أهم اختصارات لوحة المفاتيح</h2>
+        <p class="section-desc">تنقل وتحكم في النظام بسرعة الصاروخ دون الحاجة للمس الفأرة.</p>
       </div>
 
-      <div class="shortcuts-wrapper">
-        <!-- Search & Filter Toolbar -->
-        <div class="shortcuts-toolbar">
-          <div class="search-input-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="shortcutSearch" class="search-input" placeholder="ابحث عن اختصار (مثال: terminal, كيبورد, screenshot, شاشة)..." onkeyup="filterShortcuts()">
+      <div class="shortcuts-box">
+        <div class="shortcuts-bar">
+          <div class="search-field">
+            <span class="search-icon-abs">🔍</span>
+            <input type="text" id="keySearch" placeholder="ابحث عن اختصار (مثال: terminal, صوت, wallpaper, قفل)..." onkeyup="searchKeys()">
           </div>
-          <span style="font-size:13px;color:var(--text-muted);">
-            مفتاح <kbd>Super</kbd> هو زر الـ Windows في لوحة المفاتيح.
+          <span style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;">
+            زر <kbd style="margin:0 6px;">Super</kbd> هو زر الـ Windows.
           </span>
         </div>
 
-        <!-- Shortcuts Grid -->
-        <div class="shortcuts-grid" id="shortcutsList">
-          <div class="shortcut-row" data-search="terminal تيرمينال كيتي kitty سطر أوامر">
-            <span class="shortcut-action">فتح التيرمينال السريع (Kitty)</span>
+        <div class="shortcuts-list" id="keysList">
+          <div class="shortcut-item" data-search="terminal تيرمينال كيتي kitty سطر أوامر">
+            <span>فتح التيرمينال (Kitty)</span>
             <kbd>Super + Return</kbd>
           </div>
-          <div class="shortcut-row" data-search="rofi launcher قائمة البرامج لانشر تطبيقات">
-            <span class="shortcut-action">فتح قائمة البرامج (Rofi Launcher)</span>
+          <div class="shortcut-item" data-search="rofi launcher لانشر برامج تطبيقات">
+            <span>قائمة البرامج (Rofi Launcher)</span>
             <kbd>Super + R</kbd>
           </div>
-          <div class="shortcut-row" data-search="wallpaper ثيمات خلفيات روفي صور switcher">
-            <span class="shortcut-action">مبدل الثيمات والخلفيات الشبكي (Rofi Grid)</span>
+          <div class="shortcut-item" data-search="wallpaper ثيمات خلفيات روفي صور switcher">
+            <span>مبدل الثيمات والخلفيات (Rofi Grid)</span>
             <kbd>Super + W</kbd>
           </div>
-          <div class="shortcut-row" data-search="close kill نافذة إغلاق قفل quit">
-            <span class="shortcut-action">إغلاق النافذة الحالية فوراً</span>
+          <div class="shortcut-item" data-search="audio صوت سماعات بلوتوث مخرج سماعة bluetooth speakers output">
+            <span>مبدل مخارج الصوت والبلوتوث (Audio Switcher)</span>
+            <kbd>Super + A</kbd>
+          </div>
+          <div class="shortcut-item" data-search="close kill نافذة إغلاق قفل quit">
+            <span>إغلاق النافذة الحالية</span>
             <kbd>Super + Q</kbd>
           </div>
-          <div class="shortcut-row" data-search="files ملفات yazi thunar مدير ملفات">
-            <span class="shortcut-action">مدير الملفات (Yazi / Thunar)</span>
+          <div class="shortcut-item" data-search="files ملفات yazi thunar مدير ملفات">
+            <span>مدير الملفات (Yazi / Thunar)</span>
             <kbd>Super + E</kbd>
           </div>
-          <div class="shortcut-row" data-search="browser متصفح كروم chrome web">
-            <span class="shortcut-action">فتح المتصفح الرئيسي (Chrome / Brave)</span>
+          <div class="shortcut-item" data-search="browser متصفح كروم chrome web">
+            <span>فتح المتصفح الرئيسي</span>
             <kbd>Super + B</kbd>
           </div>
-          <div class="shortcut-row" data-search="telegram تليجرام شات chat">
-            <span class="shortcut-action">فتح تطبيق تليجرام (Telegram)</span>
+          <div class="shortcut-item" data-search="telegram تليجرام شات chat">
+            <span>فتح تليجرام (Telegram)</span>
             <kbd>Super + T</kbd>
           </div>
-          <div class="shortcut-row" data-search="lock قفل hyprlock شاشة شاشة القفل">
-            <span class="shortcut-action">قفل الشاشة الفوري (Hyprlock)</span>
+          <div class="shortcut-item" data-search="lock قفل hyprlock شاشة القفل">
+            <span>قفل الشاشة الفوري (Hyprlock)</span>
             <kbd>Super + L</kbd>
           </div>
-          <div class="shortcut-row" data-search="clipboard حافظة نسخ copy copyq نصوص">
-            <span class="shortcut-action">مدير الحافظة وتاريخ النسخ (CopyQ)</span>
+          <div class="shortcut-item" data-search="clipboard حافظة نسخ copy copyq">
+            <span>مدير الحافظة والنسخ (CopyQ)</span>
             <kbd>Super + V</kbd>
           </div>
-          <div class="shortcut-row" data-search="screenshot سكرين شوت لقطة شاشة جزء محدد منطقه قص">
-            <span class="shortcut-action">أخذ سكرين شوت لمنطقة معينة</span>
+          <div class="shortcut-item" data-search="screenshot سكرين شوت لقطة شاشة جزء محدد منطقه">
+            <span>أخذ سكرين شوت لمنطقة معينة</span>
             <kbd>Super + S</kbd>
           </div>
-          <div class="shortcut-row" data-search="screenshot print شاشة كاملة لقطة تصوير">
-            <span class="shortcut-action">أخذ سكرين شوت للشاشة كاملة</span>
+          <div class="shortcut-item" data-search="screenshot print شاشة كاملة تصوير">
+            <span>أخذ سكرين شوت للشاشة كاملة</span>
             <kbd>Print Screen</kbd>
           </div>
-          <div class="shortcut-row" data-search="float عائمة تعويم نافذة tiling toggle">
-            <span class="shortcut-action">تحويل النافذة لعائمة (Toggle Float)</span>
+          <div class="shortcut-item" data-search="float عائمة تعويم نافذة tiling">
+            <span>تحويل النافذة لعائمة (Toggle Float)</span>
             <kbd>Super + F</kbd>
           </div>
-          <div class="shortcut-row" data-search="fullscreen ملء الشاشة تكبير كامل">
-            <span class="shortcut-action">ملء الشاشة للنافذة (Fullscreen)</span>
+          <div class="shortcut-item" data-search="fullscreen ملء الشاشة تكبير">
+            <span>ملء الشاشة للنافذة (Fullscreen)</span>
             <kbd>Super + Shift + F</kbd>
           </div>
-          <div class="shortcut-row" data-search="notifications إشعارات swaync تحكم مركز الإشعارات">
-            <span class="shortcut-action">فتح مركز الإشعارات والتحكم (SwayNC)</span>
+          <div class="shortcut-item" data-search="notifications إشعارات swaync تحكم">
+            <span>مركز الإشعارات والتحكم (SwayNC)</span>
             <kbd>Super + N</kbd>
           </div>
-          <div class="shortcut-row" data-search="wlogout power خروج ريستارت إعادة تشغيل إيقاف shutdown">
-            <span class="shortcut-action">قائمة الخروج وإعادة التشغيل (Wlogout)</span>
+          <div class="shortcut-item" data-search="wlogout power خروج ريستارت إعادة تشغيل إيقاف">
+            <span>قائمة الخروج وإعادة التشغيل (Wlogout)</span>
             <kbd>Super + Escape</kbd>
           </div>
-          <div class="shortcut-row" data-search="workspaces مساحات عمل سطح مكتب أرقام تنقل">
-            <span class="shortcut-action">التنقل بين مساحات العمل (Workspaces)</span>
+          <div class="shortcut-item" data-search="workspaces مساحات عمل سطح مكتب أرقام">
+            <span>التنقل بين مساحات العمل</span>
             <kbd>Super + 1..0</kbd>
           </div>
-          <div class="shortcut-row" data-search="keyboard layout لغة كيبورد عربي انجليزي switch">
-            <span class="shortcut-action">تبديل لغة الكيبورد (English / عربي)</span>
+          <div class="shortcut-item" data-search="keyboard layout لغة كيبورد عربي انجليزي switch">
+            <span>تبديل لغة الكيبورد (EN / AR)</span>
             <kbd>Alt + Shift</kbd>
           </div>
-          <div class="shortcut-row" data-search="waybar شريط علوي إخفاء إظهار toggle bar">
-            <span class="shortcut-action">إخفاء / إظهار شريط Waybar العلوي</span>
+          <div class="shortcut-item" data-search="waybar شريط علوي إخفاء إظهار toggle">
+            <span>إخفاء / إظهار شريط Waybar</span>
             <kbd>Super + Alt + W</kbd>
           </div>
         </div>
@@ -1634,83 +1341,52 @@ NooreldeanOS-Dotfiles/
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq">
+    <section class="container" id="faq" style="margin-bottom:80px;">
       <div class="section-header">
-        <div class="section-tag">QUESTIONS &amp; ANSWERS</div>
-        <h2 class="section-title">الأسئلة الشائعة وتخصيص النظام (FAQ)</h2>
-        <p class="section-desc">إجابات واضحة على أكثر الأسئلة التي قد تخطر ببالك أثناء التثبيت والاستخدام</p>
+        <div class="section-tag">HELP &amp; FAQ</div>
+        <h2 class="section-title">الأسئلة الشائعة</h2>
+        <p class="section-desc">إجابات سريعة وواضحة على أهم الاستفسارات.</p>
       </div>
 
-      <div class="faq-grid">
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>هل يمكن تثبيت NooreldeanOS بنظام الإقلاع المزدوج (Dual Boot) بجانب Windows؟</span>
+      <div class="faq-wrapper">
+        <div class="faq-tile">
+          <div class="faq-q" onclick="toggleFaqTile(this)">
+            <span>هل يمكن تثبيته بجانب ويندوز (Dual Boot)؟</span>
             <span>➕</span>
           </div>
-          <div class="faq-answer">
-            نعم بالتأكيد! إذا كان لديك نظام Windows مثبت، استخدم <strong>الطريقة الأولى (التثبيت على نظام Arch شغال بالفعل)</strong>. لا تستخدم <code>start.sh</code> لأنه مخصص لتهيئة القرص كاملاً من أسطوانة الـ ISO.
+          <div class="faq-a">
+            نعم بالتأكيد! استخدم <strong>الطريقة الأولى (التثبيت على نظام Arch شغال بالفعل)</strong> لتثبيت الدوت فايلز دون المساس بقطاعات ويندوز. لا تستخدم <code>start.sh</code> لأنه مخصص لفرمتة الهارد كاملاً من أسطوانة ISO.
           </div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>أين توجد ملفات الإعدادات والكونفيج إذا أردت تعديلها؟</span>
+        <div class="faq-tile">
+          <div class="faq-q" onclick="toggleFaqTile(this)">
+            <span>أين أجد ملفات الإعدادات والكونفيج لتعديلها؟</span>
             <span>➕</span>
           </div>
-          <div class="faq-answer">
-            توجد جميع الإعدادات تحت مجلد المستخدم <code>~/.config/</code>:
-            <ul style="margin:8px 24px 0 0;line-height:1.8;">
-              <li>إعدادات Hyprland والاختصارات: <code>~/.config/hypr/hyprland.lua</code></li>
-              <li>شريط المهام والألوان: <code>~/.config/waybar/config</code> و <code>style.css</code></li>
-              <li>الطرفية والخطوط: <code>~/.config/kitty/kitty.conf</code></li>
-              <li>الإعدادات الخاصة بشاشتك: <code>~/.config/hypr/local_settings.lua</code></li>
-            </ul>
+          <div class="faq-a">
+            توجد جميع الإعدادات تحت <code>~/.config/</code> (Hyprland في <code>hyprland.lua</code>، الشريط في <code>waybar/config</code>، والطرفية في <code>kitty/kitty.conf</code>).
           </div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>كيف أغير مواقيت الصلاة والمدينة الخاصة بي؟</span>
+        <div class="faq-tile">
+          <div class="faq-q" onclick="toggleFaqTile(this)">
+            <span>كيف أغير مواقيت الصلاة لتناسب مدينتي؟</span>
             <span>➕</span>
           </div>
-          <div class="faq-answer">
-            مواقيت الصلاة تعتمد على سكربت <code>~/.config/waybar/scripts/prayer_times.sh</code>. يمكنك تعديل الإحداثيات (خط الطول والعرض) أو اسم المدينة من خلال الملف بكل سهولة ليتطابق مع مدينتك.
+          <div class="faq-a">
+            يمكنك تعديل إحداثيات خط الطول والعرض أو اسم مدينتك من خلال ملف <code>~/.config/waybar/scripts/prayer_times.sh</code> بكل بساطة.
           </div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>كيف أضيف خلفيات جديدة لقائمة Super + W؟</span>
+        <div class="faq-tile">
+          <div class="faq-q" onclick="toggleFaqTile(this)">
+            <span>كيف أضيف خلفياتي الخاصة لمبدل Super + W؟</span>
             <span>➕</span>
           </div>
-          <div class="faq-answer">
-            كل ما عليك هو وضع صورك وخلفياتك المفضلة بصيغة (PNG أو JPG) داخل مجلد <code>~/wallpapers/</code>. بمجرد فتح القائمة بـ <code>Super + W</code> ستظهر الخلفيات الجديدة تلقائياً.
+          <div class="faq-a">
+            ضع أي صور أو خلفيات بدقة عالية داخل مجلد <code>~/wallpapers/</code> وستظهر فوراً في شبكة الـ Rofi عند الضغط على <kbd>Super + W</kbd>.
           </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>كيف أستخدم أداة تنظيف النظام sys-clean؟</span>
-            <span>➕</span>
-          </div>
-          <div class="faq-answer">
-            افتح التيرمينال واكتب الأمر <code>clean</code> أو <code>sys-clean</code>. ستقوم الأداة بحساب المساحة المحررة، تنظيف كاش الحزم، مسح الحزم اليتيمة والمهملة، وإفراغ الذاكرة المؤقتة للـ Journal بأمان تام.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Uninstall Section -->
-    <section id="uninstall">
-      <div class="uninstall-box">
-        <div class="uninstall-info">
-          <h3>🧹 سهولة إلغاء التثبيت واستعادة النظام (Uninstall &amp; Restore)</h3>
-          <p>
-            لو حسيت في أي وقت إنك حابب ترجع لنظامك القديم أو تلغي التثبيت، السكربت المرفق هيرجعلك كل إعداداتك الأصلية زي ما كانت قبل التسطيب بالضبط من مجلد النسخة الاحتياطية (Backup)، مع سؤالك إذا كنت ترغب في الاحتفاظ ببرامجك الشخصية أو إزالتها.
-          </p>
-        </div>
-        <div class="uninstall-cmd">
-          ./uninstall.sh
         </div>
       </div>
     </section>
@@ -1718,131 +1394,128 @@ NooreldeanOS-Dotfiles/
     <!-- Footer -->
     <footer>
       <p>صُنع بكل حب من أجل مجتمع اللينكس 🐧❤️ بواسطة <a href="https://github.com/coach-nooreldean" target="_blank">Nooreldean</a></p>
-      <p style="margin-top: 10px; font-size: 13px;">Arch Linux® is a registered trademark of Aaron Griffin. Open source project licensed under the MIT License.</p>
+      <p style="margin-top: 8px; font-size: 12.5px;">Arch Linux® is a registered trademark of Aaron Griffin. Open source under MIT License.</p>
     </footer>
 
   </div>
 
-  <!-- Lightbox Modal -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <img id="lightboxImg" src="" alt="Zoom Preview">
+  <!-- Zoom Lightbox -->
+  <div class="lightbox" id="zoomBox" onclick="closeZoom()">
+    <img id="zoomImg" src="" alt="Full preview">
   </div>
 
   <script>
     // Gallery Data
-    const galleryData = {
+    const showcaseData = {
       sys: [
         { src: 'assets/sys1.png', label: 'السطح المكتبي الرئيسي مع شريط Waybar الزجاجي' },
-        { src: 'assets/sys2.png', label: 'محاكي الطرفية Kitty مع موجه Starship وألوان متناسقة' },
+        { src: 'assets/sys2.png', label: 'محاكي الطرفية Kitty مع موجه Starship' },
         { src: 'assets/sys3.png', label: 'قائمة البرامج والتطبيقات السريعة Rofi Launcher' },
         { src: 'assets/sys4.png', label: 'مساحات العمل وإدارة النوافذ الذكية (Smart Tiling)' },
         { src: 'assets/sys5.png', label: 'مركز الإشعارات وأزرار التحكم السريع SwayNC' },
-        { src: 'assets/sys6.png', label: 'أدوات الميديا والتحكم السريع في الصوت والشاشات' }
+        { src: 'assets/sys6.png', label: 'أدوات الميديا والتحكم السريع في الصوت' }
       ],
       themes: [
-        { src: 'assets/1.png', label: 'ثيم داكن هادئ مع ألوان النيون الأزرق' },
-        { src: 'assets/2.png', label: 'ثيم أرجواني دافئ متناسق مع تطبيقات Qt' },
-        { src: 'assets/3.png', label: 'ثيم مستوحى من الطبيعة ودرجات الباستيل الخضراء' },
-        { src: 'assets/4.png', label: 'ثيم الفضاء المظلم مع خطوط Kitty المميزة' },
-        { src: 'assets/5.png', label: 'ثيم الشفق القطبي مع شريط علوي شفاف' },
-        { src: 'assets/6.png', label: 'ثيم الغروب بدرجات الخوخي والبرتقالي الساحر' }
+        { src: 'assets/1.png', label: 'ثيم داكن نيون أزرق (Blue Neon)' },
+        { src: 'assets/2.png', label: 'ثيم أرجواني دافئ (Cyber Violet)' },
+        { src: 'assets/3.png', label: 'ثيم الباستيل الأخضر الطبيعي (Nature Mint)' },
+        { src: 'assets/4.png', label: 'ثيم الفضاء المظلم (Deep Space)' },
+        { src: 'assets/5.png', label: 'ثيم الشفق القطبي مع شفافية Waybar' },
+        { src: 'assets/6.png', label: 'ثيم الغروب بدرجات الخوخي (Sunset Orange)' }
       ]
     };
 
-    let currentCategory = 'sys';
+    let activeCat = 'sys';
 
-    function renderThumbs() {
-      const grid = document.getElementById('thumbsGrid');
-      grid.innerHTML = '';
-      const items = galleryData[currentCategory];
+    function renderShowcaseThumbs() {
+      const container = document.getElementById('thumbsContainer');
+      container.innerHTML = '';
+      const items = showcaseData[activeCat];
 
       items.forEach((item, index) => {
         const btn = document.createElement('button');
-        btn.className = `thumb-btn ${index === 0 ? 'active' : ''}`;
-        btn.onclick = () => switchScreen(item.src, item.label, btn);
+        btn.className = `window-thumb-btn ${index === 0 ? 'active' : ''}`;
+        btn.onclick = () => selectScreen(item.src, item.label, btn);
         btn.innerHTML = `<img src="${item.src}" alt="${item.label}">`;
-        grid.appendChild(btn);
+        container.appendChild(btn);
       });
 
-      // Set main image to first item
       if (items.length > 0) {
-        document.getElementById('mainScreen').src = items[0].src;
-        document.getElementById('screenBadge').textContent = items[0].label;
+        document.getElementById('screenImg').src = items[0].src;
+        document.getElementById('screenCaption').textContent = items[0].label;
       }
     }
 
-    function switchGalleryCategory(cat) {
-      currentCategory = cat;
-      document.getElementById('btnGallerySys').classList.toggle('active', cat === 'sys');
-      document.getElementById('btnGalleryThemes').classList.toggle('active', cat === 'themes');
-      renderThumbs();
+    function switchCategory(cat) {
+      activeCat = cat;
+      document.getElementById('tabSys').classList.toggle('active', cat === 'sys');
+      document.getElementById('tabThemes').classList.toggle('active', cat === 'themes');
+      renderShowcaseThumbs();
     }
 
-    function switchScreen(src, label, btn) {
-      document.getElementById('mainScreen').src = src;
-      document.getElementById('screenBadge').textContent = label;
-      document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+    function selectScreen(src, label, btn) {
+      document.getElementById('screenImg').src = src;
+      document.getElementById('screenCaption').textContent = label;
+      document.querySelectorAll('.window-thumb-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
 
-    function switchInstallTab(tabId, btn) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.install-tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
+    function switchInstall(paneId, btn) {
+      document.querySelectorAll('.terminal-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.terminal-method-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(paneId).classList.add('active');
       btn.classList.add('active');
     }
 
-    function copyCmd(text, btn) {
+    function copySnippet(text, btn) {
       navigator.clipboard.writeText(text).then(() => {
-        const origText = btn.innerHTML;
+        const orig = btn.innerHTML;
         btn.classList.add('copied');
         btn.innerHTML = '<span>✔</span> تم النسخ!';
         setTimeout(() => {
           btn.classList.remove('copied');
-          btn.innerHTML = origText;
-        }, 2500);
+          btn.innerHTML = orig;
+        }, 2200);
       });
     }
 
-    function filterShortcuts() {
-      const query = document.getElementById('shortcutSearch').value.toLowerCase();
-      const rows = document.querySelectorAll('#shortcutsList .shortcut-row');
-      rows.forEach(row => {
-        const searchKeywords = (row.getAttribute('data-search') || '').toLowerCase();
-        const textContent = row.textContent.toLowerCase();
-        if (searchKeywords.includes(query) || textContent.includes(query)) {
-          row.style.display = 'flex';
+    function searchKeys() {
+      const query = document.getElementById('keySearch').value.toLowerCase();
+      const items = document.querySelectorAll('#keysList .shortcut-item');
+      items.forEach(item => {
+        const s = (item.getAttribute('data-search') || '').toLowerCase();
+        const t = item.textContent.toLowerCase();
+        if (s.includes(query) || t.includes(query)) {
+          item.style.display = 'flex';
         } else {
-          row.style.display = 'none';
+          item.style.display = 'none';
         }
       });
     }
 
-    function toggleFaq(el) {
-      const answer = el.nextElementSibling;
+    function toggleFaqTile(el) {
+      const ans = el.nextElementSibling;
       const icon = el.querySelector('span:last-child');
-      const isVisible = answer.style.display === 'block';
-      answer.style.display = isVisible ? 'none' : 'block';
+      const isVisible = ans.style.display === 'block';
+      ans.style.display = isVisible ? 'none' : 'block';
       icon.textContent = isVisible ? '➕' : '➖';
     }
 
-    function openLightbox(src) {
-      const lb = document.getElementById('lightbox');
-      const img = document.getElementById('lightboxImg');
-      img.src = src;
-      lb.style.display = 'flex';
+    function zoomImg(src) {
+      const modal = document.getElementById('zoomBox');
+      document.getElementById('zoomImg').src = src;
+      modal.style.display = 'flex';
     }
 
-    function closeLightbox() {
-      document.getElementById('lightbox').style.display = 'none';
+    function closeZoom() {
+      document.getElementById('zoomBox').style.display = 'none';
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape') closeZoom();
     });
 
-    // Initialize gallery thumbnails on load
-    renderThumbs();
+    renderShowcaseThumbs();
   </script>
 
 </body>
