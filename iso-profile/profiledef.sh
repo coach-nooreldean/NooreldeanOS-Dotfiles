@@ -19,6 +19,7 @@ file_permissions=(
   ["/etc/sudoers.d"]="0:0:750"
   ["/etc/sudoers.d/g_wheel"]="0:0:440"
   ["/root"]="0:0:750"
+  ["/root/customize_airootfs.sh"]="0:0:755"
   ["/usr/local/bin/sys-clean"]="0:0:755"
   ["/usr/local/bin/audio_switcher.sh"]="0:0:755"
   ["/usr/local/bin/wallpaper_switcher.sh"]="0:0:755"

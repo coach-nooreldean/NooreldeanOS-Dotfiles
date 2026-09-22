@@ -55,5 +55,11 @@ polkit.addRule(function(action, subject) {
     }
 });
 POLKIT_RULE
+# Ensure Calamares has custom NooreldeanOS configuration
+if [ -d /etc/calamares-custom ]; then
+    echo "[NooreldeanOS] Syncing custom Calamares configuration..."
+    mkdir -p /etc/calamares
+    cp -rf /etc/calamares-custom/* /etc/calamares/
+fi
 
 echo "[NooreldeanOS] Live session setup complete."

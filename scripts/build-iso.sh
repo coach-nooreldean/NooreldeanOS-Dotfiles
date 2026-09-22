@@ -75,6 +75,7 @@ fi
 # Ensure permissions on executable scripts in profile
 chmod +x "${PROFILE_DIR}/profiledef.sh"
 chmod +x "${PROFILE_DIR}/airootfs/usr/local/bin/"* 2>/dev/null || true
+chmod +x "${PROFILE_DIR}/airootfs/root/customize_airootfs.sh" 2>/dev/null || true
 
 log "Starting ISO compilation via mkarchiso..."
 log "Profile: ${PROFILE_DIR}"

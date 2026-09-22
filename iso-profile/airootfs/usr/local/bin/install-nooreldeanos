@@ -7,6 +7,11 @@ set -euo pipefail
 
 notify-send -a "NooreldeanOS" -u normal -i "system-software-install" "مثبت NooreldeanOS" "جاري تشغيل مثبت النظام الرسومي Calamares..." || true
 
+if [[ -d "/etc/calamares-custom" ]]; then
+  mkdir -p /etc/calamares
+  cp -rf /etc/calamares-custom/* /etc/calamares/ 2>/dev/null || true
+fi
+
 if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
   if command -v pkexec >/dev/null 2>&1; then
     exec pkexec calamares -d "$@"
