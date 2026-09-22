@@ -1,0 +1,14 @@
+[Unit]
+Description=NooreldeanOS Live Session Setup (Create liveuser)
+Before=getty@tty1.service systemd-user-sessions.service
+After=systemd-logind.service
+ConditionPathExists=!/var/log/nooreldeanos-live.done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nooreldeanos-live-setup
+ExecStartPost=/usr/bin/touch /var/log/nooreldeanos-live.done
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# NooreldeanOS Live Session Setup
+# ==============================================================================
+# Runs once at boot to create the 'liveuser' account for the Live ISO session.
+# This script is called by nooreldeanos-live-setup.service (oneshot, before login).
+
+set -euo pipefail
+
+LIVE_USER="liveuser"
+LIVE_HOME="/home/${LIVE_USER}"
+
+# Exit early if user already exists (e.g. on second boot from persistent media)
+if id "${LIVE_USER}" &>/dev/null; then
+    echo "[NooreldeanOS] liveuser already exists, skipping setup."
+    exit 0
+fi
+
+echo "[NooreldeanOS] Creating live session user: ${LIVE_USER}"
+
+# Create the user with a home directory, add to wheel group, set empty password
+useradd -m -G wheel,video,audio,input,network,storage -s /bin/bash "${LIVE_USER}"
+passwd -d "${LIVE_USER}"
+
+# Ensure the XDG_RUNTIME_DIR exists and is owned by liveuser
+LIVE_UID=$(id -u "${LIVE_USER}")
+mkdir -p "/run/user/${LIVE_UID}"
+chown "${LIVE_USER}:${LIVE_USER}" "/run/user/${LIVE_UID}"
+chmod 700 "/run/user/${LIVE_UID}"
+
+# Copy skel to home (useradd -m should have done this, but ensure completeness)
+if [ -d /etc/skel/.config ]; then
+    cp -a /etc/skel/.config "${LIVE_HOME}/.config" 2>/dev/null || true
+fi
+if [ -f /etc/skel/.bash_profile ]; then
+    cp -a /etc/skel/.bash_profile "${LIVE_HOME}/.bash_profile" 2>/dev/null || true
+fi
+
+# Ensure Desktop directory exists with the installer shortcut
+mkdir -p "${LIVE_HOME}/Desktop"
+if [ -d /etc/skel/Desktop ]; then
+    cp -a /etc/skel/Desktop/* "${LIVE_HOME}/Desktop/" 2>/dev/null || true
+fi
+
+# Fix ownership of the entire home directory
+chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}"
+
+# Enable polkit to allow liveuser to run Calamares with pkexec
+mkdir -p /etc/polkit-1/rules.d
+cat > /etc/polkit-1/rules.d/49-nopasswd-calamares.rules << 'POLKIT_RULE'
+/* Allow live session user to run Calamares without password */
+polkit.addRule(function(action, subject) {
+    if (subject.user == "liveuser") {
+        return polkit.Result.YES;
+    }
+});
+POLKIT_RULE
+
+echo "[NooreldeanOS] Live session setup complete."

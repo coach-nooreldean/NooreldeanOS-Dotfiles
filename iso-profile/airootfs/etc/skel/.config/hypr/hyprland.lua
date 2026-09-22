@@ -55,6 +55,8 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("nm-applet &")
     hl.exec_cmd("blueman-applet &")
     hl.exec_cmd("~/.config/hypr/scripts/gpu_notify.sh &")
+    -- Live ISO: Auto-launch Calamares installer after a short delay
+    hl.exec_cmd("bash -c 'sleep 3 && [ -x /usr/local/bin/install-nooreldeanos ] && install-nooreldeanos' &")
 end)
 
 
