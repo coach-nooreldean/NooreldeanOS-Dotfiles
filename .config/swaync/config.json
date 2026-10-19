@@ -20,7 +20,7 @@
   "fit-to-screen": false,
   "control-center-width": 420,
   "control-center-height": 780,
-  "notification-window-width": 360,
+  "notification-window-width": 480,
   "keyboard-shortcuts": true,
   "image-visibility": "when-available",
   "transition-time": 200,
@@ -69,7 +69,7 @@
         },
         {
           "label": "󰂯",
-          "command": "kitty --title \"إدارة البلوتوث\" -e bluetoothctl"
+          "command": "~/.config/bluetooth-manager/run.sh"
         },
         {
           "label": "󰕾",

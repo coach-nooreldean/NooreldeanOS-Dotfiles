@@ -249,6 +249,7 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,    -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo   = true, -- If true disables the random hyprland logo / anime girl background. :(
+        focus_on_activate       = true,  -- Automatically focus windows requesting activation (e.g. popups, dialogs)
     },
 })
 
@@ -266,6 +267,8 @@ hl.config({
         kb_rules   = "",
 
         follow_mouse = 1,
+        mouse_refocus = false,
+        float_switch_override_focus = 0,
 
         sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
 
@@ -308,6 +311,10 @@ hl.bind(mainMod .. " + SHIFT + B",
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("hyprctl dispatch pin")) -- Pin floating window to stay on top
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("hyprctl dispatch cyclenext && hyprctl dispatch alterzorder top"))
+hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("hyprctl dispatch cyclenext prev && hyprctl dispatch alterzorder top"))
+hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("hyprctl dispatch cyclenext floating && hyprctl dispatch alterzorder top"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
@@ -367,6 +374,7 @@ hl.bind("Print", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh output"))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper_switcher.sh"))
+hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("noor-hub"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("~/.config/hypr/scripts/audio_switcher.sh"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("telegram-desktop"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("antigravity-ide"))
@@ -473,6 +481,28 @@ hl.window_rule({
     size = "680 520",
 })
 
+-- Speed Test Tool
+hl.window_rule({
+    name  = "speed-test-float",
+    match = {
+        title = "NooreldeanOS Speed Test",
+    },
+    float = true,
+    center = true,
+    size = "880 680",
+})
+
+-- Bluetooth Manager Tool
+hl.window_rule({
+    name  = "bluetooth-manager-float",
+    match = {
+        title = "NooreldeanOS Bluetooth",
+    },
+    float = true,
+    center = true,
+    size = "840 620",
+})
+
 -- File Pickers, Open/Save Dialogs, and Portals
 hl.window_rule({
     name  = "file-picker-dialogs",
@@ -480,6 +510,7 @@ hl.window_rule({
         class = "xdg-desktop-portal-gtk|org.freedesktop.impl.portal.desktop.gtk",
     },
     float = true,
+    pin = true,
     center = true,
     size = "920 620",
 })
@@ -487,9 +518,10 @@ hl.window_rule({
 hl.window_rule({
     name  = "common-dialogs",
     match = {
-        title = "^(Open File|Open Folder|Save As|Save File|File Upload|Select a File)$",
+        title = "^(Open File|Open Folder|Save As|Save File|File Upload|Select a File|Confirm|Alert)$",
     },
     float = true,
+    pin = true,
     center = true,
     size = "900 600",
 })

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=NooreldeanOS Hub
+Name[ar]=مركز تحكم NooreldeanOS
+Comment=Quick settings, audio, bluetooth, displays, wallpapers and system tools
+Comment[ar]=مركز تحكم سريع في الصوت، البلوتوث، الشاشات، الخلفيات، وأدوات النظام
+Exec=noor-hub
+Icon=preferences-system
+Terminal=false
+Categories=Settings;System;Utility;
+Keywords=hub;settings;control;audio;bluetooth;display;wallpaper;speed;clean;

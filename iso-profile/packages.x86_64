@@ -84,6 +84,8 @@ pipewire-pulse
 pipewire-alsa
 pipewire-jack
 wireplumber
+libldac
+libfreeaptx
 pavucontrol
 alsa-utils
 sof-firmware

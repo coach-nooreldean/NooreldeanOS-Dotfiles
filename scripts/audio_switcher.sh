@@ -100,7 +100,15 @@ SELECTED=$(printf "%b" "$MENU_CONTENT" | "${ROFI_CMD[@]}" || true)
 # 5. Handle Selection
 # Check if user selected Bluetooth manager
 if [[ "$SELECTED" == *"إدارة أجهزة البلوتوث"* ]]; then
-  kitty --title "إدارة البلوتوث" -e bluetoothctl &
+  if [ -f "$HOME/.config/bluetooth-manager/run.sh" ]; then
+    "$HOME/.config/bluetooth-manager/run.sh" &
+  elif command -v bluetooth-manager &>/dev/null; then
+    bluetooth-manager &
+  elif command -v blueman-manager &>/dev/null; then
+    blueman-manager &
+  else
+    kitty --title "إدارة البلوتوث" -e bluetoothctl &
+  fi
   exit 0
 fi
 

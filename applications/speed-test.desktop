@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Speed Test
+Name[ar]=فحص سرعة الإنترنت
+Comment=Benchmark internet bandwidth, download, upload, ping and jitter
+Comment[ar]=قياس سرعة التحميل والرفع وزمن الاستجابة للإنترنت بدقة
+Exec=bash -c "$HOME/.config/speed-test/run.sh"
+Icon=speedtest
+Terminal=false
+Categories=Network;Utility;System;
+Keywords=speed;test;network;bandwidth;ping;jitter;internet;

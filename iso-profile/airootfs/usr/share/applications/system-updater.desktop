@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=System Updater
+Comment=Update Arch Linux and AUR packages
+Exec=bash -c '"$HOME/scripts/system-update.sh"'
+Icon=system-software-update
+Terminal=true
+Type=Application
+Categories=System;Settings;
+Keywords=update;upgrade;pacman;yay;

@@ -40,6 +40,8 @@ pipewire-alsa
 pipewire-jack
 pipewire-pulse
 wireplumber
+libldac
+libfreeaptx
 pavucontrol
 libpulse
 playerctl
@@ -130,8 +132,10 @@ rmpc
 
 # --- Python & Misc ---
 python-pip
+python-pyqt6
 python-gobject
 python-pywal
+speedtest-cli
 wget
 nano
 jq

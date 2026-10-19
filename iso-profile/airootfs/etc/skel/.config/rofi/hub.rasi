@@ -1,0 +1,82 @@
+/* Rofi NooreldeanOS Control Center Hub Theme */
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+configuration {
+    show-icons: false;
+    font: "Tajawal, Outfit, JetBrainsMono Nerd Font 13";
+}
+
+* {
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+window {
+    transparency: "real";
+    width: 650px;
+    background-color: #0D0C0EF8;
+    border: 2px;
+    border-color: @selected-normal-background;
+    border-radius: 20px;
+    padding: 24px;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 18px;
+}
+
+inputbar {
+    children: [ prompt, entry ];
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 12px 18px;
+    spacing: 14px;
+}
+
+prompt {
+    text-color: @selected-normal-background;
+    font: "Tajawal Bold 15";
+}
+
+entry {
+    placeholder: "ابحث في أدوات وإعدادات NooreldeanOS...";
+    placeholder-color: #6c7086;
+    text-color: @foreground;
+}
+
+listview {
+    columns: 1;
+    lines: 9;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    spacing: 8px;
+    background-color: transparent;
+}
+
+element {
+    orientation: horizontal;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    text-color: @foreground;
+    cursor: pointer;
+}
+
+element selected {
+    background-color: @selected-normal-background;
+    text-color: #0D0C0E;
+    font: "Tajawal Bold 13";
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+    font: inherit;
+}

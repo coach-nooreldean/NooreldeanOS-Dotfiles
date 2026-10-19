@@ -32,15 +32,18 @@ fi
 TARGET_USER="${SUDO_USER:-$USER}"
 TARGET_HOME="$(getent passwd "$TARGET_USER" | cut -d: -f6)"
 
-echo -e "${CYAN}➜ Step 1: Installing missing system packages (snapper, snap-pac, grub-btrfs, plymouth)...${RESET}"
-pacman -S --needed --noconfirm snapper snap-pac grub-btrfs plymouth inotify-tools
+echo -e "${CYAN}➜ Step 1: Installing missing system packages (snapper, snap-pac, grub-btrfs, plymouth, audio codecs)...${RESET}"
+pacman -S --needed --noconfirm snapper snap-pac grub-btrfs plymouth inotify-tools libldac libfreeaptx
 
 echo -e "${CYAN}➜ Step 2: Deploying system-wide CLI tools to /usr/local/bin/...${RESET}"
 cp "$SCRIPT_DIR/noor-snap.sh" /usr/local/bin/noor-snap
 cp "$SCRIPT_DIR/display_switcher.sh" /usr/local/bin/display_switcher.sh
 cp "$SCRIPT_DIR/nooreldeanos-gpu-setup.sh" /usr/local/bin/nooreldeanos-gpu-setup
 cp "$SCRIPT_DIR/sys-clean.sh" /usr/local/bin/sys-clean
-chmod +x /usr/local/bin/{noor-snap,display_switcher.sh,nooreldeanos-gpu-setup,sys-clean}
+cp "$SCRIPT_DIR/noor-hub.sh" /usr/local/bin/noor-hub
+cp "$SCRIPT_DIR/speed-test.sh" /usr/local/bin/speed-test
+cp "$SCRIPT_DIR/bluetooth-manager.sh" /usr/local/bin/bluetooth-manager
+chmod +x /usr/local/bin/{noor-snap,noor-hub,display_switcher.sh,nooreldeanos-gpu-setup,sys-clean,speed-test,bluetooth-manager}
 echo -e "${GREEN}  ✔ CLI tools installed.${RESET}"
 
 echo -e "${CYAN}➜ Step 3: Configuring NooreldeanOS Plymouth Boot Splash...${RESET}"
@@ -82,10 +85,15 @@ echo -e "${CYAN}➜ Step 5: Running GPU Auto-Detection & Tuning...${RESET}"
 /usr/local/bin/nooreldeanos-gpu-setup
 
 echo -e "${CYAN}➜ Step 6: Ensuring user configurations and permissions...${RESET}"
-chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/hypr" "$TARGET_HOME/.config/swaync" "$TARGET_HOME/.local/bin"
+mkdir -p "$TARGET_HOME/.config/wireplumber/wireplumber.conf.d"
+cp -r "$SCRIPT_DIR/../.config/wireplumber/"* "$TARGET_HOME/.config/wireplumber/" 2>/dev/null || true
+mkdir -p "$TARGET_HOME/.local/share/applications"
+cp -r "$SCRIPT_DIR/../applications/"*.desktop "$TARGET_HOME/.local/share/applications/" 2>/dev/null || true
+chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/hypr" "$TARGET_HOME/.config/swaync" "$TARGET_HOME/.config/wireplumber" "$TARGET_HOME/.local/share/applications" "$TARGET_HOME/.local/bin" 2>/dev/null || true
 
 echo -e "\n${GREEN}${BOLD}[🎉 ALL DONE] Every single feature of NooreldeanOS is now installed and active on your system!${RESET}"
 echo -e "${CYAN}You can now enjoy:${RESET}"
+echo -e "  • ${PURPLE}Super + I${RESET}         ➜ NooreldeanOS Control Hub (noor-hub)"
 echo -e "  • ${PURPLE}Super + Shift + S${RESET} ➜ Btrfs Snapshots Manager (noor-snap)"
 echo -e "  • ${PURPLE}Super + Shift + D${RESET} ➜ Display & 144Hz/240Hz Switcher"
 echo -e "  • ${PURPLE}Super + A${RESET}         ➜ Audio & Bluetooth Switcher"

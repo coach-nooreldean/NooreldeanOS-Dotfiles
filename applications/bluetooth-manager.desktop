@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Bluetooth Manager
+Name[ar]=إدارة أجهزة البلوتوث
+Comment=Manage Bluetooth devices, pairing, and connections
+Comment[ar]=إدارة أجهزة البلوتوث والاقتران السريع
+Exec=bash -c "$HOME/.config/bluetooth-manager/run.sh"
+Icon=preferences-system-bluetooth
+Terminal=false
+Categories=Settings;HardwareSettings;Utility;
+Keywords=bluetooth;wireless;devices;pair;connect;audio;

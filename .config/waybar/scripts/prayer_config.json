@@ -1,5 +1,14 @@
 {
     "city": "Cairo",
     "country": "Egypt",
-    "method": 5
+    "method": 5,
+    "language": "ar",
+    "pre_prayer_reminder_minutes": 20,
+    "iqama_delays": {
+        "Fajr": 20,
+        "Dhuhr": 20,
+        "Asr": 20,
+        "Maghrib": 10,
+        "Isha": 20
+    }
 }

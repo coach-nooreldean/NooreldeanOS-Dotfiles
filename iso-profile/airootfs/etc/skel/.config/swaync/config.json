@@ -69,7 +69,7 @@
         },
         {
           "label": "󰂯",
-          "command": "kitty --title \"إدارة البلوتوث\" -e bluetoothctl"
+          "command": "~/.config/bluetooth-manager/run.sh"
         },
         {
           "label": "󰕾",
